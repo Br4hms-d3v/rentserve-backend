@@ -13,10 +13,16 @@ This project was done to obtain my bachelor IT degree
 - Pay for basket
 
 ## 🛠️ Technologies used
-> > Backend
->
-> Java 21 <br />
-> **Spring Boot 3.5.0** </br >
-> **Gradle** <br />
-> Database: postgreSql <br />
-> IntelliJ
+* Java 21 
+* **Spring Boot 3.5.0**
+* **Gradle**
+* Database: postgreSql
+* IntelliJ
+
+## ⚙️ Launch of the project
+1. Clone the project
+> git clone https://github.com/Br4hms-d3v/rentserve-backend.git
+2. Build and launch your app
+> ./gradlew bootRun
+3. Check you Swagger
+> http://localhost:8080/swagger-ui.html
