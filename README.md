@@ -18,4 +18,5 @@ This project was done to obtain my bachelor IT degree
 > Java 21 <br />
 > **Spring Boot 3.5.0** </br >
 > **Gradle** <br />
-> Database: postgreSql
+> Database: postgreSql <br />
+> IntelliJ
