@@ -8,12 +8,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name = "users")
 public class User extends BaseEntity {
     @Column(name = "name", length = 200, nullable = false)
     private String name;
@@ -36,8 +36,9 @@ public class User extends BaseEntity {
     private Boolean isActive = false;
 
     // OneToMany
-    @OneToMany(mappedBy = "user")
-    private Set<SecondResidence> secondResidences;
+    @ManyToOne
+    @JoinColumn(name = "second_residence_id")
+    private SecondResidence secondResidence;
 
     @OneToMany(mappedBy = "user")
     private Set<UserMaterial> userMaterials = new HashSet<>();
