@@ -44,4 +44,7 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user")
     private Set<UserFavor> userFavours = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<Rental> rentals = new HashSet<>();
 }

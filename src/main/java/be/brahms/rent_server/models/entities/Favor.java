@@ -13,14 +13,14 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name = "favours")
+@Table(name = "favour")
 public class Favor extends BaseEntity {
-    @Column(name = "name_favour", nullable = false)
-    private String nameFavour;
-    @Column(name = "description_favour", columnDefinition = "TEXT")
-    private String descriptionFavour;
-    @Column(name = "price_hour_favour", nullable = false, precision = 7, scale = 2)
-    private BigDecimal priceHourFavour;
+    @Column(name = "name_favor", nullable = false)
+    private String nameFavor;
+    @Column(name = "description_favor", columnDefinition = "TEXT")
+    private String descriptionFavor;
+    @Column(name = "price_hour_favor", nullable = false, precision = 7, scale = 2)
+    private BigDecimal priceHourFavor;
     @Column(name = "is_available")
     private boolean isAvailable;
 
@@ -32,4 +32,8 @@ public class Favor extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "user_favor_id", nullable = false)
+    private UserFavor userFavor;
 }

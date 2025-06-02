@@ -25,4 +25,10 @@ public class UserMaterial extends BaseEntity {
     // Relation OneToMany
     @OneToMany(mappedBy = "userMaterial")
     private Set<Picture> pictures = new HashSet<>();
+
+    @OneToMany(mappedBy = "userMaterial")
+    private Set<Rental> rentals = new HashSet<>();
+
+    @OneToMany(mappedBy = "userMaterial")
+    private Set<Review> reviews = new HashSet<>();
 }

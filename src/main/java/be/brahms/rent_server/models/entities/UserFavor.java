@@ -28,4 +28,10 @@ public class UserFavor extends BaseEntity {
     // Relation OneToMany
     @OneToMany(mappedBy = "userFavor")
     private Set<Picture> pictures = new HashSet<>();
+
+    @OneToMany(mappedBy = "userFavor")
+    private Set<Rental> rentals= new HashSet<>();
+
+    @OneToMany(mappedBy = "userFavor")
+    private Set<Review> reviews= new HashSet<>();
 }
