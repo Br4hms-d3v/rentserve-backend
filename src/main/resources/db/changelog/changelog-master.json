@@ -14,8 +14,7 @@
       "include": {
         "file": "classpath:/db/changelog/V3_create_categories_table.sql"
       }
-    }
-  ,
+    },
     {
       "include": {
         "file": "classpath:/db/changelog/V4_create_materials_table.sql"
@@ -24,6 +23,36 @@
     {
       "include": {
         "file": "classpath:/db/changelog/V5_create_favour_table.sql"
+      }
+    },
+    {
+      "include": {
+        "file": "classpath:/db/changelog/V6_create_user-materials_table.sql"
+      }
+    },
+    {
+      "include": {
+        "file": "classpath:/db/changelog/V7_create_user-favour_table.sql"
+      }
+    },
+    {
+      "include": {
+        "file": "classpath:/db/changelog/V8_create_bills_table.sql"
+      }
+    },
+    {
+      "include": {
+        "file": "classpath:/db/changelog/V9_create_reviews_table.sql"
+      }
+    },
+    {
+      "include": {
+        "file": "classpath:/db/changelog/V10_create_pictures_table.sql"
+      }
+    },
+    {
+      "include": {
+        "file": "classpath:/db/changelog/V11_create_rentals_table.sql"
       }
     }
   ]
