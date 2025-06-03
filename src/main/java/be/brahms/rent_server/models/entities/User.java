@@ -36,9 +36,8 @@ public class User extends BaseEntity {
     private Boolean isActive = false;
 
     // OneToMany
-    @ManyToOne
-    @JoinColumn(name = "second_residence_id")
-    private SecondResidence secondResidence;
+    @OneToMany(mappedBy = "user")
+    private Set<SecondResidence> secondResidences;
 
     @OneToMany(mappedBy = "user")
     private Set<UserMaterial> userMaterials = new HashSet<>();

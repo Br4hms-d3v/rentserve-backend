@@ -8,12 +8,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "favour")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name = "favour")
 public class Favor extends BaseEntity {
     @Column(name = "name_favor", nullable = false)
     private String nameFavor;
@@ -32,8 +32,4 @@ public class Favor extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-
-    @ManyToOne
-    @JoinColumn(name = "user_favor_id", nullable = false)
-    private UserFavor userFavor;
 }

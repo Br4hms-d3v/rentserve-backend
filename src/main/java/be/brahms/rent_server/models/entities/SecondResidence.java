@@ -22,6 +22,7 @@ public class SecondResidence extends BaseEntity {
     private String zipCode;
 
     // Relation ManyToOne
-    @OneToMany(mappedBy = "")
-    private Set<User> users = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
