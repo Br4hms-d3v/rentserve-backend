@@ -1,5 +1,3 @@
--- V1_create_user_table.sql --
-
 CREATE TABLE users
 (
     id                  bigint                 NOT NULL,
@@ -14,7 +12,6 @@ CREATE TABLE users
     is_active           boolean                NOT NULL,
     created_at          timestamp(6) without time zone NOT NULL,
     updated_at          timestamp(6) without time zone,
-    second_residence_id bigint,
     CONSTRAINT users_role_check CHECK (
         ((role)::text = ANY ((ARRAY['MEMBER':: character varying, 'MODERATOR':: character varying, 'ADMIN':: character varying])::text[]))
     )
@@ -37,8 +34,3 @@ ALTER TABLE users
 
 ALTER TABLE users
     ADD CONSTRAINT users_email_key UNIQUE (email);
-
-ALTER TABLE users
-    ADD CONSTRAINT fk_user_second_residence
-        FOREIGN KEY (second_residence_id)
-            REFERENCES second_residences (id);
