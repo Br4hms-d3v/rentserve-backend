@@ -3,6 +3,8 @@ CREATE TABLE users
     id                  bigint                 NOT NULL,
     first_name          character varying(150) NOT NULL,
     name                character varying(200) NOT NULL,
+    birthdate           DATE                   NOT NULL,
+    pseudo              character varying(255) NOT NULL,
     email               character varying(255) NOT NULL,
     password            character varying(255) NOT NULL,
     role                character varying(255) NOT NULL,
