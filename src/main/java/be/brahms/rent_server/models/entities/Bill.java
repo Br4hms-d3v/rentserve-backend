@@ -8,12 +8,12 @@ import java.math.BigDecimal;
 import java.util.Set;
 
 @Entity
+@Table(name = "bills")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name = "bills")
 public class Bill extends BaseEntity {
     @Column(name = "amount", precision = 7, scale = 2, nullable = false)
     private BigDecimal amount;
@@ -24,7 +24,7 @@ public class Bill extends BaseEntity {
     private Boolean isPaid;
 
     // Relation OneToMany
-    @OneToMany(mappedBy = "bill")
+    @OneToMany(mappedBy = "bill", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<Rental> rentals;
 
     // Relation ManyToOne

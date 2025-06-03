@@ -9,7 +9,8 @@ CREATE TABLE materials
     is_available         boolean,
     created_at           timestamp(6) without time zone NOT NULL,
     updated_at           timestamp(6) without time zone,
-    CONSTRAINT materials_state_material_check CHECK (((state_material)::text = ANY ((ARRAY['GOOD_STATE':: character varying, 'BAD_STATE':: character varying, 'DAMAGED_STATE':: character varying])::text[])) )
+    CONSTRAINT materials_state_material_check CHECK (((state_material)::text = ANY ((ARRAY['GOOD_STATE':: character varying, 'BAD_STATE':: character varying, 'DAMAGED_STATE':: character varying])::text[])
+) )
 );
 
 ALTER TABLE materials
@@ -29,5 +30,12 @@ ALTER TABLE materials
 
 ALTER TABLE materials
     ADD CONSTRAINT material_to_category
-    FOREIGN KEY (category_id)
-    REFERENCES categories(id);
+        FOREIGN KEY (category_id)
+            REFERENCES categories (id);
+
+ALTER TABLE materials
+    ADD CONSTRAINT upDel_material
+        FOREIGN KEY (category_id)
+            REFERENCES materials (id)
+            ON UPDATE CASCADE
+            ON DELETE RESTRICT;

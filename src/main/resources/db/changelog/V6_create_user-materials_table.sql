@@ -25,6 +25,15 @@ ALTER TABLE user_materials
     ADD CONSTRAINT fk_user_material_to_material
         FOREIGN KEY (material_id) REFERENCES materials(id);
 
-ALTER TABLE ONLY user_materials
+
+ALTER TABLE user_materials
+    ADD CONSTRAINT fkuser_material_to_material
+        FOREIGN KEY (material_id) REFERENCES materials (id)
+            ON UPDATE CASCADE
+            ON DELETE RESTRICT;
+
+ALTER TABLE user_materials
     ADD CONSTRAINT fk_user_material_from_user
-    FOREIGN KEY (user_id) REFERENCES users(id);
+        FOREIGN KEY (user_id) REFERENCES users (id)
+            ON UPDATE CASCADE
+            ON DELETE RESTRICT;

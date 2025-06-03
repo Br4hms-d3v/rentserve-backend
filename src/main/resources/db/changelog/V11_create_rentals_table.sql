@@ -41,5 +41,13 @@ ALTER TABLE rentals
     ADD CONSTRAINT fk_rental_to_bill
         FOREIGN KEY (bill_id) REFERENCES bills (id);
 
-ALTER TABLE ONLY rentals
-    ADD CONSTRAINT fk_rentals_from_user FOREIGN KEY (user_id) REFERENCES users(id);
+ALTER TABLE rentals
+    ADD CONSTRAINT fk_rentals_from_user
+    FOREIGN KEY (user_id) REFERENCES users(id);
+
+ALTER TABLE rentals
+    ADD CONSTRAINT upDel_rental_user
+        FOREIGN KEY (bill_id)
+            REFERENCES bills (id)
+            ON UPDATE CASCADE
+            ON DELETE RESTRICT;

@@ -41,7 +41,7 @@ public class User extends BaseEntity {
     private Boolean isActive = false;
 
     // OneToMany
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     private Set<SecondResidence> secondResidences;
 
     @OneToMany(mappedBy = "user")

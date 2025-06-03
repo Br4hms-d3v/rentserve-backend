@@ -24,3 +24,15 @@ COLUMN id
 
 ALTER TABLE favour
     ADD CONSTRAINT favour_pkey PRIMARY KEY (id);
+
+ALTER TABLE favour
+    ADD CONSTRAINT favor_to_category
+        FOREIGN KEY (category_id)
+            REFERENCES categories (id);
+
+ALTER TABLE favour
+    ADD CONSTRAINT upDel_favor
+        FOREIGN KEY (category_id)
+            REFERENCES favour (id)
+            ON UPDATE CASCADE
+            ON DELETE RESTRICT;

@@ -23,9 +23,17 @@ ALTER TABLE user_favour
     ADD CONSTRAINT user_favour_pkey PRIMARY KEY (id);
 
 ALTER TABLE user_favour
-    ADD CONSTRAINT fkuser_favour_to_favor
-        FOREIGN KEY (favor_id) REFERENCES favour (id);
-
-ALTER TABLE user_favour
     ADD CONSTRAINT fkuser_favour_from_user
         FOREIGN KEY (user_id) REFERENCES users (id);
+
+ALTER TABLE user_favour
+    ADD CONSTRAINT fk_user_favour_to_favor
+        FOREIGN KEY (favor_id) REFERENCES favour (id)
+            ON UPDATE CASCADE
+            ON DELETE RESTRICT;
+
+ALTER TABLE user_favour
+    ADD CONSTRAINT fk_user_favour_from_user
+        FOREIGN KEY (user_id) REFERENCES users (id)
+            ON UPDATE CASCADE
+            ON DELETE RESTRICT;

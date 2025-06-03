@@ -28,3 +28,17 @@ ALTER TABLE pictures
 ALTER TABLE pictures
     ADD CONSTRAINT fk_picture_for_material
         FOREIGN KEY (user_material_id) REFERENCES user_materials(id);
+
+ALTER TABLE pictures
+    ADD CONSTRAINT upDel_picture_favor
+        FOREIGN KEY (user_favor_id)
+            REFERENCES favour (id)
+            ON UPDATE CASCADE
+            ON DELETE RESTRICT;
+
+ALTER TABLE pictures
+    ADD CONSTRAINT upDel_material_favor
+        FOREIGN KEY (user_material_id)
+            REFERENCES materials (id)
+            ON UPDATE CASCADE
+            ON DELETE RESTRICT;
