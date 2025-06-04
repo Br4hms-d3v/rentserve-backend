@@ -7,7 +7,17 @@
     },
     {
       "include": {
+        "file": "classpath:/db/changelog/V1_1_insert_users_table.sql"
+      }
+    },
+    {
+      "include": {
         "file": "classpath:/db/changelog/V2_create_seconde-residences_table.sql"
+      }
+    },
+    {
+      "include": {
+        "file": "classpath:/db/changelog/V2_1_insert_seconde-residences_table.sql"
       }
     },
     {
@@ -17,7 +27,17 @@
     },
     {
       "include": {
+        "file": "classpath:/db/changelog/V3_1_insert_categories_table.sql"
+      }
+    },
+    {
+      "include": {
         "file": "classpath:/db/changelog/V4_create_materials_table.sql"
+      }
+    },
+    {
+      "include": {
+        "file": "classpath:/db/changelog/V4_1_insert_materials_table.sql"
       }
     },
     {
@@ -27,7 +47,17 @@
     },
     {
       "include": {
+        "file": "classpath:/db/changelog/V5_1_insert_favour_table.sql"
+      }
+    },
+    {
+      "include": {
         "file": "classpath:/db/changelog/V6_create_user-materials_table.sql"
+      }
+    },
+    {
+      "include": {
+        "file": "classpath:/db/changelog/V6_1_insert_user-materials_table.sql"
       }
     },
     {
@@ -37,12 +67,27 @@
     },
     {
       "include": {
+        "file": "classpath:/db/changelog/V7_1_insert_user-favour_table.sql"
+      }
+    },
+    {
+      "include": {
         "file": "classpath:/db/changelog/V8_create_bills_table.sql"
       }
     },
     {
       "include": {
+        "file": "classpath:/db/changelog/V8_1_insert_bills_table.sql"
+      }
+    },
+    {
+      "include": {
         "file": "classpath:/db/changelog/V9_create_reviews_table.sql"
+      }
+    },
+    {
+      "include": {
+        "file": "classpath:/db/changelog/V9_1_insert_reviews_table.sql"
       }
     },
     {
@@ -53,6 +98,11 @@
     {
       "include": {
         "file": "classpath:/db/changelog/V11_create_rentals_table.sql"
+      }
+    },
+    {
+      "include": {
+        "file": "classpath:/db/changelog/V11_1_insert_rentals_table.sql"
       }
     }
   ]
