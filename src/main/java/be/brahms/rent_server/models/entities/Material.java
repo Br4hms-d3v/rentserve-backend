@@ -9,12 +9,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "materials")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name = "materials")
 public class Material extends BaseEntity {
     @Column(name = "name_material", nullable = false)
     private String nameMaterial;

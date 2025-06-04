@@ -23,12 +23,12 @@ public class UserMaterial extends BaseEntity {
     private Material material;
 
     // Relation OneToMany
-    @OneToMany(mappedBy = "userMaterial")
+    @OneToMany(mappedBy = "userMaterial", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<Picture> pictures = new HashSet<>();
 
-    @OneToMany(mappedBy = "userMaterial")
+    @OneToMany(mappedBy = "userMaterial", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<Rental> rentals = new HashSet<>();
 
-    @OneToMany(mappedBy = "userMaterial")
+    @OneToMany(mappedBy = "userMaterial", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<Review> reviews = new HashSet<>();
 }

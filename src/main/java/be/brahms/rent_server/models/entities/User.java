@@ -4,21 +4,27 @@ import be.brahms.rent_server.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Table(name = "users")
 public class User extends BaseEntity {
     @Column(name = "name", length = 200, nullable = false)
     private String name;
     @Column(name = "first_name", length = 150, nullable = false)
     private String firstName;
+    @Column(name = "birthdate", nullable = false)
+    private LocalDate birthdate;
+    @Column(name = "pseudo", nullable = false)
+    private String pseudo;
     @Column(name = "email", unique = true, nullable = false)
     private String email;
     @Column(name = "password", nullable = false)
@@ -36,7 +42,7 @@ public class User extends BaseEntity {
     private Boolean isActive = false;
 
     // OneToMany
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     private Set<SecondResidence> secondResidences;
 
     @OneToMany(mappedBy = "user")

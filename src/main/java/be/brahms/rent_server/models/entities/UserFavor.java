@@ -10,11 +10,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "user_favour")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user_favour")
 public class UserFavor extends BaseEntity {
 
     @ManyToOne
@@ -26,12 +26,12 @@ public class UserFavor extends BaseEntity {
     private Favor favor;
 
     // Relation OneToMany
-    @OneToMany(mappedBy = "userFavor")
+    @OneToMany(mappedBy = "userFavor", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<Picture> pictures = new HashSet<>();
 
-    @OneToMany(mappedBy = "userFavor")
-    private Set<Rental> rentals= new HashSet<>();
+    @OneToMany(mappedBy = "userFavor", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private Set<Rental> rentals = new HashSet<>();
 
-    @OneToMany(mappedBy = "userFavor")
-    private Set<Review> reviews= new HashSet<>();
+    @OneToMany(mappedBy = "userFavor", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private Set<Review> reviews = new HashSet<>();
 }
