@@ -4,6 +4,7 @@ import be.brahms.rent_server.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,7 +22,7 @@ public class User extends BaseEntity {
     @Column(name = "first_name", length = 150, nullable = false)
     private String firstName;
     @Column(name = "birthdate", nullable = false)
-    private Date birthdate;
+    private LocalDate birthdate;
     @Column(name = "pseudo", nullable = false)
     private String pseudo;
     @Column(name = "email", unique = true, nullable = false)
