@@ -5,6 +5,10 @@ import lombok.*;
 
 import java.util.Set;
 
+/**
+ * This class represents a category of items and extends the BaseEntity class.
+ * It includes a name for the category and relationships to favours and materials.
+ */
 @Entity
 @Table(name = "categories")
 @Getter
@@ -13,13 +17,28 @@ import java.util.Set;
 @AllArgsConstructor
 @ToString
 public class Category extends BaseEntity {
+
+    /**
+     * The name of the category.
+     * This value must be unique, cannot be null, and has a maximum length of 150 characters.
+     */
     @Column(name = "name_category", length = 150, unique = true, nullable = false)
     private String nameCategory;
 
+    /**
+     * A set of favours associated with this category.
+     * A category can have multiple favours.
+     * The relationship is maintained through cascading persist and merge operations.
+     */
     // Relation OneToMany
-    @OneToMany(mappedBy = "category", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Favor> favours;
 
-    @OneToMany(mappedBy = "category", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    /**
+     * A set of materials associated with this category.
+     * A category can have multiple materials.
+     * The relationship is maintained through cascading persist and merge operations.
+     */
+    @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Material> materials;
 }
