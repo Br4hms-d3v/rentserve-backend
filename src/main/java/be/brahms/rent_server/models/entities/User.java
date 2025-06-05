@@ -17,7 +17,6 @@ import java.util.Set;
 @Table(name = "users")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class User extends BaseEntity {
@@ -90,6 +89,12 @@ public class User extends BaseEntity {
      */
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = false;
+
+    // Constructor by default
+    /**
+     * Default constructor for User.
+     */
+    public User() { }
 
     // OneToMany
     /**

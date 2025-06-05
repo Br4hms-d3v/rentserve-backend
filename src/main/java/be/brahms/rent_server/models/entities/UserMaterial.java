@@ -13,7 +13,6 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user_materials")
 public class UserMaterial extends BaseEntity {
@@ -33,6 +32,12 @@ public class UserMaterial extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "material_id", nullable = false)
     private Material material;
+
+    // Constructor by default
+    /**
+     * Default constructor for UserMaterial.
+     */
+    public UserMaterial() { }
 
     // Relation OneToMany
     /**

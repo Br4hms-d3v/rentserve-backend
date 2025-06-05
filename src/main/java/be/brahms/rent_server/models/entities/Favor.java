@@ -15,7 +15,6 @@ import java.util.Set;
 @Table(name = "favour")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class Favor extends BaseEntity {
@@ -45,6 +44,12 @@ public class Favor extends BaseEntity {
      */
     @Column(name = "is_available")
     private boolean isAvailable;
+
+    // Constructor by default
+    /**
+     * Default constructor for Favor.
+     */
+    public Favor() {}
 
     /**
      * A set of user-favor relationships.

@@ -13,7 +13,6 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "pictures")
 public class Picture extends BaseEntity {
@@ -24,6 +23,12 @@ public class Picture extends BaseEntity {
      */
     @Column(name = "name_picture", nullable = false)
     private String namePicture;
+
+    // Constructor by default
+    /**
+     * Default constructor for Picture.
+     */
+    public Picture() {}
 
     // Relation ManyToOne
     /**

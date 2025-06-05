@@ -10,7 +10,6 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Table(name = "reviews")
@@ -34,6 +33,12 @@ public class Review extends BaseEntity {
      */
     @Column(name = "is_active")
     private Boolean isActive;
+
+    // Constructor by default
+    /**
+     * Default constructor for Review.
+     */
+    public Review() {}
 
     // Relation ManyToOne
     /**

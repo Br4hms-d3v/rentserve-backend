@@ -16,7 +16,6 @@ import java.util.Set;
 @Table(name = "materials")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class Material extends BaseEntity {
@@ -53,6 +52,12 @@ public class Material extends BaseEntity {
      */
     @Column(name = "is_available")
     private boolean isAvailable;
+
+    // Constructor by default
+    /**
+     * Default constructor for Material.
+     */
+    public Material() {}
 
     /**
      * A set of user-material relationships.

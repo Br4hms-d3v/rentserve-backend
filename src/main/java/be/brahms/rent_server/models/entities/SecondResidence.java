@@ -11,9 +11,9 @@ import lombok.*;
 @Table(name = "second_residences")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @ToString
+
 public class SecondResidence extends BaseEntity {
 
     /**
@@ -34,6 +34,12 @@ public class SecondResidence extends BaseEntity {
      */
     @Column(name = "zip_code", length = 50, nullable = false)
     private String zipCode;
+
+    // Constructor by default
+    /**
+     * Default constructor for Seconde residence.
+     */
+    public SecondResidence() {}
 
     // Relation ManyToOne
     /**

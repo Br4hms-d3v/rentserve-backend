@@ -17,7 +17,6 @@ import java.util.Set;
 @Table(name = "user_favour")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 public class UserFavor extends BaseEntity {
 
@@ -36,6 +35,12 @@ public class UserFavor extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "favor_id", nullable = false)
     private Favor favor;
+
+    // Constructor by default
+    /**
+     * Default constructor for UserFavor.
+     */
+    public UserFavor() { }
 
     // Relation OneToMany
     /**

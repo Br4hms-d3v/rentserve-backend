@@ -48,4 +48,10 @@ public abstract class BaseEntity {
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
+    // Constructor by default
+    /**
+     * Default constructor for BaseEntity.
+     */
+    public BaseEntity() {}
 }

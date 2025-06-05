@@ -13,7 +13,6 @@ import java.util.Set;
 @Table(name = "categories")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class Category extends BaseEntity {
@@ -24,6 +23,12 @@ public class Category extends BaseEntity {
      */
     @Column(name = "name_category", length = 150, unique = true, nullable = false)
     private String nameCategory;
+
+    // Constructor by default
+    /**
+     * Default constructor for Category.
+     */
+    public Category() {}
 
     /**
      * A set of favours associated with this category.

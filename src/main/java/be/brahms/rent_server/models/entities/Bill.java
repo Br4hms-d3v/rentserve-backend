@@ -16,7 +16,6 @@ import java.util.Set;
 @Table(name = "bills")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class Bill extends BaseEntity {
@@ -40,6 +39,13 @@ public class Bill extends BaseEntity {
      */
     @Column(name = "is_paid")
     private Boolean isPaid;
+
+    // Constructor by default
+    /**
+     * Default constructor for Bill.
+     */
+    public Bill() {
+    }
 
     /**
      * A set of rentals associated with this bill.

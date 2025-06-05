@@ -14,7 +14,6 @@ import java.time.LocalTime;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Table(name = "rentals")
@@ -50,6 +49,12 @@ public class Rental extends BaseEntity {
      */
     @Column(name = "end_time")
     private LocalTime endTime;
+
+    // Constructor by default
+    /**
+     * Default constructor for Rental.
+     */
+    public Rental() {}
 
     // Relation ManyToOne
     /**
