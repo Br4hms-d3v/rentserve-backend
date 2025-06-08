@@ -16,6 +16,14 @@ import java.nio.charset.StandardCharsets;
 public class JwtConfig {
 
     /**
+     * Default constructor for JwtConfig.
+     * This constructor does not take any parameters.
+     * It initializes the JwtConfig object.
+     */
+    public JwtConfig() {
+    }
+
+    /**
      * The secret key used to sign the JWT.
      * It is a byte array that starts with "secret key".
      */

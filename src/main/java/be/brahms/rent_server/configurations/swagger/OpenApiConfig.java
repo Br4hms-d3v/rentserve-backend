@@ -15,6 +15,14 @@ import org.springframework.context.annotation.Configuration;
 public class OpenApiConfig {
 
     /**
+     * Default constructor for OpenApiConfig.
+     * This constructor does not take any parameters.
+     * It initializes the OpenApiConfig object with default values.
+     */
+    public OpenApiConfig() {
+    }
+
+    /**
      * Creates and configures the OpenAPI documentation.
      * Adds JWT Bearer authentication as a security scheme.
      *
