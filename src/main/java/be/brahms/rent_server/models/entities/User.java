@@ -2,6 +2,8 @@ package be.brahms.rent_server.models.entities;
 
 import be.brahms.rent_server.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -129,6 +131,21 @@ public class User extends BaseEntity implements UserDetails {
         this.zipCode = zipCode;
     }
 
+    /**
+     * This constructor is a log-in for a user who as an account
+     * Introduce in the form an email or pseudo with password
+     *
+     * @param email    the email
+     * @param pseudo   the pseudo
+     * @param password the password
+     */
+    public User(String email, String pseudo, String password) {
+        this();
+        this.email = email;
+        this.pseudo = pseudo;
+        this.password = password;
+    }
+
     // OneToMany
     /**
      * A set of second residences linked to the user.
@@ -158,6 +175,7 @@ public class User extends BaseEntity implements UserDetails {
     private Set<Rental> rentals = new HashSet<>();
 
     // From UserDetails AND It's need it
+
     /**
      * This method gives the user roles.
      * Now, it gives nothing (empty list).

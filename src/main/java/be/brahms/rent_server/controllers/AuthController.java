@@ -3,6 +3,7 @@ package be.brahms.rent_server.controllers;
 import be.brahms.rent_server.models.dtos.UserTokenDTO;
 import be.brahms.rent_server.models.entities.User;
 import be.brahms.rent_server.models.forms.UserForm;
+import be.brahms.rent_server.models.forms.UserLoginForm;
 import be.brahms.rent_server.services.UserService;
 import be.brahms.rent_server.utilities.JwtUtil;
 import jakarta.validation.Valid;
@@ -47,6 +48,23 @@ public class AuthController {
         String token = jwtUtil.generateToken(registerUser);
         UserTokenDTO userTkDto = UserTokenDTO.fromEntity(registerUser);
         userTkDto.setToken(token);
+        return ResponseEntity.ok().body(userTkDto);
+    }
+
+    /**
+     * This method connect a user.
+     * It makes a token and sends back user info with the token.
+     *
+     * @param form the form with user data
+     * @return user connected with his token
+     */
+    @PostMapping("login")
+    public ResponseEntity<UserTokenDTO> login(@RequestBody @Valid UserLoginForm form) {
+        User userLogin = userService.login(form.toEntity());
+        String token = jwtUtil.generateToken(userLogin);
+        UserTokenDTO userTkDto = UserTokenDTO.fromEntity(userLogin);
+        userTkDto.setToken(token);
+
         return ResponseEntity.ok().body(userTkDto);
     }
 }

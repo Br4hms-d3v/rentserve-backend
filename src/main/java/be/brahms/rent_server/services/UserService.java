@@ -16,4 +16,12 @@ public interface UserService extends UserDetailsService {
      * @return the saved user
      */
     User register(User user);
+
+    /**
+     * This method connect the user
+     *
+     * @param user the user for log in
+     * @return the connected user
+     */
+    User login(User user);
 }

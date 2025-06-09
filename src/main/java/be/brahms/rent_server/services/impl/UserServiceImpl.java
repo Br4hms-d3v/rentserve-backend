@@ -1,8 +1,7 @@
 package be.brahms.rent_server.services.impl;
 
 import be.brahms.rent_server.enums.Role;
-import be.brahms.rent_server.exceptions.user.EmailExistException;
-import be.brahms.rent_server.exceptions.user.PseudoExistException;
+import be.brahms.rent_server.exceptions.user.*;
 import be.brahms.rent_server.models.entities.User;
 import be.brahms.rent_server.repositories.UserRepository;
 import be.brahms.rent_server.services.UserService;
@@ -11,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * Service implementation for managing users.
@@ -68,6 +69,39 @@ public class UserServiceImpl implements UserService {
         String registrationToken = "passwordToken";
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public User login(User user) {
+
+        Optional<User> foundEmailOrPseudo = userRepository.findByEmailOrPseudo(user.getEmail(), user.getPseudo());
+
+        if (foundEmailOrPseudo.isEmpty()) {
+
+            boolean userLoginWithEmail = userRepository.existsByEmail(user.getEmail());
+            boolean userLoginwithPseudo = userRepository.existsByPseudo(user.getPseudo());
+
+            // Check if the email or pseudo are available in the DB
+            if (!userLoginWithEmail && user.getEmail() != null) {
+                throw new EmailNotFoundException();
+            }
+            if (!userLoginwithPseudo && user.getPseudo() != null) {
+                throw new PseudoNotFoundException();
+            }
+        }
+
+        User userLogin = foundEmailOrPseudo.get();
+
+        // Check if the user activated his account
+        if (!userLogin.getIsActive()) {
+            throw new AccountNotActivatedException();
+        }
+
+        if (!bCryptPasswordEncoder.matches(user.getPassword(), userLogin.getPassword())) {
+            throw new RuntimeException("Le mot de passe n'existe pas");
+        }
+
+        return userLogin;
     }
 
     // It is from by UseDetailService
