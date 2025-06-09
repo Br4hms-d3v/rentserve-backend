@@ -1,5 +1,6 @@
 ```toml
-name = 'Draft'
+name = 'Registre'
+description = 'Create a user'
 method = 'POST'
 url = 'http://localhost:8080/registration'
 sortWeight = 1000000
