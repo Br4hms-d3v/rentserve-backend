@@ -1,6 +1,8 @@
 package be.brahms.rent_server.services.impl;
 
 import be.brahms.rent_server.enums.Role;
+import be.brahms.rent_server.exceptions.user.EmailExistException;
+import be.brahms.rent_server.exceptions.user.PseudoExistException;
 import be.brahms.rent_server.models.entities.User;
 import be.brahms.rent_server.repositories.UserRepository;
 import be.brahms.rent_server.services.UserService;
@@ -44,6 +46,17 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User register(User user) {
+
+        // Check if exist an email
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new EmailExistException();
+        }
+
+        // Check if exist this pseudo
+        if (userRepository.existsByPseudo(user.getPseudo())) {
+            throw new PseudoExistException();
+        }
+
         // User start has a member
         user.setRole(Role.MEMBER);
         // Hash the password
@@ -58,6 +71,7 @@ public class UserServiceImpl implements UserService {
     }
 
     // It is from by UseDetailService
+
     /**
      * This method finds a user by username.
      * Now, it returns nothing (null).
