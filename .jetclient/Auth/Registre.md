@@ -12,7 +12,7 @@ raw = '''
 {
   "name": "Bobette",
   "firstName": "bobette",
-  "birthdate": "1950-06-09",
+  "birthdate": "1-06-09",
   "pseudo": "malik",
   "email": "malik1@gmail.ezn",
   "password": "12345678",
