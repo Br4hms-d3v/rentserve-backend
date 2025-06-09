@@ -2,8 +2,8 @@ CREATE TABLE pictures
 (
     id               bigint                 NOT NULL,
     name_picture     character varying(255) NOT NULL,
-    created_at       timestamp(6) without time zone NOT NULL,
-    updated_at       timestamp(6) without time zone,
+    created_at       DATE                   NOT NULL,
+    updated_at       DATE,
     user_favor_id    bigint                 NOT NULL,
     user_material_id bigint                 NOT NULL
 );

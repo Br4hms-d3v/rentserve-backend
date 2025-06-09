@@ -4,8 +4,8 @@ CREATE TABLE favour
     name_favor        character varying(255) NOT NULL,
     description_favor text,
     price_hour_favor  numeric(7, 2)          NOT NULL,
-    created_at        timestamp(6) without time zone NOT NULL,
-    updated_at        timestamp(6) without time zone,
+    created_at        DATE                   NOT NULL,
+    updated_at        DATE,
     category_id       bigint,
     is_available      boolean
 );

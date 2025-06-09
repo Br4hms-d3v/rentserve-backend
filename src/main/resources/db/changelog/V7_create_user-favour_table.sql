@@ -1,8 +1,8 @@
 CREATE TABLE user_favour
 (
     id         bigint NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone,
+    created_at DATE   NOT NULL,
+    updated_at DATE,
     favor_id   bigint NOT NULL,
     user_id    bigint NOT NULL
 );

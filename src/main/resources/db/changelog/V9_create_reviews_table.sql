@@ -3,8 +3,8 @@ CREATE TABLE reviews
     id               bigint NOT NULL,
     rating           double precision,
     comment          text,
-    created_at       timestamp(6) without time zone NOT NULL,
-    updated_at       timestamp(6) without time zone,
+    created_at       DATE   NOT NULL,
+    updated_at       DATE,
     user_favor_id    bigint,
     user_material_id bigint,
     is_active        boolean
