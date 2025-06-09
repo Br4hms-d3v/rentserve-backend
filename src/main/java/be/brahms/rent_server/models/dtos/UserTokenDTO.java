@@ -15,7 +15,6 @@ import java.time.LocalDate;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 public class UserTokenDTO {
     private String name;
@@ -25,6 +24,13 @@ public class UserTokenDTO {
     private Role role;
     private Boolean isActive;
     private String token;
+
+    /**
+     * Constructor by default
+     */
+    public UserTokenDTO() {
+
+    }
 
     /**
      * This method makes a UserTokenDTO from a User.

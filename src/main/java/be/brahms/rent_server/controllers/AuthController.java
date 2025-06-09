@@ -23,6 +23,12 @@ public class AuthController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
 
+    /**
+     * AuthController constructor.
+     *
+     * @param userService service for user management
+     * @param jwtUtil     utility for managing JWT tokens
+     */
     public AuthController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;

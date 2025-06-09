@@ -23,7 +23,8 @@ public class UserServiceImpl implements UserService {
     /**
      * Constructor to create UserServiceImpl with UserRepository.
      *
-     * @param userRepository the repository to access user data
+     * @param userRepository        the repository to access user data
+     * @param bCryptPasswordEncoder encode password with BCrypt
      */
     @Autowired
     public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
