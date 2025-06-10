@@ -4,7 +4,6 @@ import be.brahms.rent_server.enums.Role;
 import be.brahms.rent_server.models.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
