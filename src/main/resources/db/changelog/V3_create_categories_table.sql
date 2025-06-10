@@ -2,8 +2,8 @@ CREATE TABLE categories
 (
     id            bigint                 NOT NULL,
     name_category character varying(150) NOT NULL,
-    created_at    timestamp(6) without time zone NOT NULL,
-    updated_at    timestamp(6) without time zone
+    created_at    DATE                   NOT NULL,
+    updated_at    DATE
 );
 
 ALTER TABLE categories

@@ -2,7 +2,7 @@ package be.brahms.rent_server.models.entities;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * This is a base entity class that includes common fields for all entities.
@@ -23,13 +23,13 @@ public abstract class BaseEntity {
      * Cannot be updated after creation.
      */
     @Column(name = "created_at", updatable = false, nullable = false)
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
     /**
      * The date and time when the entity was last updated.
      * This field is updated automatically on every update.
      */
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private LocalDate updatedAt;
 
     /**
      * This method is called before the entity is persisted (saved for the first time).
@@ -37,7 +37,7 @@ public abstract class BaseEntity {
      */
     @PrePersist
     protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = LocalDate.now();
     }
 
     /**
@@ -46,7 +46,7 @@ public abstract class BaseEntity {
      */
     @PreUpdate
     protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
+        this.updatedAt = LocalDate.now();
     }
 
     // Constructor by default

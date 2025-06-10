@@ -12,8 +12,8 @@ CREATE TABLE users
     city                character varying(100) NOT NULL,
     zip_code            character varying(60)  NOT NULL,
     is_active           boolean                NOT NULL,
-    created_at          timestamp(6) without time zone NOT NULL,
-    updated_at          timestamp(6) without time zone,
+    created_at          DATE                   NOT NULL,
+    updated_at          DATE,
     CONSTRAINT users_role_check CHECK (
         ((role)::text = ANY ((ARRAY['MEMBER':: character varying, 'MODERATOR':: character varying, 'ADMIN':: character varying])::text[]))
     )

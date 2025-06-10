@@ -2,10 +2,16 @@ package be.brahms.rent_server.models.entities;
 
 import be.brahms.rent_server.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,9 +23,8 @@ import java.util.Set;
 @Table(name = "users")
 @Getter
 @Setter
-@AllArgsConstructor
 @ToString
-public class User extends BaseEntity {
+public class User extends BaseEntity implements UserDetails {
 
     /**
      * The last name of the user.
@@ -91,10 +96,55 @@ public class User extends BaseEntity {
     private Boolean isActive = false;
 
     // Constructor by default
+
     /**
      * Default constructor for User.
      */
-    public User() { }
+    public User() {
+    }
+
+    /**
+     * This constructor makes a new user.
+     * You give name, first name, birthdate, pseudo, password, role,
+     * street, city, zip code, and if the user is active.
+     *
+     * @param name      the last name
+     * @param firstName the first name
+     * @param birthdate the birthdate
+     * @param pseudo    the username
+     * @param email     the email
+     * @param password  the password
+     * @param street    the street name
+     * @param city      the city
+     * @param zipCode   the postal code
+     */
+    public User(String name, String firstName, LocalDate birthdate, String pseudo, String email, String password, String street, String city, String zipCode) {
+        this();
+        this.name = name;
+        this.firstName = firstName;
+        this.birthdate = birthdate;
+        this.pseudo = pseudo;
+        this.email = email;
+        this.password = password;
+        this.street = street;
+        this.city = city;
+        this.zipCode = zipCode;
+    }
+
+    /**
+     * This constructor is a log-in for a user who as an account
+     * Introduce in the form an email or pseudo with password
+     *
+     * @param email    the email
+     * @param pseudo   the pseudo
+     * @param password the password
+     */
+    public User(String email, String pseudo, String password) {
+        this();
+        this.email = email;
+        this.pseudo = pseudo;
+        this.password = password;
+    }
 
     // OneToMany
     /**
@@ -123,4 +173,24 @@ public class User extends BaseEntity {
      */
     @OneToMany(mappedBy = "user")
     private Set<Rental> rentals = new HashSet<>();
+
+    // From UserDetails AND It's need it
+
+    /**
+     * This method gives the user roles.
+     * Now, it gives nothing (empty list).
+     */
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    /**
+     * This method gives the user's name (username).
+     * It returns the pseudo.
+     */
+    @Override
+    public String getUsername() {
+        return pseudo;
+    }
 }

@@ -3,8 +3,8 @@ CREATE TABLE bills
     id         bigint        NOT NULL,
     amount     numeric(7, 2) NOT NULL,
     status     character varying(255),
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone,
+    created_at DATE          NOT NULL,
+    updated_at DATE,
     user_id    bigint,
     is_paid    boolean,
     CONSTRAINT bills_status_check CHECK (((status)::text = ANY ((ARRAY['PENDING':: character varying, 'IN_PROGRESS':: character varying, 'PAID':: character varying, 'CANCELLED':: character varying, 'OVERDUE':: character varying, 'FAILED':: character varying])::text[])) )
