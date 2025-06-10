@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * It has method to register a new user.
  */
 @RestController
-@RequestMapping(name = "/api/auth/")
+@RequestMapping("/api/auth/")
 public class AuthController {
 
     private final UserService userService;
