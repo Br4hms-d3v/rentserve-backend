@@ -2,9 +2,12 @@ package be.brahms.rent_server.services.impl;
 
 import be.brahms.rent_server.enums.Role;
 import be.brahms.rent_server.exceptions.user.*;
+import be.brahms.rent_server.models.dtos.EmailTokenDTO;
 import be.brahms.rent_server.models.entities.User;
 import be.brahms.rent_server.repositories.UserRepository;
 import be.brahms.rent_server.services.UserService;
+import be.brahms.rent_server.services.email.EmailService;
+import be.brahms.rent_server.services.email.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,17 +25,21 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final EmailService emailService;
+
 
     /**
      * Constructor to create UserServiceImpl with UserRepository.
      *
      * @param userRepository        the repository to access user data
      * @param bCryptPasswordEncoder encode password with BCrypt
+     * @param emailService          send an email for confirmation of registration
      */
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, EmailService emailService) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.emailService = emailService;
     }
 
     /**
@@ -41,6 +48,7 @@ public class UserServiceImpl implements UserService {
      * and makes the user not active.
      * It also makes a token (not used here).
      * Then it saves the user.
+     * Send a email for active the account
      *
      * @param user the user to register
      * @return the saved user
@@ -66,9 +74,26 @@ public class UserServiceImpl implements UserService {
         user.setIsActive(false);
 
         // Generate a token
-        String registrationToken = "passwordToken";
+        EmailTokenDTO emailTokenDTO = new EmailTokenDTO();
+
+        // Send email for confirmation of registration account
+        String confirmationUrl = "http://localhost:8080/api/mail/confirmation?token=" + emailTokenDTO.confirmationToken() + "&email=" + user.getEmail();
+
+        emailService.sendMailConfirmation(user.getEmail(), confirmationUrl);
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public void activateUser(String email) {
+        User userActivate = userRepository.findByEmail(email);
+
+        if(userActivate == null ) {
+            throw new EmailNotFoundException();
+        }
+        userActivate.setIsActive(true);
+
+        userRepository.save(userActivate);
     }
 
     @Override

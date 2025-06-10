@@ -18,6 +18,13 @@ public interface UserService extends UserDetailsService {
     User register(User user);
 
     /**
+     * To activate the user.
+     *
+     * @param email The user email.
+     */
+    void activateUser(String email);
+
+    /**
      * This method connect the user
      *
      * @param user the user for log in
