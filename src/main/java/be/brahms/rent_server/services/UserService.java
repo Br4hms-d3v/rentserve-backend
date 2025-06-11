@@ -3,6 +3,8 @@ package be.brahms.rent_server.services;
 import be.brahms.rent_server.models.entities.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.Optional;
+
 /**
  * Service interface for managing user.
  * Defines business operations related to Bill entities.
@@ -31,4 +33,12 @@ public interface UserService extends UserDetailsService {
      * @return the connected user
      */
     User login(User user);
+
+    /**
+     * This method get a user by ID
+     *
+     * @param id from the user
+     * @return data's from user by id if exist
+     */
+    User findById(long id);
 }

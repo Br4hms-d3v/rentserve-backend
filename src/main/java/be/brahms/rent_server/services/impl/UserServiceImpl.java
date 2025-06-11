@@ -7,7 +7,6 @@ import be.brahms.rent_server.models.entities.User;
 import be.brahms.rent_server.repositories.UserRepository;
 import be.brahms.rent_server.services.UserService;
 import be.brahms.rent_server.services.email.EmailService;
-import be.brahms.rent_server.services.email.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -48,7 +47,7 @@ public class UserServiceImpl implements UserService {
      * and makes the user not active.
      * It also makes a token (not used here).
      * Then it saves the user.
-     * Send a email for active the account
+     * Send an email for active the account
      *
      * @param user the user to register
      * @return the saved user
@@ -88,7 +87,7 @@ public class UserServiceImpl implements UserService {
     public void activateUser(String email) {
         User userActivate = userRepository.findByEmail(email);
 
-        if(userActivate == null ) {
+        if (userActivate == null) {
             throw new EmailNotFoundException();
         }
         userActivate.setIsActive(true);
@@ -127,6 +126,11 @@ public class UserServiceImpl implements UserService {
         }
 
         return userLogin;
+    }
+
+    @Override
+    public User findById(long id) {
+        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
     // It is from by UseDetailService
