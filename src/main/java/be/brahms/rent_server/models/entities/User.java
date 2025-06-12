@@ -144,6 +144,30 @@ public class User extends BaseEntity implements UserDetails {
         this.password = password;
     }
 
+    /**
+     * Creates a new user with form data.
+     *
+     * @param name      the last name
+     * @param firstName the first name
+     * @param birthdate the birth date
+     * @param pseudo    the username
+     * @param email     the email address
+     * @param street    the street name
+     * @param city      the city
+     * @param zipCode   the postal code
+     */
+    public User(String name, String firstName, LocalDate birthdate, String pseudo, String email, String street, String city, String zipCode) {
+        this();
+        this.name = name;
+        this.firstName = firstName;
+        this.birthdate = birthdate;
+        this.pseudo = pseudo;
+        this.email = email;
+        this.street = street;
+        this.city = city;
+        this.zipCode = zipCode;
+    }
+
     // OneToMany
     /**
      * A set of second residences linked to the user.

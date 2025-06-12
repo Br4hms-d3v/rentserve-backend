@@ -5,15 +5,14 @@ import be.brahms.rent_server.hateaos.UserAssembler;
 import be.brahms.rent_server.models.dtos.UserDto;
 import be.brahms.rent_server.models.dtos.UserRoleDto;
 import be.brahms.rent_server.models.entities.User;
+import be.brahms.rent_server.models.forms.UserUpdateForm;
 import be.brahms.rent_server.services.UserService;
 import be.brahms.rent_server.utilities.JwtUtil;
+import jakarta.validation.Valid;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,7 +68,7 @@ public class UserController {
      * Each user is converted to a UserDto (Data Transfer Object).
      * Each UserDto is wrapped inside an EntityModel with HATEOAS links.
      *
-     *  @return ResponseEntity with a list of user models
+     * @return ResponseEntity with a list of user models
      */
     @GetMapping("list")
     public ResponseEntity<List<EntityModel<UserDto>>> getUsers() {
@@ -108,6 +107,21 @@ public class UserController {
                 .toList();
 
         return ResponseEntity.ok().body(listUserRoleDtoModel);
+    }
+
+    /**
+     * Updates a user by ID with form data.
+     *
+     * @param id   the user's ID
+     * @param form the form with new user data
+     * @return the updated user with links
+     */
+    @PutMapping("{id}/edit")
+    public ResponseEntity<EntityModel<UserDto>> getUserEdit(@PathVariable long id, @RequestBody @Valid UserUpdateForm form) {
+        User updateUser = userService.updateUser(id, form.toEntity());
+        UserDto userUpdateDto = UserDto.fromEntity(updateUser);
+
+        return ResponseEntity.ok().body(userAssembler.toModel(userUpdateDto));
     }
 
 }

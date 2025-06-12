@@ -8,7 +8,6 @@ import be.brahms.rent_server.repositories.UserRepository;
 import be.brahms.rent_server.services.UserService;
 import be.brahms.rent_server.services.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -155,6 +154,27 @@ public class UserServiceImpl implements UserService {
         }
 
         return listOfUserByRole;
+    }
+
+    @Override
+    public User updateUser(long id, User user) {
+
+        User userUpdateById = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+
+        userUpdateById.setName(user.getName());
+        userUpdateById.setFirstName(user.getFirstName());
+        userUpdateById.setBirthdate(user.getBirthdate());
+        userUpdateById.setPseudo(user.getPseudo());
+        userUpdateById.setEmail(user.getEmail());
+
+        userUpdateById.setStreet(user.getStreet());
+        userUpdateById.setCity(user.getCity());
+        userUpdateById.setZipCode(user.getZipCode());
+
+        userUpdateById.setIsActive(user.getIsActive());
+
+
+        return userRepository.save(userUpdateById);
     }
 
     // It is from by UseDetailService
