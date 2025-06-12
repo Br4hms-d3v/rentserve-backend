@@ -1,7 +1,9 @@
 package be.brahms.rent_server.controllers;
 
+import be.brahms.rent_server.enums.Role;
 import be.brahms.rent_server.hateaos.UserAssembler;
 import be.brahms.rent_server.models.dtos.UserDto;
+import be.brahms.rent_server.models.dtos.UserRoleDto;
 import be.brahms.rent_server.models.entities.User;
 import be.brahms.rent_server.services.UserService;
 import be.brahms.rent_server.utilities.JwtUtil;
@@ -67,7 +69,7 @@ public class UserController {
      * Each user is converted to a UserDto (Data Transfer Object).
      * Each UserDto is wrapped inside an EntityModel with HATEOAS links.
      *
-     * @return ResponseEntity with a list of EntityModel<UserDto>
+     *  @return ResponseEntity with a list of user models
      */
     @GetMapping("list")
     public ResponseEntity<List<EntityModel<UserDto>>> getUsers() {
@@ -77,9 +79,35 @@ public class UserController {
                 .map(UserDto::fromEntity)
                 .toList();
 
-        List<EntityModel<UserDto>> listUserDtoModel = userDtoList.stream()
-                .map(userAssembler::toModel).toList();
+        List<EntityModel<UserDto>> listUserDtoModel = userDtoList
+                .stream()
+                .map(userAssembler::toModel)
+                .toList();
 
         return ResponseEntity.ok().body(listUserDtoModel);
     }
+
+    /**
+     * Get a list of users by their role.
+     *
+     * @param role the role to find users
+     * @return response with a list of user models
+     */
+    @GetMapping("list/{role}")
+    public ResponseEntity<List<EntityModel<UserRoleDto>>> getUsersByRole(@PathVariable Role role) {
+
+        List<User> userList = userService.findAllUsersByRole(role);
+        List<UserRoleDto> userRoleDtoList = userList
+                .stream()
+                .map(UserRoleDto::fromEntity)
+                .toList();
+
+        List<EntityModel<UserRoleDto>> listUserRoleDtoModel = userRoleDtoList
+                .stream()
+                .map(userAssembler::toModel)
+                .toList();
+
+        return ResponseEntity.ok().body(listUserRoleDtoModel);
+    }
+
 }

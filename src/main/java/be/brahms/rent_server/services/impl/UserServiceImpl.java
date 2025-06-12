@@ -146,6 +146,17 @@ public class UserServiceImpl implements UserService {
         return listOfUsers;
     }
 
+    @Override
+    public List<User> findAllUsersByRole(Role role) {
+        List<User> listOfUserByRole = userRepository.listUsersByRole(role);
+
+        if (listOfUserByRole.isEmpty()) {
+            throw new UserException("Aucun n'a le role : " + role);
+        }
+
+        return listOfUserByRole;
+    }
+
     // It is from by UseDetailService
 
     /**

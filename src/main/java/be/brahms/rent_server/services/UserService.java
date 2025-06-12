@@ -1,6 +1,8 @@
 package be.brahms.rent_server.services;
 
+import be.brahms.rent_server.enums.Role;
 import be.brahms.rent_server.models.entities.User;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -49,5 +51,13 @@ public interface UserService extends UserDetailsService {
      * @return list of all users
      */
     List<User> findAllUsers();
+
+    /**
+     * Get all users with a specific role.
+     *
+     * @param role the role to filter users
+     * @return list of users with the given role
+     */
+    List<User> findAllUsersByRole(Role role);
 
 }

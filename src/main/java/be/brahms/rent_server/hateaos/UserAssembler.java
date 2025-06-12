@@ -2,11 +2,11 @@ package be.brahms.rent_server.hateaos;
 
 import be.brahms.rent_server.controllers.UserController;
 import be.brahms.rent_server.models.dtos.UserDto;
+import be.brahms.rent_server.models.dtos.UserRoleDto;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -40,6 +40,18 @@ public class UserAssembler implements RepresentationModelAssembler<UserDto, Enti
         return EntityModel.of(user,
                 linkTo(methodOn(UserController.class).getUser(user.id())).withSelfRel(),
                 linkTo(methodOn(UserController.class).getUsers()).withRel("List of all users")
+        );
+    }
+
+    /**
+     * Make a model with links for one user.
+     *
+     * @param user the user data
+     * @return the user model with link
+     */
+    public EntityModel<UserRoleDto> toModel(UserRoleDto user) {
+        return EntityModel.of(user,
+                linkTo(methodOn(UserController.class).getUsersByRole((user.role()))).withRel("List of users by role")
         );
     }
 }
