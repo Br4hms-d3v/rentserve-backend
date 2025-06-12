@@ -6,6 +6,8 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -25,14 +27,19 @@ public class UserAssembler implements RepresentationModelAssembler<UserDto, Enti
     }
 
     /**
-     * This method creates a model for a user.
+     * Convert a UserDto to an EntityModel with HATEOAS links.
+     * <p>
+     * This method adds useful links to the UserDto,
+     * like a link to the user itself and to the user list.
      *
-     * @param user The user data we want to change to a model.
-     * @return A model with user data and a link to the user.
+     * @param user the user data to wrap
+     * @return an EntityModel with the user data and HATEOAS links
      */
     @Override
     public EntityModel<UserDto> toModel(UserDto user) {
         return EntityModel.of(user,
-                linkTo(methodOn(UserController.class).getUser(user.id())).withSelfRel());
+                linkTo(methodOn(UserController.class).getUser(user.id())).withSelfRel(),
+                linkTo(methodOn(UserController.class).getUsers()).withRel("List of all users")
+        );
     }
 }

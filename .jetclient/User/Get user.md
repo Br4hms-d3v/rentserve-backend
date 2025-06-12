@@ -1,6 +1,6 @@
 ```toml
-name = 'Log in (1)'
-description = 'log in with an account '
+name = 'Get user'
+description = 'Display data user by id'
 method = 'GET'
 url = 'http://localhost:8080/api/user/105'
 sortWeight = 1000000

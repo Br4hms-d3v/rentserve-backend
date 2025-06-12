@@ -3,6 +3,7 @@ package be.brahms.rent_server.services;
 import be.brahms.rent_server.models.entities.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -41,4 +42,12 @@ public interface UserService extends UserDetailsService {
      * @return data's from user by id if exist
      */
     User findById(long id);
+
+    /**
+     * This method get a list of users
+     *
+     * @return list of all users
+     */
+    List<User> findAllUsers();
+
 }

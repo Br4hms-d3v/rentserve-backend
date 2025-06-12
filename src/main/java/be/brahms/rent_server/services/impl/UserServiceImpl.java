@@ -8,11 +8,13 @@ import be.brahms.rent_server.repositories.UserRepository;
 import be.brahms.rent_server.services.UserService;
 import be.brahms.rent_server.services.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -131,6 +133,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(long id) {
         return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+
+        List<User> listOfUsers = userRepository.findAll();
+
+        if (listOfUsers.isEmpty()) {
+            throw new UserException("La liste est vide !");
+        }
+        return listOfUsers;
     }
 
     // It is from by UseDetailService
