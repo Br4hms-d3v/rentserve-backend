@@ -1,9 +1,13 @@
 package be.brahms.rent_server.repositories;
 
+import be.brahms.rent_server.enums.Role;
 import be.brahms.rent_server.models.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -40,8 +44,18 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
      * Finds a user by email.
+     *
      * @param email The email.
      * @return The user.
      */
     User findByEmail(String email);
+
+    /**
+     * Find users by their role.
+     *
+     * @param role the role to search for
+     * @return list of users with the given role
+     */
+    @Query("SELECT u FROM User u WHERE u.role = :role")
+    List<User> listUsersByRole(@Param("role") Role role);
 }

@@ -7,13 +7,13 @@ import be.brahms.rent_server.models.entities.User;
 import be.brahms.rent_server.repositories.UserRepository;
 import be.brahms.rent_server.services.UserService;
 import be.brahms.rent_server.services.email.EmailService;
-import be.brahms.rent_server.services.email.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
      * and makes the user not active.
      * It also makes a token (not used here).
      * Then it saves the user.
-     * Send a email for active the account
+     * Send an email for active the account
      *
      * @param user the user to register
      * @return the saved user
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
     public void activateUser(String email) {
         User userActivate = userRepository.findByEmail(email);
 
-        if(userActivate == null ) {
+        if (userActivate == null) {
             throw new EmailNotFoundException();
         }
         userActivate.setIsActive(true);
@@ -127,6 +127,89 @@ public class UserServiceImpl implements UserService {
         }
 
         return userLogin;
+    }
+
+    @Override
+    public User findById(long id) {
+        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+
+        List<User> listOfUsers = userRepository.findAll();
+
+        if (listOfUsers.isEmpty()) {
+            throw new UserException("La liste est vide !");
+        }
+        return listOfUsers;
+    }
+
+    @Override
+    public List<User> findAllUsersByRole(Role role) {
+        List<User> listOfUserByRole = userRepository.listUsersByRole(role);
+
+        if (listOfUserByRole.isEmpty()) {
+            throw new UserException("Aucun n'a le role : " + role);
+        }
+
+        return listOfUserByRole;
+    }
+
+    @Override
+    public User updateUser(long id, User user) {
+
+        User userUpdateById = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+
+        userUpdateById.setName(user.getName());
+        userUpdateById.setFirstName(user.getFirstName());
+        userUpdateById.setBirthdate(user.getBirthdate());
+        userUpdateById.setPseudo(user.getPseudo());
+        userUpdateById.setEmail(user.getEmail());
+
+        userUpdateById.setStreet(user.getStreet());
+        userUpdateById.setCity(user.getCity());
+        userUpdateById.setZipCode(user.getZipCode());
+
+        userUpdateById.setIsActive(user.getIsActive());
+
+
+        return userRepository.save(userUpdateById);
+    }
+
+    @Override
+    public User updatePassword(long id, User user) {
+
+        // Get the user's data by id
+        User userUpdatePassword = userRepository.findByEmail(user.getEmail());
+
+        // check the email with the email of his account and what has written
+        if (userUpdatePassword == null) {
+            throw new EmailNotFoundException();
+        }
+        // Hash the password
+        userUpdatePassword.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userRepository.save(userUpdatePassword);
+
+        // Generate a token
+        EmailTokenDTO emailTokenDTO = new EmailTokenDTO();
+
+        // Send an email confirm of changing his password
+        String warnUpdatePasswordConfirmationUrl = "http://localhost:8080/api/user/" + id + "/change-password?token=" + emailTokenDTO.confirmationToken() + "&email=" + user.getEmail();
+
+        emailService.sendEmailUpdatePassword(user.getEmail(), warnUpdatePasswordConfirmationUrl);
+
+        return userUpdatePassword;
+
+    }
+
+    @Override
+    public User deleteUser(long id) {
+        User userDeleteById = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        // Not delete but change active from true to false
+        userDeleteById.setIsActive(false);
+        userRepository.save(userDeleteById);
+        return userDeleteById;
     }
 
     // It is from by UseDetailService

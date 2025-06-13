@@ -29,12 +29,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation:3.5.0'
 	implementation 'org.springframework.boot:spring-boot-starter-mail:3.5.0'
+	implementation 'org.springframework.boot:spring-boot-starter-hateoas:3.5.0'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.12.6'
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.6'
 	implementation 'org.liquibase:liquibase-core:4.32.0'
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8'
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.8.8'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.8.9'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
@@ -49,7 +50,7 @@ tasks.named('test') {
 
 tasks.javadoc {
 	options {
-		title = "Documentation Javadoc about my rentserve app"
+		title = "Documentation Javadoc about my rent-serve app"
 		links = [
 				'link', 'https://docs.spring.io/spring-framework/docs/current/javadoc-api/',
 				'link', 'https://docs.oracle.com/en/java/javase/21/docs/api/'

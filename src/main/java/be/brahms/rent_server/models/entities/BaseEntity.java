@@ -1,6 +1,8 @@
 package be.brahms.rent_server.models.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
@@ -9,6 +11,8 @@ import java.time.LocalDate;
  * It provides automatic management of creation and update timestamps.
  */
 @MappedSuperclass
+@Getter
+@Setter
 public abstract class BaseEntity {
 
     /**
