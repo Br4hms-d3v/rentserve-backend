@@ -203,6 +203,15 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public User deleteUser(long id) {
+        User userDeleteById = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        // Not delete but change active from true to false
+        userDeleteById.setIsActive(false);
+        userRepository.save(userDeleteById);
+        return userDeleteById;
+    }
+
     // It is from by UseDetailService
 
     /**

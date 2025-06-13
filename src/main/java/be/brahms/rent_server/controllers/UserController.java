@@ -149,4 +149,19 @@ public class UserController {
 
         return ResponseEntity.ok().body(userAssembler.toModel(userUpdatePasswordDto));
     }
+
+    /**
+     * Delete the user.
+     * But change the boolean not data
+     * From true to false
+     *
+     * @param id the user's ID
+     * @return the delete the user with links
+     */
+    @DeleteMapping("{id}/delete")
+    public ResponseEntity<EntityModel<UserDto>> deleteUser(@PathVariable long id) {
+        User deleteUser = userService.deleteUser(id);
+        UserDto userDeleteDto = UserDto.fromEntity(deleteUser);
+        return ResponseEntity.ok().body(userAssembler.toModel(userDeleteDto));
+    }
 }

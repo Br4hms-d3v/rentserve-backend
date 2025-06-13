@@ -41,7 +41,8 @@ public class UserAssembler implements RepresentationModelAssembler<UserDto, Enti
                 linkTo(methodOn(UserController.class).getUser(user.id())).withSelfRel(),
                 linkTo(methodOn(UserController.class).getUsers()).withRel("List of all users"),
                 linkTo(methodOn(UserController.class).getUserEdit(user.id(), null)).withRel("Edit the user"),
-                linkTo(methodOn(UserController.class).getUpdatePassword(user.id(), null)).withRel("Change password")
+                linkTo(methodOn(UserController.class).getUpdatePassword(user.id(), null)).withRel("Change password"),
+                linkTo(methodOn(UserController.class).deleteUser(user.id())).withRel("Delete the user")
         );
     }
 

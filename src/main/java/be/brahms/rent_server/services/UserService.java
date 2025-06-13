@@ -76,4 +76,12 @@ public interface UserService extends UserDetailsService {
      */
     User updatePassword(long id, User user);
 
+    /**
+     * Delete the user
+     *
+     * @param id The user's ID
+     * @return Disable the user true to false
+     */
+    User deleteUser(long id);
+
 }
