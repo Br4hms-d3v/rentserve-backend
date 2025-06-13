@@ -6,17 +6,15 @@ import be.brahms.rent_server.models.dtos.UserDto;
 import be.brahms.rent_server.models.dtos.UserRoleDto;
 import be.brahms.rent_server.models.entities.User;
 import be.brahms.rent_server.models.forms.UserUpdateForm;
+import be.brahms.rent_server.models.forms.UserUpdatePasswordForm;
 import be.brahms.rent_server.services.UserService;
 import be.brahms.rent_server.utilities.JwtUtil;
 import jakarta.validation.Valid;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 /**
  * This controller manages users
@@ -124,4 +122,31 @@ public class UserController {
         return ResponseEntity.ok().body(userAssembler.toModel(userUpdateDto));
     }
 
+    /**
+     * Change only the password
+     * Check if the user know his email before to change the password
+     * Check the password if it's the same, after that it save
+     *
+     * @param id   the user's data
+     * @param form the form to update the password only
+     * @return the link to update only password
+     */
+    @PatchMapping("{id}/change-password")
+    public ResponseEntity<EntityModel<UserDto>> getUpdatePassword(@PathVariable long id, @RequestBody @Valid UserUpdatePasswordForm form) {
+
+        User user = userService.findById(id);
+
+        if (!user.getEmail().equals(form.email())) {
+            throw new RuntimeException("Veuillez vérrifiez votre adresse e-mail");
+        }
+
+        if (!form.password().equals(form.comparePassword())) {
+            throw new RuntimeException("Le mot de passe doit être identique");
+        }
+
+        User userPassword = userService.updatePassword(id, form.toEntity());
+        UserDto userUpdatePasswordDto = UserDto.fromEntity(userPassword);
+
+        return ResponseEntity.ok().body(userAssembler.toModel(userUpdatePasswordDto));
+    }
 }

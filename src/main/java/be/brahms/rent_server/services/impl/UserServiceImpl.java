@@ -177,6 +177,32 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(userUpdateById);
     }
 
+    @Override
+    public User updatePassword(long id, User user) {
+
+        // Get the user's data by id
+        User userUpdatePassword = userRepository.findByEmail(user.getEmail());
+
+        // check the email with the email of his account and what has written
+        if (userUpdatePassword == null) {
+            throw new EmailNotFoundException();
+        }
+        // Hash the password
+        userUpdatePassword.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userRepository.save(userUpdatePassword);
+
+        // Generate a token
+        EmailTokenDTO emailTokenDTO = new EmailTokenDTO();
+
+        // Send an email confirm of changing his password
+        String warnUpdatePasswordConfirmationUrl = "http://localhost:8080/api/user/" + id + "/change-password?token=" + emailTokenDTO.confirmationToken() + "&email=" + user.getEmail();
+
+        emailService.sendEmailUpdatePassword(user.getEmail(), warnUpdatePasswordConfirmationUrl);
+
+        return userUpdatePassword;
+
+    }
+
     // It is from by UseDetailService
 
     /**

@@ -12,7 +12,7 @@ raw = '''
 {
   "name": "Wanda Wasselin",
   "firstName": "Wanda",
-  "birthdate": "1972-03-1",
+  "birthdate": "1972-03-17",
   "pseudo": "Wandi",
   "email": "wanda.wasselin@hotmail.com",
   "street": "1 rue van aa",

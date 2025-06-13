@@ -5,7 +5,6 @@ import be.brahms.rent_server.models.entities.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Service interface for managing user.
@@ -67,5 +66,14 @@ public interface UserService extends UserDetailsService {
      * @return the updated user
      */
     User updateUser(long id, User user);
+
+    /**
+     * Updates password .
+     *
+     * @param id   the user's ID
+     * @param user the new password for the user
+     * @return the updated password user
+     */
+    User updatePassword(long id, User user);
 
 }

@@ -168,6 +168,18 @@ public class User extends BaseEntity implements UserDetails {
         this.zipCode = zipCode;
     }
 
+    /**
+     * Update password for the user using form.
+     *
+     * @param email    the email address
+     * @param password the password
+     */
+    public User(String email, String password) {
+        this();
+        this.email = email;
+        this.password = password;
+    }
+
     // OneToMany
     /**
      * A set of second residences linked to the user.
