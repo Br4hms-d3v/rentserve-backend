@@ -2,8 +2,8 @@ package be.brahms.rent_serve.controllers;
 
 import be.brahms.rent_serve.models.dtos.user.UserTokenDTO;
 import be.brahms.rent_serve.models.entities.User;
-import be.brahms.rent_serve.models.forms.UserForm;
-import be.brahms.rent_serve.models.forms.UserLoginForm;
+import be.brahms.rent_serve.models.forms.user.UserForm;
+import be.brahms.rent_serve.models.forms.user.UserLoginForm;
 import be.brahms.rent_serve.services.UserService;
 import be.brahms.rent_serve.utilities.JwtUtil;
 import jakarta.validation.Valid;

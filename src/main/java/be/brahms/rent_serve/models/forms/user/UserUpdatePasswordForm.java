@@ -1,4 +1,4 @@
-package be.brahms.rent_serve.models.forms;
+package be.brahms.rent_serve.models.forms.user;
 
 import be.brahms.rent_serve.models.entities.User;
 import jakarta.validation.constraints.*;

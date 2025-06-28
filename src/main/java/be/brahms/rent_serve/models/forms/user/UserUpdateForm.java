@@ -1,4 +1,4 @@
-package be.brahms.rent_serve.models.forms;
+package be.brahms.rent_serve.models.forms.user;
 
 import be.brahms.rent_serve.models.entities.User;
 import jakarta.validation.constraints.*;
@@ -6,19 +6,18 @@ import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
 /**
- * Record UserForm into a User entity
+ * Form used to update a user's information
  *
- * @param name      the user’s name
- * @param firstName the user’s firstname
+ * @param name      the user’s name (not blank)
+ * @param firstName the user’s firstname (not blank)
  * @param birthdate the user’s birthdate
- * @param pseudo    the chosen nickname
- * @param email     the email address
- * @param password  password
+ * @param pseudo    the user's pseudo (optional if email is used)
+ * @param email     Convert to Markdown documentation comment
  * @param street    the street
  * @param city      the city
  * @param zipCode   postal code
  */
-public record UserForm(
+public record UserUpdateForm(
         @NotBlank
         String name,
         @NotBlank
@@ -33,8 +32,6 @@ public record UserForm(
         @NotBlank
         String email,
         @NotBlank
-        String password,
-        @NotBlank
         String street,
         @NotBlank
         String city,
@@ -42,11 +39,11 @@ public record UserForm(
         String zipCode
 ) {
     /**
-     * Converts this UserForm into a User entity
+     * Converts this UserUpdateForm into a User entity
      *
      * @return a new instance initialized with data from this form
      */
     public User toEntity() {
-        return new User(this.name, this.firstName, this.birthdate, this.pseudo, this.email, this.password, this.street, this.city, this.zipCode);
+        return new User(this.name, this.firstName, this.birthdate, this.pseudo, this.email, this.street, this.city, this.zipCode);
     }
 }
