@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * This controller manages authentication.
- * It has method to register a new user.
+ * It has a method to register a new user.
  */
 @RestController
 @RequestMapping("/api/auth/")
@@ -40,7 +40,7 @@ public class AuthController {
      * @return user info and token
      */
     @PostMapping("registration")
-    public ResponseEntity<UserTokenDTO> registre(@RequestBody @Valid UserForm form) {
+    public ResponseEntity<UserTokenDTO> register(@RequestBody @Valid UserForm form) {
         User registerUser = userService.register(form.toEntity());
         String token = jwtUtil.generateToken(registerUser);
         UserTokenDTO userTkDto = UserTokenDTO.fromEntity(registerUser);
@@ -49,7 +49,7 @@ public class AuthController {
     }
 
     /**
-     * This method connect a user.
+     * This method connects a user.
      * It makes a token and sends back user info with the token.
      *
      * @param form the form with user data
