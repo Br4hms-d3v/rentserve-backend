@@ -123,7 +123,8 @@ public class UserServiceImpl implements UserService {
         }
 
         if (!bCryptPasswordEncoder.matches(user.getPassword(), userLogin.getPassword())) {
-            throw new RuntimeException("Le mot de passe n'est pas correct !'");
+            throw new InvalidPasswordException("Le mot de passe n'est pas correct !'");
+
         }
 
         return userLogin;
@@ -150,7 +151,7 @@ public class UserServiceImpl implements UserService {
         List<User> listOfUserByRole = userRepository.listUsersByRole(role);
 
         if (listOfUserByRole.isEmpty()) {
-            throw new UserException("Aucun n'a le role : " + role);
+            throw new RuntimeException("Aucun n'a le role : " + role);
         }
 
         return listOfUserByRole;
