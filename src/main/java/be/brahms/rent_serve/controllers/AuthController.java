@@ -8,10 +8,7 @@ import be.brahms.rent_serve.services.UserService;
 import be.brahms.rent_serve.utilities.JwtUtil;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * This controller manages authentication.
@@ -65,6 +62,6 @@ public class AuthController {
         UserTokenDTO userTkDto = UserTokenDTO.fromEntity(userLogin);
         userTkDto.setToken(token);
 
-        return ResponseEntity.ok().body(userTkDto);
+        return ResponseEntity.ok(userTkDto);
     }
 }

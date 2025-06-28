@@ -123,7 +123,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (!bCryptPasswordEncoder.matches(user.getPassword(), userLogin.getPassword())) {
-            throw new RuntimeException("Le mot de passe n'existe pas");
+            throw new RuntimeException("Le mot de passe n'est pas correct !'");
         }
 
         return userLogin;
