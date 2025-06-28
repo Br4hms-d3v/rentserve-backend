@@ -2,8 +2,8 @@ package be.brahms.rent_serve.controllers;
 
 import be.brahms.rent_serve.enums.Role;
 import be.brahms.rent_serve.hateaos.UserAssembler;
-import be.brahms.rent_serve.models.dtos.UserDto;
-import be.brahms.rent_serve.models.dtos.UserRoleDto;
+import be.brahms.rent_serve.models.dtos.user.UserDto;
+import be.brahms.rent_serve.models.dtos.user.UserRoleDto;
 import be.brahms.rent_serve.models.entities.User;
 import be.brahms.rent_serve.models.forms.UserUpdateForm;
 import be.brahms.rent_serve.models.forms.UserUpdatePasswordForm;

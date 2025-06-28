@@ -1,8 +1,8 @@
 package be.brahms.rent_serve.hateaos;
 
 import be.brahms.rent_serve.controllers.UserController;
-import be.brahms.rent_serve.models.dtos.UserDto;
-import be.brahms.rent_serve.models.dtos.UserRoleDto;
+import be.brahms.rent_serve.models.dtos.user.UserDto;
+import be.brahms.rent_serve.models.dtos.user.UserRoleDto;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;

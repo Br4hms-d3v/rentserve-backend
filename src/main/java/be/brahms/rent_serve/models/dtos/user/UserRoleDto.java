@@ -1,4 +1,4 @@
-package be.brahms.rent_serve.models.dtos;
+package be.brahms.rent_serve.models.dtos.user;
 
 import be.brahms.rent_serve.enums.Role;
 import be.brahms.rent_serve.models.entities.User;
