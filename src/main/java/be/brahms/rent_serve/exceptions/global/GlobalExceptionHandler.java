@@ -4,8 +4,10 @@ import be.brahms.rent_serve.exceptions.dtos.ApiError;
 import be.brahms.rent_serve.exceptions.user.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.View;
 
 /**
  * Global exception handler for the application.
@@ -14,13 +16,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private final View error;
+
     /**
      * Default constructor for GlobalExceptionHandler.
      * <p>
      * This constructor is used to create an instance of the exception handler.
      * </p>
      */
-    public GlobalExceptionHandler() {
+    public GlobalExceptionHandler(View error) {
+        this.error = error;
     }
 
     /**
@@ -154,6 +159,16 @@ public class GlobalExceptionHandler {
                 except.getMessage()
         );
         return new ResponseEntity<>(apiError, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiError> handleMethodArgumentNotValidException(MethodArgumentNotValidException except) {
+        ApiError apiError = ApiError.of(
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                "La date de naissance doit être antérieure à la date actuelle"
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 
     /**

@@ -23,7 +23,7 @@ public record UserForm(
         String name,
         @NotBlank
         String firstName,
-        @Past
+        @Past(message = "La date de naissance doit être dans le passé!")
         @NotNull
         LocalDate birthdate,
         @NotBlank
