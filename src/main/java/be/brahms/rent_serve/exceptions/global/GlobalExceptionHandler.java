@@ -171,6 +171,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity<ApiError> handleUserException(UserException except) {
+        ApiError apiError = ApiError.of(
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                except.getMessage()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
     /**
      * Handles any RuntimeException.
      *

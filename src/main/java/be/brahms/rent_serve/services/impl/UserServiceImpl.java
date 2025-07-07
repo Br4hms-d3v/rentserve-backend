@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +46,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * This method registers a new user.
+     * Check before the user has been more than 18 years old
      * It sets the role to MEMBER, hashes the password,
      * and makes the user not active.
      * It also makes a token (not used here).
@@ -55,6 +58,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User register(User user) {
+        LocalDateTime now = LocalDateTime.now();
 
         // Check if exist an email
         if (userRepository.existsByEmail(user.getEmail())) {
@@ -66,20 +70,26 @@ public class UserServiceImpl implements UserService {
             throw new PseudoExistException();
         }
 
-        // User start has a member
-        user.setRole(Role.MEMBER);
-        // Hash the password
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        // User is not active but it is created
-        user.setIsActive(false);
+        // Check if the user has been more than 18 years old
+        if (user.getBirthdate().isBefore(ChronoLocalDate.from(now.minusYears(18)))) {
 
-        // Generate a token
-        EmailTokenDTO emailTokenDTO = new EmailTokenDTO();
+            // User start has a member
+            user.setRole(Role.MEMBER);
+            // Hash the password
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            // User is not active but it is created
+            user.setIsActive(false);
 
-        // Send email for confirmation of registration account
-        String confirmationUrl = "http://localhost:8080/api/mail/confirmation?token=" + emailTokenDTO.confirmationToken() + "&email=" + user.getEmail();
+            // Generate a token
+            EmailTokenDTO emailTokenDTO = new EmailTokenDTO();
 
-        emailService.sendMailConfirmation(user.getEmail(), confirmationUrl);
+            // Send email for confirmation of registration account
+            String confirmationUrl = "http://localhost:8080/api/mail/confirmation?token=" + emailTokenDTO.confirmationToken() + "&email=" + user.getEmail();
+
+            emailService.sendMailConfirmation(user.getEmail(), confirmationUrl);
+        } else {
+            throw new UserException("Il n'est pas possible pour vous de vous inscrire car vous êtes mineur.");
+        }
 
         return userRepository.save(user);
     }
