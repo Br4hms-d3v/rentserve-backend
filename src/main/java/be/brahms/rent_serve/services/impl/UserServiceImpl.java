@@ -171,18 +171,32 @@ public class UserServiceImpl implements UserService {
     public User updateUser(long id, User user) {
 
         User userUpdateById = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        boolean userEmailExist =  userRepository.existsByEmail(user.getEmail());
+        boolean userPseudoExist =  userRepository.existsByPseudo(user.getPseudo());
+        boolean userIsActivate = user.getIsActive();
 
         userUpdateById.setName(user.getName());
         userUpdateById.setFirstName(user.getFirstName());
         userUpdateById.setBirthdate(user.getBirthdate());
+
+        if(userPseudoExist && !userUpdateById.getPseudo().equals(user.getPseudo())) {
+            throw new PseudoExistException();
+        }
         userUpdateById.setPseudo(user.getPseudo());
+
+        if(userEmailExist && !userUpdateById.getEmail().equals(user.getEmail())) {
+            throw new EmailExistException();
+        }
         userUpdateById.setEmail(user.getEmail());
 
         userUpdateById.setStreet(user.getStreet());
         userUpdateById.setCity(user.getCity());
         userUpdateById.setZipCode(user.getZipCode());
 
-        userUpdateById.setIsActive(user.getIsActive());
+        if(userIsActivate) {
+            userUpdateById.setIsActive(user.getIsActive());
+        }
+        userUpdateById.setIsActive(true);
 
 
         return userRepository.save(userUpdateById);
