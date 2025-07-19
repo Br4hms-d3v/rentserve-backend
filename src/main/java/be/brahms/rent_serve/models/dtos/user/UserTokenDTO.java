@@ -16,6 +16,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 public class UserTokenDTO {
+    private Long id;
     private String name;
     private String firstName;
     private LocalDate birthdate;
@@ -40,6 +41,7 @@ public class UserTokenDTO {
      */
     public static UserTokenDTO fromEntity(User user) {
         UserTokenDTO userToknDto = new UserTokenDTO();
+        userToknDto.setId(user.getId());
         userToknDto.setName(user.getName());
         userToknDto.setFirstName(user.getFirstName());
         userToknDto.setBirthdate(user.getBirthdate());
