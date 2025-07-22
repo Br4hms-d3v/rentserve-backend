@@ -27,7 +27,7 @@ public class JwtConfig {
      * The secret key used to sign the JWT.
      * It is a byte array that starts with "secret key".
      */
-    private final byte[] secret = "ThisIsAnSecretForAp-pRentServe-WithSpringbootAndAngular".getBytes(StandardCharsets.UTF_8);
+    private final byte[] secret = "ThisIsAnSecretForAppRentServeWithSpringbootAndAngularWithSHA384".getBytes(StandardCharsets.UTF_8);
 
     /**
      * The time in seconds before the JWT expires.

@@ -12,6 +12,7 @@ import be.brahms.rent_serve.utilities.JwtUtil;
 import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,20 +47,6 @@ public class UserController {
     }
 
     /**
-     * This method gets a user by their ID.
-     *
-     * @param id The ID of the user we want to find.
-     * @return A response with the user data and link.
-     */
-    @GetMapping("{id}")
-    public ResponseEntity<EntityModel<UserDto>> getUser(@PathVariable long id) {
-        User user = userService.findById(id);
-        UserDto userDto = UserDto.fromEntity(user);
-
-        return ResponseEntity.ok().body(userAssembler.toModel(userDto));
-    }
-
-    /**
      * Get all users from the database.
      * <p>
      * This method returns a list of all users.
@@ -69,6 +56,7 @@ public class UserController {
      * @return ResponseEntity with a list of user models
      */
     @GetMapping("list")
+    @PreAuthorize("hasRole('MEMBER')")
     public ResponseEntity<List<EntityModel<UserDto>>> getUsers() {
         List<User> userList = userService.findAllUsers();
         List<UserDto> userDtoList = userList
@@ -82,6 +70,21 @@ public class UserController {
                 .toList();
 
         return ResponseEntity.ok().body(listUserDtoModel);
+    }
+
+    /**
+     * This method gets a user by their ID.
+     *
+     * @param id The ID of the user we want to find.
+     * @return A response with the user data and link.
+     */
+    @GetMapping("{id}")
+    @PreAuthorize("hasRole('MEMBER')")
+    public ResponseEntity<EntityModel<UserDto>> getUser(@PathVariable long id) {
+        User user = userService.findById(id);
+        UserDto userDto = UserDto.fromEntity(user);
+
+        return ResponseEntity.ok().body(userAssembler.toModel(userDto));
     }
 
     /**

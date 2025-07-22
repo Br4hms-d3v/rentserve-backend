@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return The user.
      */
     User findByEmail(String email);
+
+    Optional<User> findByPseudo(String pseudo);
 
     /**
      * Find users by their role.

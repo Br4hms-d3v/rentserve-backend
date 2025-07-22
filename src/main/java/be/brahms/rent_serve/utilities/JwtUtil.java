@@ -39,8 +39,8 @@ public class JwtUtil {
      * @return A string representation of the generated JWT.
      */
     public String generateToken(User user) {
-        return jwtBuilder.claim("email", user.getEmail())
-                .claim("pseudo", user.getPseudo())
+        return jwtBuilder.claim("pseudo", user.getPseudo())
+                .claim("role", user.getRole().toString())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + jwtConfig.expireAt * 1_000L))
                 .compact();
@@ -55,16 +55,6 @@ public class JwtUtil {
      */
     public Claims getClaims(String token) {
         return jwtParser.parseSignedClaims(token).getPayload();
-    }
-
-    /**
-     * Retrieves the email from the given JWT token.
-     *
-     * @param token The JWT string to be parsed.
-     * @return The email contained in the token.
-     */
-    public String getEmail(String token) {
-        return getClaims(token).get("email", String.class);
     }
 
     /**

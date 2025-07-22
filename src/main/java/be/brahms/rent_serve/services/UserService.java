@@ -10,7 +10,7 @@ import java.util.List;
  * Service interface for managing user.
  * Defines business operations related to Bill entities.
  */
-public interface UserService extends UserDetailsService {
+public interface UserService {
 
     /**
      * This method saves a new user.

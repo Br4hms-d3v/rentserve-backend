@@ -8,8 +8,6 @@ import be.brahms.rent_serve.repositories.UserRepository;
 import be.brahms.rent_serve.services.UserService;
 import be.brahms.rent_serve.services.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -56,7 +54,6 @@ public class UserServiceImpl implements UserService {
      * @param user the user to register
      * @return the saved user
      */
-    @Override
     public User register(User user) {
         LocalDateTime now = LocalDateTime.now();
 
@@ -94,7 +91,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    @Override
     public void activateUser(String email) {
         User userActivate = userRepository.findByEmail(email);
 
@@ -106,7 +102,6 @@ public class UserServiceImpl implements UserService {
         userRepository.save(userActivate);
     }
 
-    @Override
     public User login(User user) {
 
         Optional<User> foundEmailOrPseudo = userRepository.findByEmailOrPseudo(user.getEmail(), user.getPseudo());
@@ -140,12 +135,10 @@ public class UserServiceImpl implements UserService {
         return userLogin;
     }
 
-    @Override
     public User findById(long id) {
         return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
-    @Override
     public List<User> findAllUsers() {
 
         List<User> listOfUsers = userRepository.findAll();
@@ -156,7 +149,6 @@ public class UserServiceImpl implements UserService {
         return listOfUsers;
     }
 
-    @Override
     public List<User> findAllUsersByRole(Role role) {
         List<User> listOfUserByRole = userRepository.listUsersByRole(role);
 
@@ -167,24 +159,23 @@ public class UserServiceImpl implements UserService {
         return listOfUserByRole;
     }
 
-    @Override
     public User updateUser(long id, User user) {
 
         User userUpdateById = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
-        boolean userEmailExist =  userRepository.existsByEmail(user.getEmail());
-        boolean userPseudoExist =  userRepository.existsByPseudo(user.getPseudo());
+        boolean userEmailExist = userRepository.existsByEmail(user.getEmail());
+        boolean userPseudoExist = userRepository.existsByPseudo(user.getPseudo());
         boolean userIsActivate = user.getIsActive();
 
         userUpdateById.setName(user.getName());
         userUpdateById.setFirstName(user.getFirstName());
         userUpdateById.setBirthdate(user.getBirthdate());
 
-        if(userPseudoExist && !userUpdateById.getPseudo().equals(user.getPseudo())) {
+        if (userPseudoExist && !userUpdateById.getPseudo().equals(user.getPseudo())) {
             throw new PseudoExistException();
         }
         userUpdateById.setPseudo(user.getPseudo());
 
-        if(userEmailExist && !userUpdateById.getEmail().equals(user.getEmail())) {
+        if (userEmailExist && !userUpdateById.getEmail().equals(user.getEmail())) {
             throw new EmailExistException();
         }
         userUpdateById.setEmail(user.getEmail());
@@ -193,16 +184,14 @@ public class UserServiceImpl implements UserService {
         userUpdateById.setCity(user.getCity());
         userUpdateById.setZipCode(user.getZipCode());
 
-        if(userIsActivate) {
+        if (userIsActivate) {
             userUpdateById.setIsActive(user.getIsActive());
         }
         userUpdateById.setIsActive(true);
 
-
         return userRepository.save(userUpdateById);
     }
 
-    @Override
     public User updatePassword(long id, User user) {
 
         // Get the user's data by id
@@ -228,7 +217,6 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    @Override
     public User deleteUser(long id) {
         User userDeleteById = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         // Not delete but change active from true to false
@@ -237,18 +225,6 @@ public class UserServiceImpl implements UserService {
         return userDeleteById;
     }
 
-    // It is from by UseDetailService
 
-    /**
-     * This method finds a user by username.
-     * Now, it returns nothing (null).
-     *
-     * @param username the username to find
-     * @return the user details or null
-     * @throws UsernameNotFoundException if user is not found
-     */
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
-    }
+
 }
