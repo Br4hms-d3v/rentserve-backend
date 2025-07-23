@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 /**
- * This class provides utility methods for working with JSON Web Tokens (JWT).
- * It includes methods for generating and validating JWTs.
+ * This class helps with JSON Web Tokens (JWT).
+ * It can create, read, and check JWT tokens.
  */
 @Component
 public class JwtUtil {
@@ -22,9 +22,9 @@ public class JwtUtil {
     private final JwtBuilder jwtBuilder; // Jwt builder for generating token
 
     /**
-     * Constructs for JwtUtil.
+     * Creates a JwtUtil with the given configuration.
      *
-     * @param config The JwtConf object containing configuration details.
+     * @param config The JwtConfig object with secret key and expiration time.
      */
     public JwtUtil(JwtConfig config) {
         this.jwtConfig = config;
@@ -33,10 +33,10 @@ public class JwtUtil {
     }
 
     /**
-     * Generates a JWT for the given User Entity object.
+     * Creates a JWT token for a user.
      *
-     * @param user The User Entity object containing user information.
-     * @return A string representation of the generated JWT.
+     * @param user The user who will get the token.
+     * @return A JWT token string.
      */
     public String generateToken(User user) {
         return jwtBuilder.claim("pseudo", user.getPseudo())
@@ -47,31 +47,30 @@ public class JwtUtil {
     }
 
     /**
-     * Retrieves claims from the given JWT token.
-     * Recup reclamation
+     * Gets all claims (data) from the token.
      *
-     * @param token The JWT string to be parsed.
-     * @return Claims extracted from the token.
+     * @param token The JWT token.
+     * @return Claims (like pseudo and role).
      */
     public Claims getClaims(String token) {
         return jwtParser.parseSignedClaims(token).getPayload();
     }
 
     /**
-     * Retrieves the pseudo from the given JWT token.
+     * Gets the pseudo (username) from the token.
      *
-     * @param token The JWT string to be parsed.
-     * @return The pseudo contained in the token.
+     * @param token The JWT token.
+     * @return The pseudo string.
      */
     public String getPseudo(String token) {
         return getClaims(token).get("pseudo", String.class);
     }
 
     /**
-     * Checks the validity of a JSON Web Token (JWT).
+     * Checks if the token is still valid (not expired).
      *
-     * @param token The JWT string to be validated.
-     * @return True if the token is valid; false otherwise.
+     * @param token The JWT token.
+     * @return true if the token is valid, false if it is expired or not correct.
      */
     public boolean isValidToken(String token) {
         Claims claims = getClaims(token);
