@@ -2,7 +2,6 @@ package be.brahms.rent_serve.services;
 
 import be.brahms.rent_serve.enums.Role;
 import be.brahms.rent_serve.models.entities.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 

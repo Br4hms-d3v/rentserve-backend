@@ -22,7 +22,8 @@ public class GlobalExceptionHandler {
      * Default constructor for GlobalExceptionHandler.
      * <p>
      * This constructor is used to create an instance of the exception handler.
-     * </p>
+     *
+     * @param error the view used to show error messages to the user
      */
     public GlobalExceptionHandler(View error) {
         this.error = error;
@@ -161,6 +162,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.UNAUTHORIZED);
     }
 
+    /**
+     * Handles errors when method arguments are not valid.
+     *
+     * @param except the exception with details about invalid arguments
+     * @return a response with an error message and HTTP 400 status
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError> handleMethodArgumentNotValidException(MethodArgumentNotValidException except) {
         ApiError apiError = ApiError.of(
@@ -171,6 +178,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Handles errors specific to user operations.
+     *
+     * @param except the UserException containing the error message
+     * @return a response with the error message and HTTP 400 status
+     */
     @ExceptionHandler(UserException.class)
     public ResponseEntity<ApiError> handleUserException(UserException except) {
         ApiError apiError = ApiError.of(

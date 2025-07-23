@@ -51,6 +51,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
      */
     User findByEmail(String email);
 
+    /**
+     * Find a user by their pseudo (username).
+     *
+     * @param pseudo the username to search for
+     * @return an Optional containing the User if found, or empty if not
+     */
     Optional<User> findByPseudo(String pseudo);
 
     /**

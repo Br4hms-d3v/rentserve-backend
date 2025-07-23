@@ -16,10 +16,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 /**
- * This class is a filter that checks the JWT (JSON Web Token) in the request header.
- * It is used to authenticate the user and set the security context if the token is valid.
- * <p>
- * It extends OncePerRequestFilter to ensure the filter runs once per request.
+ * This filter checks each HTTP request for a JWT token.
+ * If the token is valid, it tells Spring Security who the user is.
  */
 @Configuration
 public class JwtFilter extends OncePerRequestFilter {
@@ -28,10 +26,10 @@ public class JwtFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
 
     /**
-     * Constructor for JwtFilter.
+     * Creates a JwtFilter with the needed services.
      *
-     * @param jwtUtil            The utility class for handling JWT operations.
-     * @param userDetailsService The service for loading user details.
+     * @param jwtUtil            the helper to read and check tokens
+     * @param userDetailsService the service to find users by pseudo
      */
     @Autowired
     public JwtFilter(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
@@ -40,15 +38,15 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     /**
-     * This method is called for every HTTP request.
-     * It checks if there is a JWT token in the request and validates it.
-     * If the token is valid, it sets the authentication in the security context.
+     * This method runs for every HTTP request.
+     * It checks if the Authorization header contains a Bearer token.
+     * If the token is valid, the user is set in the SecurityContext.
      *
-     * @param request     The HTTP request.
-     * @param response    The HTTP response.
-     * @param filterChain The filter chain that allows the request to continue.
-     * @throws ServletException If a servlet error occurs.
-     * @throws IOException      If an I/O error occurs.
+     * @param request     the HTTP request
+     * @param response    the HTTP response
+     * @param filterChain the rest of the filters
+     * @throws ServletException if there is a problem with the request
+     * @throws IOException      if there is a problem with input/output
      */
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader("Authorization"); // Get the "authorization" for the request from header
@@ -56,7 +54,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String[] authorizations = authorizationHeader.split(" ");
 
-            // Vérification de la taille du tableau pour éviter ArrayIndexOutOfBoundsException
+            // Check if the header is present and starts with "Bearer"
             if (authorizations.length == 2) {
                 String type = authorizations[0]; // "Bearer"
                 String token = authorizations[1]; // Le JWT token
@@ -64,24 +62,22 @@ public class JwtFilter extends OncePerRequestFilter {
                 if (type.equals("Bearer") && !token.isEmpty()) { // Check if it's a Bearer token and not empty
                     if (jwtUtil.isValidToken(token)) { // Check valid token
                         String pseudo = jwtUtil.getPseudo(token);
-                        System.out.println("Token is valid for pseudo: " + pseudo);  // Log
 
                         UserDetails user = userDetailsService.loadUserByUsername(pseudo); // Load user details by pseudo
-                        System.out.println("User roles: " + user.getAuthorities());  // Log des rôles de l'utilisateur
 
                         UsernamePasswordAuthenticationToken uPaT = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                         SecurityContextHolder.getContext().setAuthentication(uPaT); // Set authentication in security context
                     }
                 }
             } else {
-                // Si le format est incorrect (par exemple, il n'y a pas de token après "Bearer")
+                // Token format is wrong (for example: only "Bearer" without token)
                 throw new ServletException("Invalid Authorization header format.");
             }
         } else {
-            // Si l'en-tête Authorization est manquant ou mal formé
+            // No Authorization header or does not start with "Bearer"
             System.out.println("Missing or incorrect Authorization header.");
         }
-
+        // Continue with the rest of the request
         filterChain.doFilter(request, response); // continue the filter chain
     }
 

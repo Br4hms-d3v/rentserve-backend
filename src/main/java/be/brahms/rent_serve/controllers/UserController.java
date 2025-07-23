@@ -8,11 +8,12 @@ import be.brahms.rent_serve.models.entities.User;
 import be.brahms.rent_serve.models.forms.user.UserUpdateForm;
 import be.brahms.rent_serve.models.forms.user.UserUpdatePasswordForm;
 import be.brahms.rent_serve.services.UserService;
-import be.brahms.rent_serve.utilities.JwtUtil;
 import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,19 +31,16 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final JwtUtil jwtUtil;
     private final UserAssembler userAssembler;
 
     /**
      * This is the constructor for UserController.
      *
      * @param userService   This is the service to manage users.
-     * @param jwtUtil       This is a tool to work with JWT tokens.
      * @param userAssembler This helps to change user data to link.
      */
-    public UserController(UserService userService, JwtUtil jwtUtil, UserAssembler userAssembler) {
+    public UserController(UserService userService, UserAssembler userAssembler) {
         this.userService = userService;
-        this.jwtUtil = jwtUtil;
         this.userAssembler = userAssembler;
     }
 
@@ -111,18 +109,29 @@ public class UserController {
     }
 
     /**
-     * Updates a user by ID with form data.
+     * Update the user with the given ID.
      *
-     * @param id   the user's ID
-     * @param form the form with new user data
-     * @return the updated user with links
+     * <p>This method allows a user with role MEMBER to update their own account.
+     * It checks if the user making the request is the same as the user in the form.</p>
+     *
+     * @param id   the ID of the user to update
+     * @param form the new data to update the user (must be valid)
+     * @return a response with the updated user if successful,
+     * or a bad request response if the user is not allowed
      */
     @PutMapping("{id}/edit")
+    @PreAuthorize("hasRole('MEMBER')")
     public ResponseEntity<EntityModel<UserDto>> getUserEdit(@PathVariable long id, @RequestBody @Valid UserUpdateForm form) {
-        User updateUser = userService.updateUser(id, form.toEntity());
-        UserDto userUpdateDto = UserDto.fromEntity(updateUser);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        return ResponseEntity.ok().body(userAssembler.toModel(userUpdateDto));
+        if (authentication.getName().equals(form.pseudo())) {
+            User updateUser = userService.updateUser(id, form.toEntity());
+            UserDto userUpdateDto = UserDto.fromEntity(updateUser);
+
+            return ResponseEntity.ok().body(userAssembler.toModel(userUpdateDto));
+        }
+        return ResponseEntity.badRequest().build();
+
     }
 
     /**
