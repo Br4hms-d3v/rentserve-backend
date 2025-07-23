@@ -53,22 +53,36 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader("Authorization"); // Get the "authorization" for the request from header
 
-        if (authorizationHeader != null) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String[] authorizations = authorizationHeader.split(" ");
-            String type = authorizations[0];
-            String token = authorizations[1];
 
-            if (type.equals("Bearer") && !token.isEmpty()) { // Check if it's a Bearer token and not emplty
-                if (jwtUtil.isValidToken(token)) { // Check valid token
-                    String email = jwtUtil.getEmail(token);
-//                    String pseudo = jwtUtil.getPseudo(token);
-                    UserDetails user = userDetailsService.loadUserByUsername(email); //Load user details by email
+            // Vérification de la taille du tableau pour éviter ArrayIndexOutOfBoundsException
+            if (authorizations.length == 2) {
+                String type = authorizations[0]; // "Bearer"
+                String token = authorizations[1]; // Le JWT token
 
-                    UsernamePasswordAuthenticationToken uPaT = new UsernamePasswordAuthenticationToken(user, token, user.getAuthorities());
-                    SecurityContextHolder.getContext().setAuthentication(uPaT); // Set a authentication in the security context
+                if (type.equals("Bearer") && !token.isEmpty()) { // Check if it's a Bearer token and not empty
+                    if (jwtUtil.isValidToken(token)) { // Check valid token
+                        String pseudo = jwtUtil.getPseudo(token);
+                        System.out.println("Token is valid for pseudo: " + pseudo);  // Log
+
+                        UserDetails user = userDetailsService.loadUserByUsername(pseudo); // Load user details by pseudo
+                        System.out.println("User roles: " + user.getAuthorities());  // Log des rôles de l'utilisateur
+
+                        UsernamePasswordAuthenticationToken uPaT = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                        SecurityContextHolder.getContext().setAuthentication(uPaT); // Set authentication in security context
+                    }
                 }
+            } else {
+                // Si le format est incorrect (par exemple, il n'y a pas de token après "Bearer")
+                throw new ServletException("Invalid Authorization header format.");
             }
+        } else {
+            // Si l'en-tête Authorization est manquant ou mal formé
+            System.out.println("Missing or incorrect Authorization header.");
         }
+
         filterChain.doFilter(request, response); // continue the filter chain
     }
+
 }

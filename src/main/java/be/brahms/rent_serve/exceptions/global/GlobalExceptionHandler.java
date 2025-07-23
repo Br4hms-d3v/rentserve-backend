@@ -188,7 +188,12 @@ public class GlobalExceptionHandler {
      * @return A response with a bad request status and the error message.
      */
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> handleRuntimeException(RuntimeException except) {
-        return new ResponseEntity<>(except.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ApiError> handleRuntimeException(RuntimeException except) {
+        ApiError apiError = ApiError.of(
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                except.getMessage()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 }
