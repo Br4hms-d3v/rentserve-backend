@@ -144,6 +144,7 @@ public class UserController {
      * @return the link to update only password
      */
     @PatchMapping("{id}/change-password")
+    @PreAuthorize("hasRole('MEMBER')")
     public ResponseEntity<EntityModel<UserDto>> getUpdatePassword(@PathVariable long id, @RequestBody @Valid UserUpdatePasswordForm form) {
 
         User user = userService.findById(id);
@@ -171,6 +172,7 @@ public class UserController {
      * @return the delete the user with links
      */
     @DeleteMapping("{id}/delete")
+    @PreAuthorize("hasRole('MEMBER')")
     public ResponseEntity<EntityModel<UserDto>> deleteUser(@PathVariable long id) {
         User deleteUser = userService.deleteUser(id);
         UserDto userDeleteDto = UserDto.fromEntity(deleteUser);
