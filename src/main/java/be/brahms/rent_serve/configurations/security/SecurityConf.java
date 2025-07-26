@@ -31,7 +31,8 @@ public class SecurityConf {
     /**
      * Constructor security configuration by default
      */
-    public SecurityConf() {}
+    public SecurityConf() {
+    }
 
     /**
      * Configures the security rules for HTTP requests.
@@ -47,6 +48,7 @@ public class SecurityConf {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/user/**").hasRole("MEMBER")
+                        .requestMatchers("/api/categories/**").hasAnyRole("MEMBER", "MODERATOR", "ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
