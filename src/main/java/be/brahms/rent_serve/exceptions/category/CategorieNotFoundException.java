@@ -5,7 +5,7 @@ package be.brahms.rent_serve.exceptions.category;
  */
 public class CategorieNotFoundException extends CategoryException {
     /**
-     * Make a new exception when the user doesn't exist.
+     * Make a new exception when the category doesn't exist.
      *
      * @param message the error message
      */

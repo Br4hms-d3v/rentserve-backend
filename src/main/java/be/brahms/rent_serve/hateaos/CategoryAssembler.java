@@ -2,6 +2,7 @@ package be.brahms.rent_serve.hateaos;
 
 import be.brahms.rent_serve.controllers.CategoryController;
 import be.brahms.rent_serve.models.dtos.catetory.CategoryDto;
+import be.brahms.rent_serve.models.forms.category.CategoryForm;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
@@ -35,7 +36,11 @@ public class CategoryAssembler implements RepresentationModelAssembler<CategoryD
      */
     @Override
     public EntityModel<CategoryDto> toModel(CategoryDto category) {
+        CategoryForm categForm = new CategoryForm(category.nameCategory());
+
         return EntityModel.of(category,
-                linkTo(methodOn(CategoryController.class).getCategories()).withRel("list of all Categories"));
+                linkTo(methodOn(CategoryController.class).getCategories()).withRel("list of all Categories"),
+                linkTo(methodOn(CategoryController.class).create(categForm)).withRel("list of all Categories")
+        );
     }
 }

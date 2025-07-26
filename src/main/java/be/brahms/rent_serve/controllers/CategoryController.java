@@ -3,13 +3,13 @@ package be.brahms.rent_serve.controllers;
 import be.brahms.rent_serve.hateaos.CategoryAssembler;
 import be.brahms.rent_serve.models.dtos.catetory.CategoryDto;
 import be.brahms.rent_serve.models.entities.Category;
+import be.brahms.rent_serve.models.forms.category.CategoryForm;
 import be.brahms.rent_serve.services.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -57,9 +57,18 @@ public class CategoryController {
 
     /**
      * Create a new category
-     * */
-//    public ResponseEntity<> {
-//    }
+     */
+    @PostMapping("new/category")
+    @PreAuthorize("hasAnyRole('MODERATOR','ADMIN')")
+    public ResponseEntity<EntityModel<CategoryDto>> create(@RequestBody @Valid CategoryForm form) {
+        Category createCategory = categoryService.create(form.toEntity());
+        CategoryDto categoryDto = CategoryDto.fromEntity(createCategory);
+
+        EntityModel<CategoryDto> categoryModel = categoryAssembler.toModel(categoryDto);
+
+        return ResponseEntity.ok().body(categoryModel);
+
+    }
 
     /**
      * Edit category

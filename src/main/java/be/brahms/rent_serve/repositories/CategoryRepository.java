@@ -10,4 +10,12 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
+
+    /**
+     * Check if a category exists with this name.
+     *
+     * @param nameCategory the name of category to check
+     * @return true if name of category exists
+     */
+    boolean existsByNameCategory(String nameCategory);
 }

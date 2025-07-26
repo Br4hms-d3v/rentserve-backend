@@ -16,4 +16,12 @@ public interface CategoryService {
      * @return list of all categories
      */
     List<Category> findAllCategories();
+
+    /**
+     * This method saves a new category.
+     *
+     * @param category the creation a new category
+     * @return the saved category
+     */
+    Category create(Category category);
 }
