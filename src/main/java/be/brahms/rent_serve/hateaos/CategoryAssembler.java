@@ -40,7 +40,8 @@ public class CategoryAssembler implements RepresentationModelAssembler<CategoryD
 
         return EntityModel.of(category,
                 linkTo(methodOn(CategoryController.class).getCategories()).withRel("list of all Categories"),
-                linkTo(methodOn(CategoryController.class).create(categForm)).withRel("list of all Categories")
+                linkTo(methodOn(CategoryController.class).create(categForm)).withRel("list of all Categories"),
+                linkTo(methodOn(CategoryController.class).update(null, categForm)).withRel("list of all Categories")
         );
     }
 }

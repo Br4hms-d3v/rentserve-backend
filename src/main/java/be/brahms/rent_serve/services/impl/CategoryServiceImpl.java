@@ -7,6 +7,7 @@ import be.brahms.rent_serve.repositories.CategoryRepository;
 import be.brahms.rent_serve.services.CategoryService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -60,6 +61,21 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return categoryRepository.save(category);
+    }
+
+    public Category updateCategory(long id, Category category) {
+
+        Category updatedCategory = categoryRepository.findById(id).orElseThrow(CategoryExistException::new);
+
+        // Check if the name of category is similar
+        if (updatedCategory.getNameCategory().equals(category.getNameCategory())) {
+            throw new CategoryExistException();
+        }
+
+        // Save the name of Category updated to DB
+        updatedCategory.setNameCategory(category.getNameCategory());
+
+        return categoryRepository.save(updatedCategory);
     }
 
 

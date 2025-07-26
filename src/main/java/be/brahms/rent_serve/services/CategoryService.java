@@ -24,4 +24,13 @@ public interface CategoryService {
      * @return the saved category
      */
     Category create(Category category);
+
+    /**
+     * Update category
+     *
+     * @param id       the category's ID
+     * @param category the name of category updated
+     * @return the update name of category
+     */
+    Category updateCategory(long id, Category category);
 }

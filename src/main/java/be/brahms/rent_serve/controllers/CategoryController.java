@@ -29,7 +29,6 @@ public class CategoryController {
         this.categoryAssembler = categoryAssembler;
     }
 
-
     /**
      * Get all categories from the database
      * This method returns a list of all categories
@@ -39,7 +38,7 @@ public class CategoryController {
      * @return ResponseEntity with a list of category model
      */
     @GetMapping("list")
-    @PreAuthorize("hasAnyRole('MEMBER','Moderator','ADMIN')")
+    @PreAuthorize("hasAnyRole('Moderator','ADMIN')")
     public ResponseEntity<List<EntityModel<CategoryDto>>> getCategories() {
         List<Category> categoriesList = categoryService.findAllCategories();
         List<CategoryDto> categoryDtoList = categoriesList
@@ -57,9 +56,12 @@ public class CategoryController {
 
     /**
      * Create a new category
+     * This method return a new category
+     *
+     * @return a responseEntity with the new category
      */
     @PostMapping("new/category")
-    @PreAuthorize("hasAnyRole('MODERATOR','ADMIN')")
+    @PreAuthorize("hasAnyRole('MEMBER','MODERATOR','ADMIN')")
     public ResponseEntity<EntityModel<CategoryDto>> create(@RequestBody @Valid CategoryForm form) {
         Category createCategory = categoryService.create(form.toEntity());
         CategoryDto categoryDto = CategoryDto.fromEntity(createCategory);
@@ -71,10 +73,23 @@ public class CategoryController {
     }
 
     /**
-     * Edit category
-     * */
-//    public ResponseEntity<> {
-//    }
+     * Update the category by his id
+     *
+     * <p>This method allows a user with role Moderator or Admin to edit the name</p>
+     * Check before update the name of category the name is already exist.</p>
+     *
+     * @param id   the ID of the category
+     * @param form the new data to edit the category
+     * @return ResponseEntity a response to name of category edited
+     */
+    @PutMapping("{id}/edit")
+    @PreAuthorize("hasAnyRole('MODERATOR','ADMIN')")
+    public ResponseEntity<EntityModel<CategoryDto>> update(@PathVariable Long id, @RequestBody @Valid CategoryForm form) {
+        Category editCategory = categoryService.updateCategory(id, form.toEntity());
+        CategoryDto categoryDto = CategoryDto.fromEntity(editCategory);
+        EntityModel<CategoryDto> categoryModel = categoryAssembler.toModel(categoryDto);
+        return ResponseEntity.ok().body(categoryModel);
+    }
 
     /**
      * Delete category
