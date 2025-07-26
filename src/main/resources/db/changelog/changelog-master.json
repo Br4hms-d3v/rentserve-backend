@@ -6,6 +6,18 @@
       }
     },
     {
+      "changeSet": {
+        "id": "update-sequence-after-inserts",
+        "author": "Brahms",
+        "changes": [{
+          "sql": {
+            "dbms": "postgresql",
+            "sql": "SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));"
+          }
+        }]
+      }
+    },
+    {
       "include": {
         "file": "classpath:/db/changelog/V1_1_insert_users_table.sql"
       }
