@@ -46,9 +46,14 @@ public class SecurityConf {
         return http.cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        // Authentification
                         .requestMatchers("/api/auth/**").permitAll()
+                        // Users
                         .requestMatchers("/api/user/**").hasRole("MEMBER")
-                        .requestMatchers("/api/categories/**").hasAnyRole("MEMBER", "MODERATOR", "ADMIN")
+                        // Categories
+                        .requestMatchers("/api/categories/list").hasAnyRole("MODERATOR", "ADMIN")
+                        .requestMatchers("/api/categories/new/category").hasAnyRole("Member", "MODERATOR", "ADMIN")
+                        .requestMatchers("/api/categories/{id}/edit").hasAnyRole("MODERATOR", "ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
