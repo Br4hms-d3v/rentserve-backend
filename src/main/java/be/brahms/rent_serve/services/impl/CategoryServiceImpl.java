@@ -2,6 +2,7 @@ package be.brahms.rent_serve.services.impl;
 
 import be.brahms.rent_serve.exceptions.category.CategoryException;
 import be.brahms.rent_serve.exceptions.category.CategoryExistException;
+import be.brahms.rent_serve.exceptions.category.CategoryNotFoundException;
 import be.brahms.rent_serve.models.entities.Category;
 import be.brahms.rent_serve.repositories.CategoryRepository;
 import be.brahms.rent_serve.services.CategoryService;
@@ -52,6 +53,7 @@ public class CategoryServiceImpl implements CategoryService {
      *
      * @param category the creation a new category
      * @return the saved category
+     * @throws CategoryExistException if the name of category exist send an exception with message
      */
     public Category create(Category category) {
 
@@ -63,12 +65,24 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.save(category);
     }
 
+    /**
+     * This methode update a category
+     * Before to edit a category,
+     * check if a name of category already exist
+     * if is true, send an exception
+     * after save the new name
+     *
+     * @param category the edit category
+     * @return the saved category
+     * @throws CategoryExistException if the name of category exist send an exception with message
+     */
     public Category updateCategory(long id, Category category) {
 
-        Category updatedCategory = categoryRepository.findById(id).orElseThrow(CategoryExistException::new);
+        Category updatedCategory = categoryRepository.findById(id).orElseThrow(CategoryNotFoundException::new);
+        boolean categoryExist = categoryRepository.existsByNameCategory(category.getNameCategory());
 
         // Check if the name of category is similar
-        if (updatedCategory.getNameCategory().equals(category.getNameCategory())) {
+        if (categoryExist && updatedCategory.getNameCategory().equals(category.getNameCategory())) {
             throw new CategoryExistException();
         }
 
@@ -76,6 +90,31 @@ public class CategoryServiceImpl implements CategoryService {
         updatedCategory.setNameCategory(category.getNameCategory());
 
         return categoryRepository.save(updatedCategory);
+    }
+
+    /**
+     * This methode update a category
+     * Before to edit a category,
+     * check if a name of category already exist
+     * if is true, send an exception
+     * after save the new name
+     *
+     * @param id the id's category
+     * @return the delete category
+     * @throws CategoryNotFoundException if the name of category exist send an exception with message
+     */
+    public Category deleteCategory(long id) {
+
+        Category deleteCategory = categoryRepository.findById(id).orElseThrow(CategoryNotFoundException::new);
+        boolean categoryExist = categoryRepository.existsByNameCategory(deleteCategory.getNameCategory());
+
+        if (!categoryExist) {
+            throw new CategoryNotFoundException();
+        }
+        categoryRepository.delete(deleteCategory);
+
+        return deleteCategory;
+
     }
 
 

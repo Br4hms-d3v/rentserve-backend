@@ -92,10 +92,20 @@ public class CategoryController {
     }
 
     /**
-     * Delete category
-     * */
-//    public ResponseEntity<> {
-//    }
+     * Delete the category.
+     *
+     * @param id the category's ID
+     * @return the delete category with links
+     */
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        Category deleteCategory = categoryService.deleteCategory(id);
+        CategoryDto categoryDto = CategoryDto.fromEntity(deleteCategory);
+        categoryAssembler.toModel(categoryDto);
+        String message = "La catégorie: " + deleteCategory.getNameCategory() + " a bien été supprimé";
+        return ResponseEntity.ok().body(message);
+    }
 
     /**
      * Select all categories by material

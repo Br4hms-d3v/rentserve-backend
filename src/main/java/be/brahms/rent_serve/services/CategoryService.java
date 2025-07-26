@@ -33,4 +33,12 @@ public interface CategoryService {
      * @return the update name of category
      */
     Category updateCategory(long id, Category category);
+
+    /**
+     * Delete the category
+     *
+     * @param id the category's id
+     * @return Delete the category
+     */
+    Category deleteCategory(long id);
 }

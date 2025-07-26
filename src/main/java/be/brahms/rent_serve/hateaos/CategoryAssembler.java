@@ -39,9 +39,10 @@ public class CategoryAssembler implements RepresentationModelAssembler<CategoryD
         CategoryForm categForm = new CategoryForm(category.nameCategory());
 
         return EntityModel.of(category,
-                linkTo(methodOn(CategoryController.class).getCategories()).withRel("list of all Categories"),
-                linkTo(methodOn(CategoryController.class).create(categForm)).withRel("list of all Categories"),
-                linkTo(methodOn(CategoryController.class).update(null, categForm)).withRel("list of all Categories")
+                linkTo(methodOn(CategoryController.class).getCategories()).withRel("List of all categories"),
+                linkTo(methodOn(CategoryController.class).create(categForm)).withRel("List of all categories"),
+                linkTo(methodOn(CategoryController.class).update(category.id(), categForm)).withRel("Edit categories"),
+                linkTo(methodOn(CategoryController.class).delete(category.id())).withRel("Delete categories")
         );
     }
 }
