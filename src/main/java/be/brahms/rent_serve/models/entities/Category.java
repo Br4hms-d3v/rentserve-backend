@@ -34,6 +34,8 @@ public class Category extends BaseEntity {
     /**
      * Constructor with params
      * for the form Category
+     *
+     * @param nameCategory the new name of category
      */
     public Category(String nameCategory) {
         this();

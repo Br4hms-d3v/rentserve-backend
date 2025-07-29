@@ -55,6 +55,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
      * Only categories entered by the user in the category material are included.
      * The list is sorted by the category name (A to Z)
      *
+     * @param materialCategory The word of search by user
      * @return to a search list that lists categories by material.
      */
     @Query("SELECT DISTINCT c FROM Category c JOIN c.materials m WHERE c.nameCategory ILIKE %:materialCategory% ORDER BY c.nameCategory ASC")
@@ -67,6 +68,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
      * Only categories entered by the user in the category service are included.
      * The list is sorted by the category name (A to Z)
      *
+     * @param serviceCategory the word of search by user
      * @return to a search list that lists categories by service.
      */
     @Query("SELECT DISTINCT c FROM Category c JOIN c.favours f WHERE c.nameCategory ILIKE %:serviceCategory% ORDER BY c.nameCategory ASC")

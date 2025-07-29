@@ -24,6 +24,12 @@ public class CategoryController {
     private final CategoryService categoryService;
     private final CategoryAssembler categoryAssembler;
 
+    /**
+     * This constructor is used to inject the necessary services for handling category-related request.
+     *
+     * @param categoryService the service used for category
+     * @param categoryAssembler the assembler used to convert Category object to into CategoryDto models
+     */
     public CategoryController(CategoryService categoryService, CategoryAssembler categoryAssembler) {
         this.categoryService = categoryService;
         this.categoryAssembler = categoryAssembler;
@@ -58,6 +64,7 @@ public class CategoryController {
      * Create a new category
      * This method return a new category
      *
+     * @param form The form contain data to create a new category
      * @return a responseEntity with the new category
      */
     @PostMapping("new/category")
@@ -76,7 +83,7 @@ public class CategoryController {
      * Update the category by his id
      *
      * <p>This method allows a user with role Moderator or Admin to edit the name</p>
-     * Check before update the name of category the name is already exist.</p>
+     * Check before update the name of category the name is already exist.
      *
      * @param id   the ID of the category
      * @param form the new data to edit the category
@@ -161,6 +168,9 @@ public class CategoryController {
 
     /**
      * Search categories for material
+     *
+     * @param nameCategoryMaterial the name of the material to search
+     * @return a list of CategoryDto models that match the material category name
      */
     @GetMapping("search-material/{nameCategoryMaterial}")
     @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
@@ -181,7 +191,10 @@ public class CategoryController {
     }
 
     /**
-     * Search categories for favor
+     * Search categories for service
+     *
+     * @param nameCategoryService the name of the material to search
+     * @return a list of CategoryDto models that match the material category name
      */
     @GetMapping("search-service/{nameCategoryService}")
     @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
