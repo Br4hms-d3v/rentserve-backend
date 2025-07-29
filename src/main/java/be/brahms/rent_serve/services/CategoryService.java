@@ -56,4 +56,20 @@ public interface CategoryService {
      */
     List<Category> listAllCategoriesForService();
 
+    /**
+     * Search a category by name
+     *
+     * @param materialCategory the name of category input by the user
+     * @return a list of categories
+     */
+    List<Category> searchCategoriesForMaterial(String materialCategory);
+
+    /**
+     * Search a category by name
+     *
+     * @param serviceCategory the name of category input by the user
+     * @return a list of categories
+     */
+    List<Category> searchCategoriesForService(String serviceCategory);
+
 }

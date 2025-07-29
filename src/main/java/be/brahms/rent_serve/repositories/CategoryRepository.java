@@ -3,6 +3,7 @@ package be.brahms.rent_serve.repositories;
 import be.brahms.rent_serve.models.entities.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -46,4 +47,28 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
      */
     @Query("SELECT DISTINCT c FROM Category c JOIN c.favours f ORDER BY c.nameCategory ASC")
     List<Category> findAllCategoriesForService();
+
+    /**
+     * Search the category by name exclusively for the material.
+     * <p>
+     * This method sends a category or a list of categories.
+     * Only categories entered by the user in the category material are included.
+     * The list is sorted by the category name (A to Z)
+     *
+     * @return to a search list that lists categories by material.
+     */
+    @Query("SELECT DISTINCT c FROM Category c JOIN c.materials m WHERE c.nameCategory ILIKE %:materialCategory% ORDER BY c.nameCategory ASC")
+    List<Category> searchCategoriesForMaterial(@Param("materialCategory") String materialCategory);
+
+    /**
+     * Search the category by name exclusively for the service.
+     * <p>
+     * This method sends a category or a list of categories.
+     * Only categories entered by the user in the category service are included.
+     * The list is sorted by the category name (A to Z)
+     *
+     * @return to a search list that lists categories by service.
+     */
+    @Query("SELECT DISTINCT c FROM Category c JOIN c.favours f WHERE c.nameCategory ILIKE %:serviceCategory% ORDER BY c.nameCategory ASC")
+    List<Category> searchCategoriesForService(@Param("serviceCategory") String serviceCategory);
 }

@@ -161,14 +161,44 @@ public class CategoryController {
 
     /**
      * Search categories for material
-     * */
-//    public ResponseEntity<> {
-//    }
+     */
+    @GetMapping("search-material/{nameCategoryMaterial}")
+    @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
+    public ResponseEntity<List<EntityModel<CategoryDto>>> searchCategoriesForMaterial(@PathVariable String nameCategoryMaterial) {
+        List<Category> searchNameCategoriesForMaterial = categoryService.searchCategoriesForMaterial(nameCategoryMaterial);
+
+        List<CategoryDto> categoryNameForMaterialDto = searchNameCategoriesForMaterial
+                .stream()
+                .map(CategoryDto::fromEntity)
+                .toList();
+
+        List<EntityModel<CategoryDto>> categoryNameForMaterialModel = categoryNameForMaterialDto
+                .stream()
+                .map(categoryAssembler::toModel)
+                .toList();
+
+        return ResponseEntity.ok().body(categoryNameForMaterialModel);
+    }
 
     /**
      * Search categories for favor
-     * */
-//    public ResponseEntity<> {
-//    }
+     */
+    @GetMapping("search-service/{nameCategoryService}")
+    @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
+    public ResponseEntity<List<EntityModel<CategoryDto>>> searchCategoriesForService(@PathVariable String nameCategoryService) {
+        List<Category> searchNameCategoriesForService = categoryService.searchCategoriesForService(nameCategoryService);
+
+        List<CategoryDto> categoryNameForServiceDto = searchNameCategoriesForService
+                .stream()
+                .map(CategoryDto::fromEntity)
+                .toList();
+
+        List<EntityModel<CategoryDto>> categoryNameForServiceModel = categoryNameForServiceDto
+                .stream()
+                .map(categoryAssembler::toModel)
+                .toList();
+
+        return ResponseEntity.ok().body(categoryNameForServiceModel);
+    }
 
 }

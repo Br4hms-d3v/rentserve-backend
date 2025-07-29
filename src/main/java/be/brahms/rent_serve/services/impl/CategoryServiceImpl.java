@@ -150,5 +150,41 @@ public class CategoryServiceImpl implements CategoryService {
         return categoriesForService;
     }
 
+    /**
+     * This method display a list by search
+     * only categories from material
+     *
+     * @return a list from search of categories
+     * @throws CategoryException if the search is empty send a message
+     */
+    @Override
+    public List<Category> searchCategoriesForMaterial(String materialCategory) {
+        List<Category> categoriesSearchMaterial = categoryRepository.searchCategoriesForMaterial(materialCategory);
+
+        if (categoriesSearchMaterial.isEmpty()) {
+            throw new CategoryException("Entrez une catégorie");
+        }
+
+        return categoriesSearchMaterial;
+    }
+
+    /**
+     * This method display a list by search
+     * only categories from service
+     *
+     * @return a list from search of categories
+     * @throws CategoryException if the search is empty send a message
+     */
+    @Override
+    public List<Category> searchCategoriesForService(String serviceCategory) {
+        List<Category> categoriesSearchService = categoryRepository.searchCategoriesForService(serviceCategory);
+
+        if (categoriesSearchService.isEmpty()) {
+            throw new CategoryException("Entrez une catégorie");
+        }
+
+        return categoriesSearchService;
+    }
+
 
 }
