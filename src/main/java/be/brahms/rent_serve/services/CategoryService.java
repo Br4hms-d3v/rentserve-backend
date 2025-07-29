@@ -41,4 +41,19 @@ public interface CategoryService {
      * @return Delete the category
      */
     Category deleteCategory(long id);
+
+    /**
+     * List of all categories for only material
+     *
+     * @return list of categories
+     */
+    List<Category> listAllCategoriesForMaterial();
+
+    /**
+     * List of all categories for only service
+     *
+     * @return list of categories
+     */
+    List<Category> listAllCategoriesForService();
+
 }

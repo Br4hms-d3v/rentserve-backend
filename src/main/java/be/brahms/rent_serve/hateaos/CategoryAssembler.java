@@ -42,7 +42,9 @@ public class CategoryAssembler implements RepresentationModelAssembler<CategoryD
                 linkTo(methodOn(CategoryController.class).getCategories()).withRel("List of all categories"),
                 linkTo(methodOn(CategoryController.class).create(categForm)).withRel("List of all categories"),
                 linkTo(methodOn(CategoryController.class).update(category.id(), categForm)).withRel("Edit categories"),
-                linkTo(methodOn(CategoryController.class).delete(category.id())).withRel("Delete categories")
+                linkTo(methodOn(CategoryController.class).delete(category.id())).withRel("Delete categories"),
+                linkTo(methodOn(CategoryController.class).getCategoriesForMaterial()).withRel("A List of categories based on material"),
+                linkTo(methodOn(CategoryController.class).getCategoriesForMaterial()).withRel("A List of categories based on service")
         );
     }
 }

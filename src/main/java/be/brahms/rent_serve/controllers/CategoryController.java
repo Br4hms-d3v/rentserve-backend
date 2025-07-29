@@ -108,16 +108,56 @@ public class CategoryController {
     }
 
     /**
-     * Select all categories by material
-     * */
-//    public ResponseEntity<> {
-//    }
+     * Get a list of categories .
+     * <p>
+     * This method returns a list of all categories based on material.
+     * Each category is converted to a CategoryDto (Data Transfer Object).
+     * Each CategoryDto is wrapped inside an EntityModel with HATEOAS links.
+     *
+     * @return ResponseEntity with a list of category models
+     */
+    @GetMapping("material")
+    @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
+    public ResponseEntity<List<EntityModel<CategoryDto>>> getCategoriesForMaterial() {
+        List<Category> categoriesListMaterial = categoryService.listAllCategoriesForMaterial();
+        List<CategoryDto> categoryDtoListMaterial = categoriesListMaterial
+                .stream()
+                .map(CategoryDto::fromEntity)
+                .toList();
+
+        List<EntityModel<CategoryDto>> categoryListMaterialModel = categoryDtoListMaterial
+                .stream()
+                .map(categoryAssembler::toModel)
+                .toList();
+
+        return ResponseEntity.ok().body(categoryListMaterialModel);
+    }
 
     /**
-     * Select all categories by favor
-     * */
-//    public ResponseEntity<> {
-//    }
+     * Get a list of categories .
+     * <p>
+     * This method returns a list of all categories based on service.
+     * Each category is converted to a CategoryDto (Data Transfer Object).
+     * Each CategoryDto is wrapped inside an EntityModel with HATEOAS links.
+     *
+     * @return ResponseEntity with a list of category models
+     */
+    @GetMapping("service")
+    @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
+    public ResponseEntity<List<EntityModel<CategoryDto>>> getCategoriesForService() {
+        List<Category> categoriesListService = categoryService.listAllCategoriesForService();
+        List<CategoryDto> categoryDtoListService = categoriesListService
+                .stream()
+                .map(CategoryDto::fromEntity)
+                .toList();
+
+        List<EntityModel<CategoryDto>> categoryListServiceModel = categoryDtoListService
+                .stream()
+                .map(categoryAssembler::toModel)
+                .toList();
+
+        return ResponseEntity.ok().body(categoryListServiceModel);
+    }
 
     /**
      * Search categories for material

@@ -8,7 +8,6 @@ import be.brahms.rent_serve.repositories.CategoryRepository;
 import be.brahms.rent_serve.services.CategoryService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -115,6 +114,40 @@ public class CategoryServiceImpl implements CategoryService {
 
         return deleteCategory;
 
+    }
+
+    /**
+     * This method display a list
+     * only categories from material
+     *
+     * @return the list of categories
+     * @throws CategoryException if the list of categories are empty
+     */
+    @Override
+    public List<Category> listAllCategoriesForMaterial() {
+        List<Category> categoriesForMaterial = categoryRepository.findAllCategoriesForMaterial();
+
+        if (categoriesForMaterial.isEmpty()) {
+            throw new CategoryException("La liste est vide");
+        }
+        return categoriesForMaterial;
+    }
+
+    /**
+     * This method display a list
+     * only categories from service
+     *
+     * @return the list of categories
+     * @throws CategoryException if the list of categories are empty
+     */
+    @Override
+    public List<Category> listAllCategoriesForService() {
+        List<Category> categoriesForService = categoryRepository.findAllCategoriesForService();
+
+        if (categoriesForService.isEmpty()) {
+            throw new CategoryException("La liste est vide");
+        }
+        return categoriesForService;
     }
 
 
