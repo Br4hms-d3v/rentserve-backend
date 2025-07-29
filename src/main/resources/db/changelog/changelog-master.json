@@ -104,6 +104,11 @@
       "include": {
         "file": "classpath:/db/changelog/V11_1_insert_rentals_table.sql"
       }
+    },
+    {
+      "include": {
+        "file": "classpath:/db/changelog/changelog-master_1.json"
+      }
     }
   ]
 }

@@ -31,7 +31,8 @@ public class SecurityConf {
     /**
      * Constructor security configuration by default
      */
-    public SecurityConf() {}
+    public SecurityConf() {
+    }
 
     /**
      * Configures the security rules for HTTP requests.
@@ -45,8 +46,15 @@ public class SecurityConf {
         return http.cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        // Authentification
                         .requestMatchers("/api/auth/**").permitAll()
+                        // Users
                         .requestMatchers("/api/user/**").hasRole("MEMBER")
+                        // Categories
+                        .requestMatchers("/api/categories/list").hasAnyRole("MODERATOR", "ADMIN")
+                        .requestMatchers("/api/categories/{id}/edit").hasAnyRole("MODERATOR", "ADMIN")
+                        .requestMatchers("/api/categories/{id}/delete").hasRole("ADMIN")
+                        .requestMatchers("/api/categories/**").hasAnyRole("MEMBER", "MODERATOR", "ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

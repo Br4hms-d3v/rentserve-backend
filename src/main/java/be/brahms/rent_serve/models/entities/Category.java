@@ -28,7 +28,19 @@ public class Category extends BaseEntity {
     /**
      * Default constructor for Category.
      */
-    public Category() {}
+    public Category() {
+    }
+
+    /**
+     * Constructor with params
+     * for the form Category
+     *
+     * @param nameCategory the new name of category
+     */
+    public Category(String nameCategory) {
+        this();
+        this.nameCategory = nameCategory;
+    }
 
     /**
      * A set of favours associated with this category.
