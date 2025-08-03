@@ -27,7 +27,7 @@ public class CategoryController {
     /**
      * This constructor is used to inject the necessary services for handling category-related request.
      *
-     * @param categoryService the service used for category
+     * @param categoryService   the service used for category
      * @param categoryAssembler the assembler used to convert Category object to into CategoryDto models
      */
     public CategoryController(CategoryService categoryService, CategoryAssembler categoryAssembler) {
@@ -58,6 +58,21 @@ public class CategoryController {
                 .toList();
 
         return ResponseEntity.ok().body(listCategoriesDtoModel);
+    }
+
+    /**
+     * This method get a category by his ID
+     *
+     * @param id the ID of the category
+     * @return a name of category choice by his ID
+     */
+    @GetMapping("{id}")
+    @PreAuthorize("hasAnyRole('Moderator','ADMIN')")
+    public ResponseEntity<EntityModel<CategoryDto>> getCategory(@PathVariable long id) {
+        Category category = categoryService.findById(id);
+        CategoryDto categoryDto = CategoryDto.fromEntity(category);
+
+        return ResponseEntity.ok().body(categoryAssembler.toModel(categoryDto));
     }
 
     /**

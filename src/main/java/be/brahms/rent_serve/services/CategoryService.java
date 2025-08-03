@@ -3,6 +3,7 @@ package be.brahms.rent_serve.services;
 import be.brahms.rent_serve.models.entities.Category;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service interface for managing category.
@@ -16,6 +17,14 @@ public interface CategoryService {
      * @return list of all categories
      */
     List<Category> findAllCategories();
+
+    /**
+     * This method get a category
+     *
+     * @param id the ID of category
+     * @return the name of category by ID
+     */
+    Category findById(long id);
 
     /**
      * This method saves a new category.

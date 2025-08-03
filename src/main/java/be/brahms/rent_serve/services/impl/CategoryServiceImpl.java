@@ -44,6 +44,19 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
+     * This method get a category by his ID
+     * If the category doesn't exist
+     * send a message the category not found
+     *
+     * @param id this is the identifier of category
+     * @return the name of category
+     */
+    public Category findById(long id) {
+
+        return categoryRepository.findById(id).orElseThrow(CategoryNotFoundException::new);
+    }
+
+    /**
      * This methode create a new category
      * Before to create a new category,
      * check if a name of category already exist
