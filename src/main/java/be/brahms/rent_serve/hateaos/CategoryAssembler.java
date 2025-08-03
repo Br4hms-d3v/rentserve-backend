@@ -40,7 +40,8 @@ public class CategoryAssembler implements RepresentationModelAssembler<CategoryD
 
         return EntityModel.of(category,
                 linkTo(methodOn(CategoryController.class).getCategories()).withRel("List of all categories"),
-                linkTo(methodOn(CategoryController.class).create(categForm)).withRel("List of all categories"),
+                linkTo(methodOn(CategoryController.class).create(categForm)).withRel("Create a new category"),
+                linkTo(methodOn(CategoryController.class).getCategory(category.id())).withRel("Get a category by id"),
                 linkTo(methodOn(CategoryController.class).update(category.id(), categForm)).withRel("Edit categories"),
                 linkTo(methodOn(CategoryController.class).delete(category.id())).withRel("Delete categories"),
                 linkTo(methodOn(CategoryController.class).getCategoriesForMaterial()).withRel("A List of categories based on material"),
