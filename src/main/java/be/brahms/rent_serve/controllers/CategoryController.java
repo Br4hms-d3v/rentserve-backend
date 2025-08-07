@@ -121,12 +121,11 @@ public class CategoryController {
      */
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+    public ResponseEntity<EntityModel<CategoryDto>> delete(@PathVariable Long id) {
         Category deleteCategory = categoryService.deleteCategory(id);
         CategoryDto categoryDto = CategoryDto.fromEntity(deleteCategory);
         categoryAssembler.toModel(categoryDto);
-        String message = "La catégorie: " + deleteCategory.getNameCategory() + " a bien été supprimé";
-        return ResponseEntity.ok().body(message);
+        return ResponseEntity.ok().build();
     }
 
     /**
