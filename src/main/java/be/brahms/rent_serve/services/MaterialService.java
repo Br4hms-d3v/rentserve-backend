@@ -1,8 +1,19 @@
 package be.brahms.rent_serve.services;
 
+import be.brahms.rent_serve.models.entities.Material;
+
+import java.util.List;
+
 /**
  * Service interface for managing material.
  * Defines business operations related to Bill entities.
  */
 public interface MaterialService {
+
+    /**
+     * This method get a list of materials
+     *
+     * @return list of all material
+     */
+    List<Material> findAllMaterials();
 }

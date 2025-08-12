@@ -1,0 +1,28 @@
+package be.brahms.rent_serve.hateaos;
+
+import be.brahms.rent_serve.controllers.MaterialController;
+import be.brahms.rent_serve.models.dtos.material.MaterialDto;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.RepresentationModelAssembler;
+import org.springframework.stereotype.Component;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+@Component
+public class MaterialAssembler implements RepresentationModelAssembler<MaterialDto, EntityModel<MaterialDto>> {
+
+    /**
+     * Default constructor for MaterialAssembler
+     */
+    public MaterialAssembler() {
+    }
+
+    @Override
+    public EntityModel<MaterialDto> toModel(MaterialDto material) {
+        return EntityModel.of(material,
+                linkTo(methodOn(MaterialController.class).getMaterials()).withRel("List of all material")
+        );
+    }
+
+}
