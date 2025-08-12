@@ -17,7 +17,6 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
-@ToString
 public class Material extends BaseEntity {
 
     /**
@@ -54,10 +53,12 @@ public class Material extends BaseEntity {
     private boolean isAvailable;
 
     // Constructor by default
+
     /**
      * Default constructor for Material.
      */
-    public Material() {}
+    public Material() {
+    }
 
     /**
      * A set of user-material relationships.
@@ -76,4 +77,29 @@ public class Material extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    /**
+     * Returns a string representation of the Material object.
+     * <p>
+     * This includes only following fields:
+     * - id
+     * - name material
+     * - description
+     * - price per hour
+     * - availability
+     * </p>
+     *
+     * @return a tableau with data
+     */
+    @Override
+    public String toString() {
+        return "Material {" +
+                "id= " + getId() + "\n " +
+                "Name= " + nameMaterial + "\n " +
+                "description= " + descriptionMaterial + "\n " +
+                "price= " + priceHourMaterial + "\n " +
+                "state= " + stateMaterial + "\n " +
+                "active= " + isAvailable + "\n " +
+                "} ";
+    }
 }
