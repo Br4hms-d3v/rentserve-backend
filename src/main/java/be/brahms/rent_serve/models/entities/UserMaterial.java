@@ -34,19 +34,14 @@ public class UserMaterial extends BaseEntity {
     private Material material;
 
     // Constructor by default
+
     /**
      * Default constructor for UserMaterial.
      */
-    public UserMaterial() { }
+    public UserMaterial() {
+    }
 
     // Relation OneToMany
-    /**
-     * A set of pictures related to this user-material.
-     * These pictures are linked with cascade operations for persist and merge.
-     */
-    @OneToMany(mappedBy = "userMaterial", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private Set<Picture> pictures = new HashSet<>();
-
     /**
      * A set of rentals involving this user-material.
      * Allows tracking how the material has been rented.
@@ -60,4 +55,13 @@ public class UserMaterial extends BaseEntity {
      */
     @OneToMany(mappedBy = "userMaterial", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<Review> reviews = new HashSet<>();
+
+    // Relation ManyToMany
+    @ManyToMany
+    @JoinTable(
+            name = "picture_user_materials",
+            joinColumns = @JoinColumn(name = "user_material_id"),
+            inverseJoinColumns = @JoinColumn(name = "picture_id")
+    )
+    private Set<Picture> pictures = new HashSet<>();
 }

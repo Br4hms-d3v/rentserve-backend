@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * This class represents a picture and extends the BaseEntity class.
  * It includes the picture's name and its relationships to user-material and user-favor.
@@ -24,25 +26,25 @@ public class Picture extends BaseEntity {
     private String namePicture;
 
     // Constructor by default
+
     /**
      * Default constructor for Picture.
      */
-    public Picture() {}
+    public Picture() {
+    }
 
     // Relation ManyToOne
     /**
      * The user-material relationship to which this picture belongs.
      * A picture is associated with one user-material.
      */
-    @ManyToOne
-    @JoinColumn(name = "user_material_id", nullable = false)
-    private UserMaterial userMaterial;
+    @ManyToMany(mappedBy = "pictures")
+    private List<UserMaterial> userMaterials;
 
     /**
      * The user-favor relationship to which this picture belongs.
      * A picture is associated with one user-favor.
      */
-    @ManyToOne
-    @JoinColumn(name = "user_favor_id", nullable = false)
-    private UserFavor userFavor;
+    @ManyToMany(mappedBy = "pictures")
+    private List<UserFavor> userFavor;
 }

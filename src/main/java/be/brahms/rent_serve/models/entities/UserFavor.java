@@ -43,13 +43,6 @@ public class UserFavor extends BaseEntity {
 
     // Relation OneToMany
     /**
-     * A set of pictures related to this user-favor.
-     * These pictures are linked with cascade operations for persist and merge.
-     */
-    @OneToMany(mappedBy = "userFavor", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private Set<Picture> pictures = new HashSet<>();
-
-    /**
      * A set of rentals involving this user-favor.
      * Allows tracking how the favor has been rented.
      */
@@ -62,4 +55,13 @@ public class UserFavor extends BaseEntity {
      */
     @OneToMany(mappedBy = "userFavor", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Set<Review> reviews = new HashSet<>();
+
+    // Relation ManyToMany
+    @ManyToMany
+    @JoinTable(
+            name = "picture_user_favour",
+            joinColumns = @JoinColumn(name = "user_favor_id"),
+            inverseJoinColumns = @JoinColumn(name = "picture_id")
+    )
+    private Set<Picture> pictures = new HashSet<>();
 }
