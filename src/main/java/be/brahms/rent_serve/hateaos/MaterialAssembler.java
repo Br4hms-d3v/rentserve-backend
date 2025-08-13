@@ -1,6 +1,7 @@
 package be.brahms.rent_serve.hateaos;
 
 import be.brahms.rent_serve.controllers.MaterialController;
+import be.brahms.rent_serve.models.dtos.material.MaterialByIdDto;
 import be.brahms.rent_serve.models.dtos.material.MaterialDto;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
@@ -21,8 +22,16 @@ public class MaterialAssembler implements RepresentationModelAssembler<MaterialD
     @Override
     public EntityModel<MaterialDto> toModel(MaterialDto material) {
         return EntityModel.of(material,
-                linkTo(methodOn(MaterialController.class).getMaterials()).withRel("List of all material")
+                linkTo(methodOn(MaterialController.class).getMaterials()).withRel("List of all material"),
+                linkTo(methodOn(MaterialController.class).getMaterial(material.id())).withRel("Get material by ID")
         );
     }
 
+
+    public EntityModel<MaterialByIdDto> toModel(MaterialByIdDto material) {
+        return EntityModel.of(material,
+                linkTo(methodOn(MaterialController.class).getMaterials()).withRel("List of all material"),
+                linkTo(methodOn(MaterialController.class).getMaterial(material.id())).withRel("Get material by ID")
+        );
+    }
 }

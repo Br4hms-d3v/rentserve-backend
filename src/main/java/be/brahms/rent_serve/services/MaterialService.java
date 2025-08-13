@@ -16,4 +16,12 @@ public interface MaterialService {
      * @return list of all material
      */
     List<Material> findAllMaterials();
+
+    /**
+     * This method get material
+     *
+     * @param id The identifier of maerial
+     * @return the name with data from material
+     */
+    Material findById(long id);
 }

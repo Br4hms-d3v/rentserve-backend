@@ -8,23 +8,30 @@ import be.brahms.rent_serve.models.entities.Material;
  *
  * @param id           The unique identifier
  * @param nameMaterial The name of material
+ * @param isAvailable  The material is available
+ * @param category     The name of category
  */
-public record MaterialDto(
+public record MaterialByIdDto(
         long id,
-        String nameMaterial
+        String nameMaterial,
+        boolean isAvailable,
+        String category
 ) {
 
     /**
      * Create a MaterialDto from one Material and one UserMaterial.
      *
-     * @param material the main material object
+     * @param material     the main material object
      * @return a new MaterialDto with data from both objects
      */
-    public static MaterialDto fromEntity(Material material) {
+    public static MaterialByIdDto fromEntity(Material material) {
 
-        return new MaterialDto(
+        return new MaterialByIdDto(
                 material.getId(),
-                material.getNameMaterial());
+                material.getNameMaterial(),
+                material.isAvailable(),
+                material.getCategory().getNameCategory()
+        );
     }
 
 }
