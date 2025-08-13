@@ -1,8 +1,10 @@
 package be.brahms.rent_serve.models.entities;
 
+import be.brahms.rent_serve.enums.State;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,6 +18,27 @@ import java.util.Set;
 @AllArgsConstructor
 @Table(name = "user_materials")
 public class UserMaterial extends BaseEntity {
+
+    /**
+     * A description of the material.
+     * Stored as text, allowing for longer descriptions.
+     */
+    @Column(name = "description_material", columnDefinition = "TEXT")
+    private String descriptionMaterial;
+    /**
+     * The price per hour for using the material.
+     * Stored as a decimal with a precision of 7 and a scale of 2.
+     * This value cannot be null.
+     */
+    @Column(name = "price_hour_material", nullable = false, precision = 7, scale = 2)
+    private BigDecimal priceHourMaterial;
+    /**
+     * The state of the material (e.g., GOOD, DAMAGED).
+     * Stored as a string using the State enum.
+     */
+    @Column(name = "state_material")
+    @Enumerated(EnumType.STRING)
+    private State stateMaterial;
 
     // Relation ManyToOne
     /**

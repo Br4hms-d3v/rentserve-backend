@@ -11,11 +11,6 @@ import java.util.stream.Collectors;
 public record MaterialDto(
         long id,
         String nameMaterial,
-        String descriptionMaterial,
-        Double priceHourMaterial,
-        State stateMaterial,
-        long ownerUserId,
-        String ownerUserName,
         String picture
 ) {
 
@@ -31,11 +26,6 @@ public record MaterialDto(
         return new MaterialDto(
                 material.getId(),
                 material.getNameMaterial(),
-                material.getDescriptionMaterial(),
-                material.getPriceHourMaterial().doubleValue(),
-                material.getStateMaterial(),
-                userMaterial.getUser().getId(),
-                userMaterial.getUser().getName(), // Assure-toi que getName() existe
                 picture
         );
     }

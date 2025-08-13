@@ -1,10 +1,8 @@
 package be.brahms.rent_serve.models.entities;
 
-import be.brahms.rent_serve.enums.State;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,26 +23,6 @@ public class Material extends BaseEntity {
      */
     @Column(name = "name_material", nullable = false)
     private String nameMaterial;
-    /**
-     * A description of the material.
-     * Stored as text, allowing for longer descriptions.
-     */
-    @Column(name = "description_material", columnDefinition = "TEXT")
-    private String descriptionMaterial;
-    /**
-     * The price per hour for using the material.
-     * Stored as a decimal with a precision of 7 and a scale of 2.
-     * This value cannot be null.
-     */
-    @Column(name = "price_hour_material", nullable = false, precision = 7, scale = 2)
-    private BigDecimal priceHourMaterial;
-    /**
-     * The state of the material (e.g., GOOD, DAMAGED).
-     * Stored as a string using the State enum.
-     */
-    @Column(name = "state_material")
-    @Enumerated(EnumType.STRING)
-    private State stateMaterial;
     /**
      * A flag indicating whether the material is available or not.
      * The default value is false (unavailable) if not set.
@@ -96,9 +74,6 @@ public class Material extends BaseEntity {
         return "Material {" +
                 "id= " + getId() + "\n " +
                 "Name= " + nameMaterial + "\n " +
-                "description= " + descriptionMaterial + "\n " +
-                "price= " + priceHourMaterial + "\n " +
-                "state= " + stateMaterial + "\n " +
                 "active= " + isAvailable + "\n " +
                 "} ";
     }
