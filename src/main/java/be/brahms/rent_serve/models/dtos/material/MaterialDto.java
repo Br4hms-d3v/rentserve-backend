@@ -11,11 +11,19 @@ import java.util.stream.Collectors;
 public record MaterialDto(
         long id,
         String nameMaterial,
+        String descriptionMaterial,
+        double priceMaterial,
+        State stateMaterial,
         String picture
 ) {
 
     // Convert one Material + UserMaterial into a DTO
     public static MaterialDto fromEntity(Material material, UserMaterial userMaterial) {
+
+        String descriptionMaterial = userMaterial.getDescriptionMaterial();
+        double priceMaterial = userMaterial.getPriceHourMaterial().doubleValue();
+        State stateMaterial = userMaterial.getStateMaterial();
+
         String picture = userMaterial.getPictures()
                 .stream()
                 .findFirst()
@@ -26,6 +34,9 @@ public record MaterialDto(
         return new MaterialDto(
                 material.getId(),
                 material.getNameMaterial(),
+                descriptionMaterial,
+                priceMaterial,
+                stateMaterial,
                 picture
         );
     }
