@@ -44,9 +44,8 @@ public class MaterialController {
     public ResponseEntity<List<EntityModel<MaterialDto>>> getMaterials() {
         List<Material> materialList = materialService.findAllMaterials();
 
-        List<MaterialDto> materialDtoList = materialList
-                .stream()
-                .map(MaterialDto::fromEntity)
+        List<MaterialDto> materialDtoList = materialList.stream()
+                .flatMap(material -> MaterialDto.listFromMaterial(material).stream())
                 .toList();
 
         List<EntityModel<MaterialDto>> listMaterialDtoModel = materialDtoList

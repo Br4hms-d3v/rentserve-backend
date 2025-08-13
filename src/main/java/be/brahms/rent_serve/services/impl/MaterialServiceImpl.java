@@ -26,15 +26,20 @@ public class MaterialServiceImpl implements MaterialService {
         this.materialRepository = materialRepository;
     }
 
+//    @Override
+//    public List<Material> findAllMaterials() {
+//
+//        List<Material> materials = materialRepository.findAll();
+//
+//        // If the list of materials are empty send a message
+//        if (materials.isEmpty()) {
+//            throw new MaterialException("la liste est vide");
+//        }
+//        return materials;
+//    }
+
     @Override
     public List<Material> findAllMaterials() {
-
-        List<Material> materials = materialRepository.findAll();
-
-        // If the list of materials are empty send a message
-        if (materials.isEmpty()) {
-            throw new MaterialException("la liste est vide");
-        }
-        return materials;
+        return materialRepository.findAllWithUserMaterialsAndPictures();
     }
 }
