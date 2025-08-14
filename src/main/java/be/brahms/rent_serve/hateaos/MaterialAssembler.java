@@ -19,6 +19,13 @@ public class MaterialAssembler implements RepresentationModelAssembler<MaterialD
     public MaterialAssembler() {
     }
 
+    /**
+     * This method creates a model of one material with links.
+     *
+     * @param material The material data.
+     * @return A model with the material and two links:
+     * one to get all materials, and one to get this material by its ID.
+     */
     @Override
     public EntityModel<MaterialDto> toModel(MaterialDto material) {
         return EntityModel.of(material,
@@ -27,7 +34,14 @@ public class MaterialAssembler implements RepresentationModelAssembler<MaterialD
         );
     }
 
-
+    /**
+     * This method creates a model of one material with links.
+     *
+     * @param material The material data
+     * @return A model with material and two links:
+     * 1:   get all material
+     * 2:   get one material
+     */
     public EntityModel<MaterialByIdDto> toModel(MaterialByIdDto material) {
         return EntityModel.of(material,
                 linkTo(methodOn(MaterialController.class).getMaterials()).withRel("List of all material"),

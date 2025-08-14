@@ -61,6 +61,15 @@ public class MaterialController {
         return ResponseEntity.ok(listMaterialDtoModel);
     }
 
+    /**
+     * Get a material by his identifier
+     * This method return a material
+     * Each material is converted to a MaterialByIdDto
+     * Each MaterialByIdDto is wrapped inside an EntityModel with HATEOAS links
+     *
+     * @param id The identifier from material
+     * @return a ResponseEntity with some data from material
+     */
     @GetMapping("{id}")
     @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
     public ResponseEntity<EntityModel<MaterialByIdDto>> getMaterial(@PathVariable long id) {
