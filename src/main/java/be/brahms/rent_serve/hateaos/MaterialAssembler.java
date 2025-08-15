@@ -34,7 +34,8 @@ public class MaterialAssembler implements RepresentationModelAssembler<MaterialD
         return EntityModel.of(material,
                 linkTo(methodOn(MaterialController.class).getMaterials()).withRel("List of all material"),
                 linkTo(methodOn(MaterialController.class).getMaterial(material.id())).withRel("Get material by ID"),
-                linkTo(methodOn(MaterialController.class).createMaterial(materialForm)).withRel("Create a material")
+                linkTo(methodOn(MaterialController.class).createMaterial(materialForm)).withRel("Create a material"),
+                linkTo(methodOn(MaterialController.class).updateMaterial(material.id(), materialForm)).withRel("Update material")
         );
     }
 
@@ -45,11 +46,16 @@ public class MaterialAssembler implements RepresentationModelAssembler<MaterialD
      * @return A model with material and two links:
      * 1:   get all material
      * 2:   get one material
+     * 3:   Create a new material
+     * 4:   Edit a material
      */
     public EntityModel<MaterialByIdDto> toModel(MaterialByIdDto material) {
+        MaterialForm materialForm = new MaterialForm(material.nameMaterial(), material.nameMaterial());
         return EntityModel.of(material,
                 linkTo(methodOn(MaterialController.class).getMaterials()).withRel("List of all material"),
-                linkTo(methodOn(MaterialController.class).getMaterial(material.id())).withRel("Get material by ID")
+                linkTo(methodOn(MaterialController.class).getMaterial(material.id())).withRel("Get material by ID"),
+                linkTo(methodOn(MaterialController.class).createMaterial(materialForm)).withRel("Create a material"),
+                linkTo(methodOn(MaterialController.class).updateMaterial(material.id(), materialForm)).withRel("Update material")
         );
     }
 }

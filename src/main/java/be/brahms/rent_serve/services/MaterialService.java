@@ -32,4 +32,13 @@ public interface MaterialService {
      * @return a save material on DB
      */
     Material create(Material material);
+
+    /**
+     * This method update the material
+     *
+     * @param id       the identifier
+     * @param material The material contain name of material and his category
+     * @return a name of material or category updated
+     */
+    Material updateMaterial(long id, Material material);
 }

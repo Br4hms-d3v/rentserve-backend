@@ -77,6 +77,15 @@ public class MaterialController {
         return ResponseEntity.ok().body(materialAssembler.toModel(materialByIdDto));
     }
 
+    /**
+     * Create a new material
+     * This method create a new material
+     * Each material is converted to a MaterialDto
+     * Each MaterialDto is wrapped inside an EntityModel with HATEOAS links
+     *
+     * @param form use the formModel to create a new material
+     * @return the name with the new name
+     */
     @PostMapping("new")
     @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
     public ResponseEntity<EntityModel<MaterialDto>> createMaterial(@RequestBody @Valid MaterialForm form) {
@@ -84,6 +93,15 @@ public class MaterialController {
         MaterialDto materialDto = MaterialDto.fromEntity(createMaterial);
 
         EntityModel<MaterialDto> materialModel = materialAssembler.toModel(materialDto);
+        return ResponseEntity.ok().body(materialModel);
+    }
+
+    @PutMapping("{id}/edit")
+    @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
+    public ResponseEntity<EntityModel<MaterialByIdDto>> updateMaterial(@PathVariable long id, @RequestBody @Valid MaterialForm form) {
+        Material editMaterial = materialService.updateMaterial(id, form.toEntity());
+        MaterialByIdDto materialByIdDto = MaterialByIdDto.fromEntity(editMaterial);
+        EntityModel<MaterialByIdDto> materialModel = materialAssembler.toModel(materialByIdDto);
         return ResponseEntity.ok().body(materialModel);
     }
 
