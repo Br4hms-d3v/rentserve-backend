@@ -92,7 +92,6 @@ public class MaterialServiceImpl implements MaterialService {
     public Material deleteMaterial(long id) {
 
         Material deleteMaterial = materialRepository.findById(id).orElseThrow(MaterialNotFoundException::new);
-
         materialRepository.delete(deleteMaterial);
 
         return deleteMaterial;

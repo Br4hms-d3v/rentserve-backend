@@ -15,5 +15,4 @@ public interface MaterialRepository extends JpaRepository<Material, Long> {
 
     boolean existsMaterialByNameMaterial(String nameMaterial);
 
-    Material existsMaterialById(long id);
 }

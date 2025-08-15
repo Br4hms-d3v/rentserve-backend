@@ -116,6 +116,15 @@ public class MaterialController {
         return ResponseEntity.ok().body(materialModel);
     }
 
+    /**
+     * Delete material
+     *
+     * <p> This method delete a material
+     * Each MaerialDto is wrapped inside an EntityModel with HATEOAS links.</p>
+     *
+     * @param id The identifier
+     * @return an delete material
+     */
     @DeleteMapping("{id}/delete")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EntityModel<MaterialDto>> deleteMaterial(@PathVariable long id) {
