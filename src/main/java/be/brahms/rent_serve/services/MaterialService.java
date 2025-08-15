@@ -41,4 +41,12 @@ public interface MaterialService {
      * @return a name of material or category updated
      */
     Material updateMaterial(long id, Material material);
+
+    /**
+     * This method delete the material
+     *
+     * @param id The identifier
+     * @return a success message after delete material
+     */
+    Material deleteMaterial(long id);
 }

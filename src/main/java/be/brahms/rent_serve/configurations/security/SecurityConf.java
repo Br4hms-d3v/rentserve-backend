@@ -56,6 +56,7 @@ public class SecurityConf {
                         .requestMatchers("/api/categories/{id}/delete").hasRole("ADMIN")
                         .requestMatchers("/api/categories/**").hasAnyRole("MEMBER", "MODERATOR", "ADMIN")
                         // Materials
+                        .requestMatchers("/api/material/{id}/delete").hasRole("ADMIN")
                         .requestMatchers("/api/material/**").hasAnyRole("MEMBER", "MODERATOR", "ADMIN")
                         .anyRequest().permitAll()
                 )

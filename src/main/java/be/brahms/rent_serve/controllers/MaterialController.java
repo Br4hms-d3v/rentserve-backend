@@ -96,6 +96,17 @@ public class MaterialController {
         return ResponseEntity.ok().body(materialModel);
     }
 
+    /**
+     * Update the material by his identifier
+     *
+     * <p>This method allows to edit a material.
+     * Check if the category exist and
+     * check if the name is not null before to update </p>
+     *
+     * @param id   the identifier of material
+     * @param form the form to edit material
+     * @return a new name of material after edited
+     */
     @PutMapping("{id}/edit")
     @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
     public ResponseEntity<EntityModel<MaterialByIdDto>> updateMaterial(@PathVariable long id, @RequestBody @Valid MaterialForm form) {
@@ -104,5 +115,15 @@ public class MaterialController {
         EntityModel<MaterialByIdDto> materialModel = materialAssembler.toModel(materialByIdDto);
         return ResponseEntity.ok().body(materialModel);
     }
+
+    @DeleteMapping("{id}/delete")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<EntityModel<MaterialDto>> deleteMaterial(@PathVariable long id) {
+        Material deleteMaterial = materialService.deleteMaterial(id);
+        MaterialDto materialDto = MaterialDto.fromEntity(deleteMaterial);
+        materialAssembler.toModel(materialDto);
+        return ResponseEntity.ok().build();
+    }
+
 
 }

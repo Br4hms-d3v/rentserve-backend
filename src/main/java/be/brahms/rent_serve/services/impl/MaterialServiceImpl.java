@@ -75,7 +75,7 @@ public class MaterialServiceImpl implements MaterialService {
         Material updateMaterial = materialRepository.findById(id).orElseThrow(MaterialNotFoundException::new);
         Category existingCategory = categoryRepository.findByNameCategory(material.getCategory().getNameCategory());
 
-        if( updateMaterial.getCategory().getNameCategory().isEmpty() ) {
+        if (updateMaterial.getCategory().getNameCategory().isEmpty()) {
             throw new MaterialException("La category ne doit pas être vide");
         }
         if (!existingCategory.getNameCategory().equals(material.getCategory().getNameCategory())) {
@@ -86,6 +86,16 @@ public class MaterialServiceImpl implements MaterialService {
         updateMaterial.setCategory(existingCategory);
 
         return materialRepository.save(updateMaterial);
+    }
+
+    @Override
+    public Material deleteMaterial(long id) {
+
+        Material deleteMaterial = materialRepository.findById(id).orElseThrow(MaterialNotFoundException::new);
+
+        materialRepository.delete(deleteMaterial);
+
+        return deleteMaterial;
     }
 
 
