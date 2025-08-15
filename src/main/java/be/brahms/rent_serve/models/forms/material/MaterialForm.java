@@ -8,7 +8,6 @@ import jakarta.validation.constraints.NotNull;
  * Record MaterialForm to save into a Material entity
  *
  * @param nameMaterial The name of material
- * @param nameCategory The name of category
  */
 public record MaterialForm(
         @NotBlank

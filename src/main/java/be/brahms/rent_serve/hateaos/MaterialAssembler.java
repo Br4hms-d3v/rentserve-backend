@@ -3,6 +3,7 @@ package be.brahms.rent_serve.hateaos;
 import be.brahms.rent_serve.controllers.MaterialController;
 import be.brahms.rent_serve.models.dtos.material.MaterialByIdDto;
 import be.brahms.rent_serve.models.dtos.material.MaterialDto;
+import be.brahms.rent_serve.models.forms.material.MaterialForm;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
@@ -28,9 +29,12 @@ public class MaterialAssembler implements RepresentationModelAssembler<MaterialD
      */
     @Override
     public EntityModel<MaterialDto> toModel(MaterialDto material) {
+        MaterialForm materialForm = new MaterialForm(material.nameMaterial(), material.nameMaterial());
+
         return EntityModel.of(material,
                 linkTo(methodOn(MaterialController.class).getMaterials()).withRel("List of all material"),
-                linkTo(methodOn(MaterialController.class).getMaterial(material.id())).withRel("Get material by ID")
+                linkTo(methodOn(MaterialController.class).getMaterial(material.id())).withRel("Get material by ID"),
+                linkTo(methodOn(MaterialController.class).createMaterial(materialForm)).withRel("Create a material")
         );
     }
 
