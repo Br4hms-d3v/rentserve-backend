@@ -1,6 +1,8 @@
 package be.brahms.rent_serve.models.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.HashSet;
@@ -36,6 +38,17 @@ public class Material extends BaseEntity {
      * Default constructor for Material.
      */
     public Material() {
+    }
+
+    /**
+     * The constructor for create a new material
+     *
+     * @param nameMaterial The name of the material
+     * @param nameCategory The name of the category
+     */
+    public Material(@NotBlank String nameMaterial, @NotNull String nameCategory) {
+        this.nameMaterial = nameMaterial;
+        this.category = new Category(nameCategory);
     }
 
     /**

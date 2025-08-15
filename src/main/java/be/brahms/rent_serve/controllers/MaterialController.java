@@ -1,19 +1,16 @@
 package be.brahms.rent_serve.controllers;
 
-import be.brahms.rent_serve.exceptions.material.MaterialNotFoundException;
 import be.brahms.rent_serve.hateaos.MaterialAssembler;
 import be.brahms.rent_serve.models.dtos.material.MaterialByIdDto;
 import be.brahms.rent_serve.models.dtos.material.MaterialDto;
 import be.brahms.rent_serve.models.entities.Material;
-import be.brahms.rent_serve.models.entities.UserMaterial;
+import be.brahms.rent_serve.models.forms.material.MaterialForm;
 import be.brahms.rent_serve.services.MaterialService;
+import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -79,4 +76,15 @@ public class MaterialController {
 
         return ResponseEntity.ok().body(materialAssembler.toModel(materialByIdDto));
     }
+
+    @PostMapping("new")
+    @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
+    public ResponseEntity<EntityModel<MaterialDto>> createMaterial(@RequestBody @Valid MaterialForm form) {
+        Material createMaterial = materialService.create(form.toEntity());
+        MaterialDto materialDto = MaterialDto.fromEntity(createMaterial);
+
+        EntityModel<MaterialDto> materialModel = materialAssembler.toModel(materialDto);
+        return ResponseEntity.ok().body(materialModel);
+    }
+
 }

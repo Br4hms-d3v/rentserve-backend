@@ -24,4 +24,12 @@ public interface MaterialService {
      * @return the name with data from material
      */
     Material findById(long id);
+
+    /**
+     * This method create a new material
+     *
+     * @param material the material
+     * @return a save material on DB
+     */
+    Material create(Material material);
 }

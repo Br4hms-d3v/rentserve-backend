@@ -23,6 +23,8 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
      */
     boolean existsByNameCategory(String nameCategory);
 
+    Category findByNameCategory(String nameCategory);
+
     /**
      * Get all categories that have at least one material.
      * <p>
