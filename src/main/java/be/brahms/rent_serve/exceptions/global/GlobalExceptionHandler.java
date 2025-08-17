@@ -1,6 +1,9 @@
 package be.brahms.rent_serve.exceptions.global;
 
 import be.brahms.rent_serve.exceptions.dtos.ApiError;
+import be.brahms.rent_serve.exceptions.material.MaterialException;
+import be.brahms.rent_serve.exceptions.material.MaterialExistException;
+import be.brahms.rent_serve.exceptions.material.MaterialNotFoundException;
 import be.brahms.rent_serve.exceptions.user.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,8 @@ import org.springframework.web.servlet.View;
 public class GlobalExceptionHandler {
 
     private final View error;
+
+    // Auth
 
     /**
      * Default constructor for GlobalExceptionHandler.
@@ -47,6 +52,8 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(apiError, HttpStatus.FORBIDDEN);
     }
+
+    // Email
 
     /**
      * Handles EmailExistException and sends a 302 FOUND error.
@@ -85,6 +92,8 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
+
+    // User
 
     /**
      * Handles PseudoExistException and sends a 302 FOUND error.
@@ -163,6 +172,22 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Handles errors specific to user operations.
+     *
+     * @param except the UserException containing the error message
+     * @return a response with the error message and HTTP 400 status
+     */
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity<ApiError> handleUserException(UserException except) {
+        ApiError apiError = ApiError.of(
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                except.getMessage()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
      * Handles errors when method arguments are not valid.
      *
      * @param except the exception with details about invalid arguments
@@ -178,14 +203,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 
+    // Material
+
     /**
-     * Handles errors specific to user operations.
+     * Handles errors specific to material operations.
      *
-     * @param except the UserException containing the error message
+     * @param except the materialException containing the error message
      * @return a response with the error message and HTTP 400 status
      */
-    @ExceptionHandler(UserException.class)
-    public ResponseEntity<ApiError> handleUserException(UserException except) {
+    @ExceptionHandler(MaterialException.class)
+    public ResponseEntity<ApiError> handleMaterialException(MaterialException except) {
         ApiError apiError = ApiError.of(
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
@@ -193,6 +220,46 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
+
+    /**
+     * Handles MaterialExistException and sends a 302 FOUND error.
+     * <p>
+     * This method is called automatically when the material already exist.
+     * It creates an ApiError and sends it to the frontend.
+     *
+     * @param except The exception that was thrown (MaterialExistException).
+     * @return A response with an apiError and HTTP status 302 (FOUND).
+     */
+    @ExceptionHandler(MaterialExistException.class)
+    public ResponseEntity<ApiError> handleMaterialExistException(MaterialExistException except) {
+        ApiError apiError = ApiError.of(
+                HttpStatus.FOUND.value(),
+                HttpStatus.FOUND.getReasonPhrase(),
+                except.getMessage()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.FOUND);
+    }
+
+    /**
+     * Handles MaterialNotFoundException and sends a 404 NOT_FOUND error.
+     * <p>
+     * This method is called automatically when the material doesn't exist.
+     * It creates an ApiError and sends it to the frontend.
+     *
+     * @param except The exception that was thrown (MaterialNotFoundException).
+     * @return A response with an apiError and HTTP status 404 (NOT_FOUND).
+     */
+    @ExceptionHandler(MaterialNotFoundException.class)
+    public ResponseEntity<ApiError> handleUserNotFoundException(MaterialNotFoundException except) {
+        ApiError apiError = ApiError.of(
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                except.getMessage()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+
+    // Global
 
     /**
      * Handles any RuntimeException.
