@@ -11,6 +11,10 @@ import org.springframework.stereotype.Component;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+/**
+ * MaterialAssembler is a class that helps to convert MaterialDto or MaterialByIdDto objects
+ * into EntityModel objects. It creates models with links for material data.
+ */
 @Component
 public class MaterialAssembler implements RepresentationModelAssembler<MaterialDto, EntityModel<MaterialDto>> {
 
