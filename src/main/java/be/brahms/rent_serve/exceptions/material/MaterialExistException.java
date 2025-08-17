@@ -15,7 +15,7 @@ public class MaterialExistException extends MaterialException {
     }
 
     /**
-     *
+     * This exception is used when a materials are not found
      */
     public MaterialExistException() {
         super("Le material existe déjà dans notre application");

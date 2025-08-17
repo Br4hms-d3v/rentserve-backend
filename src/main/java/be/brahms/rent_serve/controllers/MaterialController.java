@@ -14,6 +14,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * This controller manages materials
+ * Display the list of materials
+ * Get by identifier
+ * Create a new material
+ * Edit a material
+ * Delete a material
+ * List a list of material by category
+ */
 @RestController
 @RequestMapping("/api/material/")
 public class MaterialController {
@@ -134,6 +143,17 @@ public class MaterialController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Get list of material by name of category
+     *
+     * <p>
+     * This method make a list of material
+     * display a list only grouped by name of category
+     * </p>
+     *
+     * @param nameCategory The name of category
+     * @return a list of materials
+     */
     @GetMapping("/category/{nameCategory}")
     @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
     public ResponseEntity<List<EntityModel<MaterialDto>>> getMaterialByNameCategory(@PathVariable String nameCategory) {

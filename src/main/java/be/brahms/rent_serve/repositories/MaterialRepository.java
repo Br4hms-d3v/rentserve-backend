@@ -16,9 +16,20 @@ import java.util.List;
 @Repository
 public interface MaterialRepository extends JpaRepository<Material, Long> {
 
-
+    /**
+     * The method check if the material exist
+     *
+     * @param nameMaterial The name of material
+     * @return true if the material exist  or false if the material doesn't exist
+     */
     boolean existsMaterialByNameMaterial(String nameMaterial);
 
+    /**
+     * Make a list of material, but it's group by category name
+     *
+     * @param categoryName the name of category
+     * @return a list of material grouped by name of category
+     */
     @Query("SELECT m FROM Material m JOIN m.category c WHERE c.nameCategory = :categoryName")
     List<Material> findByCategoryName(@Param("categoryName") String categoryName);
 

@@ -23,6 +23,12 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
      */
     boolean existsByNameCategory(String nameCategory);
 
+    /**
+     * Get a name of category
+     *
+     * @param nameCategory The name of category
+     * @return the name of category
+     */
     Category findByNameCategory(String nameCategory);
 
     /**

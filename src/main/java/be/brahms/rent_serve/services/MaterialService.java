@@ -50,5 +50,11 @@ public interface MaterialService {
      */
     Material deleteMaterial(long id);
 
+    /**
+     * This method  display list of material by name of category
+     *
+     * @param categoryName the name of category
+     * @return a list material
+     */
     List<Material> findAllMaterialsByCategoryName(String categoryName);
 }

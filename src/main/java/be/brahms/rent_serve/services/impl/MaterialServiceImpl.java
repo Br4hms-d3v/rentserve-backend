@@ -27,6 +27,7 @@ public class MaterialServiceImpl implements MaterialService {
      * Constructor to create MaterialServiceImpl with MaterialRepository.
      *
      * @param materialRepository the repository to access material data
+     * @param categoryRepository the repository to access category data
      */
     public MaterialServiceImpl(MaterialRepository materialRepository, CategoryRepository categoryRepository) {
         this.materialRepository = materialRepository;
