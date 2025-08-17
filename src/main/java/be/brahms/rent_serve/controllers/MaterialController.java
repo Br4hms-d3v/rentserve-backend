@@ -134,5 +134,22 @@ public class MaterialController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/category/{nameCategory}")
+    @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
+    public ResponseEntity<List<EntityModel<MaterialDto>>> getMaterialByNameCategory(@PathVariable String nameCategory) {
+        List<Material> listMaterialByNameCategory = materialService.findAllMaterialsByCategoryName(nameCategory);
+        List<MaterialDto> listMaterialByCategoryNameDto = listMaterialByNameCategory
+                .stream()
+                .map(MaterialDto::fromEntity)
+                .toList();
+
+        List<EntityModel<MaterialDto>> listMaterialModel = listMaterialByCategoryNameDto
+                .stream()
+                .map(materialAssembler::toModel)
+                .toList();
+
+        return ResponseEntity.ok().body(listMaterialModel);
+    }
+
 
 }

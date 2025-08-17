@@ -49,4 +49,6 @@ public interface MaterialService {
      * @return a success message after delete material
      */
     Material deleteMaterial(long id);
+
+    List<Material> findAllMaterialsByCategoryName(String categoryName);
 }

@@ -97,5 +97,20 @@ public class MaterialServiceImpl implements MaterialService {
         return deleteMaterial;
     }
 
+    @Override
+    public List<Material> findAllMaterialsByCategoryName(String categoryName) {
+
+        List<Material> materialListByCategoryName = materialRepository.findByCategoryName(categoryName);
+        Category existingCategory = categoryRepository.findByNameCategory(categoryName);
+
+        if (existingCategory == null) {
+            throw new CategoryNotFoundException();
+        }
+        if (materialListByCategoryName.isEmpty()) {
+            throw new MaterialException("La liste est vide");
+        }
+        return materialListByCategoryName;
+    }
+
 
 }
