@@ -1,10 +1,10 @@
 package be.brahms.rent_serve.models.entities;
 
-import be.brahms.rent_serve.enums.State;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,7 +17,6 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
-@ToString
 public class Material extends BaseEntity {
 
     /**
@@ -27,26 +26,6 @@ public class Material extends BaseEntity {
     @Column(name = "name_material", nullable = false)
     private String nameMaterial;
     /**
-     * A description of the material.
-     * Stored as text, allowing for longer descriptions.
-     */
-    @Column(name = "description_material", columnDefinition = "TEXT")
-    private String descriptionMaterial;
-    /**
-     * The price per hour for using the material.
-     * Stored as a decimal with a precision of 7 and a scale of 2.
-     * This value cannot be null.
-     */
-    @Column(name = "price_hour_material", nullable = false, precision = 7, scale = 2)
-    private BigDecimal priceHourMaterial;
-    /**
-     * The state of the material (e.g., GOOD, DAMAGED).
-     * Stored as a string using the State enum.
-     */
-    @Column(name = "state_material")
-    @Enumerated(EnumType.STRING)
-    private State stateMaterial;
-    /**
      * A flag indicating whether the material is available or not.
      * The default value is false (unavailable) if not set.
      */
@@ -54,10 +33,23 @@ public class Material extends BaseEntity {
     private boolean isAvailable;
 
     // Constructor by default
+
     /**
      * Default constructor for Material.
      */
-    public Material() {}
+    public Material() {
+    }
+
+    /**
+     * The constructor for create a new material
+     *
+     * @param nameMaterial The name of the material
+     * @param nameCategory The name of the category
+     */
+    public Material(@NotBlank String nameMaterial, @NotNull String nameCategory) {
+        this.nameMaterial = nameMaterial;
+        this.category = new Category(nameCategory);
+    }
 
     /**
      * A set of user-material relationships.
@@ -76,4 +68,26 @@ public class Material extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    /**
+     * Returns a string representation of the Material object.
+     * <p>
+     * This includes only following fields:
+     * - id
+     * - name material
+     * - description
+     * - price per hour
+     * - availability
+     * </p>
+     *
+     * @return a tableau with data
+     */
+    @Override
+    public String toString() {
+        return "Material {" +
+                "id= " + getId() + "\n " +
+                "Name= " + nameMaterial + "\n " +
+                "active= " + isAvailable + "\n " +
+                "} ";
+    }
 }

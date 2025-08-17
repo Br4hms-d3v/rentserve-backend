@@ -1,10 +1,15 @@
 CREATE TABLE user_materials
 (
     id          bigint NOT NULL,
+    description_material text,
+    price_hour_material  numeric(7, 2)          NOT NULL,
+    state_material       character varying(255),
     created_at  DATE   NOT NULL,
     updated_at  DATE,
     material_id bigint NOT NULL,
-    user_id     bigint NOT NULL
+    user_id     bigint NOT NULL,
+    CONSTRAINT materials_state_material_check CHECK (((state_material)::text = ANY ((ARRAY['GOOD_STATE':: character varying, 'BAD_STATE':: character varying, 'DAMAGED_STATE':: character varying])::text[])
+) )
 );
 
 ALTER TABLE user_materials

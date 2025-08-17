@@ -2,15 +2,10 @@ CREATE TABLE materials
 (
     id                   bigint                 NOT NULL,
     name_material        character varying(255) NOT NULL,
-    description_material text,
-    price_hour_material  numeric(7, 2)          NOT NULL,
-    state_material       character varying(255),
     category_id          bigint,
     is_available         boolean,
     created_at           DATE                   NOT NULL,
-    updated_at           DATE,
-    CONSTRAINT materials_state_material_check CHECK (((state_material)::text = ANY ((ARRAY['GOOD_STATE':: character varying, 'BAD_STATE':: character varying, 'DAMAGED_STATE':: character varying])::text[])
-) )
+    updated_at           DATE
 );
 
 ALTER TABLE materials

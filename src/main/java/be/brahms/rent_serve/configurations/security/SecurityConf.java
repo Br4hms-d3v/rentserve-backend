@@ -55,7 +55,10 @@ public class SecurityConf {
                         .requestMatchers("/api/categories/{id}/edit").hasAnyRole("MODERATOR", "ADMIN")
                         .requestMatchers("/api/categories/{id}/delete").hasRole("ADMIN")
                         .requestMatchers("/api/categories/**").hasAnyRole("MEMBER", "MODERATOR", "ADMIN")
-                        .anyRequest().authenticated()
+                        // Materials
+                        .requestMatchers("/api/material/{id}/delete").hasRole("ADMIN")
+                        .requestMatchers("/api/material/**").hasAnyRole("MEMBER", "MODERATOR", "ADMIN")
+                        .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

@@ -3,9 +3,9 @@ CREATE TABLE pictures
     id               bigint                 NOT NULL,
     name_picture     character varying(255) NOT NULL,
     created_at       DATE                   NOT NULL,
-    updated_at       DATE,
-    user_favor_id    bigint                 NOT NULL,
-    user_material_id bigint                 NOT NULL
+    updated_at       DATE
+--     user_favor_id    bigint                 NOT NULL,
+--     user_material_id bigint                 NOT NULL
 );
 
 ALTER TABLE pictures ALTER COLUMN id
@@ -20,25 +20,25 @@ ALTER TABLE pictures ALTER COLUMN id
 
 ALTER TABLE pictures
     ADD CONSTRAINT pictures_pkey PRIMARY KEY (id);
-
-ALTER TABLE pictures
-    ADD CONSTRAINT fk_picture_for_favor
-        FOREIGN KEY (user_favor_id) REFERENCES user_favour (id);
-
-ALTER TABLE pictures
-    ADD CONSTRAINT fk_picture_for_material
-        FOREIGN KEY (user_material_id) REFERENCES user_materials(id);
-
-ALTER TABLE pictures
-    ADD CONSTRAINT upDel_picture_favor
-        FOREIGN KEY (user_favor_id)
-            REFERENCES favour (id)
-            ON UPDATE CASCADE
-            ON DELETE RESTRICT;
-
-ALTER TABLE pictures
-    ADD CONSTRAINT upDel_material_favor
-        FOREIGN KEY (user_material_id)
-            REFERENCES materials (id)
-            ON UPDATE CASCADE
-            ON DELETE RESTRICT;
+--
+-- ALTER TABLE pictures
+--     ADD CONSTRAINT fk_picture_for_favor
+--         FOREIGN KEY (user_favor_id) REFERENCES user_favour (id);
+--
+-- ALTER TABLE pictures
+--     ADD CONSTRAINT fk_picture_for_material
+--         FOREIGN KEY (user_material_id) REFERENCES user_materials(id);
+--
+-- ALTER TABLE pictures
+--     ADD CONSTRAINT upDel_picture_favor
+--         FOREIGN KEY (user_favor_id)
+--             REFERENCES favour (id)
+--             ON UPDATE CASCADE
+--             ON DELETE RESTRICT;
+--
+-- ALTER TABLE pictures
+--     ADD CONSTRAINT upDel_material_favor
+--         FOREIGN KEY (user_material_id)
+--             REFERENCES materials (id)
+--             ON UPDATE CASCADE
+--             ON DELETE RESTRICT;

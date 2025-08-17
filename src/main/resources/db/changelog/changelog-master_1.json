@@ -27,6 +27,20 @@
           }
         ]
       }
+    },
+    {
+      "changeSet": {
+        "id": "update-sequence-after-inserts-material",
+        "author": "Brahms",
+        "changes": [
+          {
+            "sql": {
+              "dbms": "postgresql",
+              "sql": "SELECT setval('materials_id_seq', (SELECT MAX(id) FROM materials));"
+            }
+          }
+        ]
+      }
     }
   ]
 }
