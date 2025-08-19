@@ -1,8 +1,12 @@
 package be.brahms.rent_serve.services.impl;
 
+import be.brahms.rent_serve.exceptions.favor.FavorException;
+import be.brahms.rent_serve.models.entities.Favor;
 import be.brahms.rent_serve.repositories.FavorRepository;
 import be.brahms.rent_serve.services.FavorService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Service implementation for managing favor.
@@ -20,5 +24,15 @@ public class FavorServiceImpl implements FavorService {
      */
     public FavorServiceImpl(FavorRepository favorRepository) {
         this.favorRepository = favorRepository;
+    }
+
+    @Override
+    public List<Favor> findAllFavour() {
+        List<Favor> favors = favorRepository.findAll();
+
+        if (favors.isEmpty()) {
+            throw new FavorException("La liste est vide");
+        }
+        return favors;
     }
 }
