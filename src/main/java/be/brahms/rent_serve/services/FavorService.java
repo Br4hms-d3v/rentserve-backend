@@ -10,5 +10,18 @@ import java.util.List;
  */
 public interface FavorService {
 
+    /**
+     * This method get a list of favour
+     *
+     * @return list of all favour
+     */
     List<Favor> findAllFavour();
+
+    /**
+     * This method get favor
+     *
+     * @param id The identifier unique
+     * @return the name of favor with somme information
+     */
+    Favor findFavorById(long id);
 }

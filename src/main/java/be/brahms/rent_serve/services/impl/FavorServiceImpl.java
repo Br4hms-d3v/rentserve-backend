@@ -1,6 +1,7 @@
 package be.brahms.rent_serve.services.impl;
 
 import be.brahms.rent_serve.exceptions.favor.FavorException;
+import be.brahms.rent_serve.exceptions.favor.FavorNotFoundException;
 import be.brahms.rent_serve.models.entities.Favor;
 import be.brahms.rent_serve.repositories.FavorRepository;
 import be.brahms.rent_serve.services.FavorService;
@@ -34,5 +35,12 @@ public class FavorServiceImpl implements FavorService {
             throw new FavorException("La liste est vide");
         }
         return favors;
+    }
+
+    @Override
+    public Favor findFavorById(long id) {
+
+        return favorRepository.findById(id).orElseThrow(FavorNotFoundException::new);
+
     }
 }
