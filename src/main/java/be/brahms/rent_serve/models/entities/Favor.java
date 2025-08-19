@@ -25,19 +25,7 @@ public class Favor extends BaseEntity {
      */
     @Column(name = "name_favor", nullable = false)
     private String nameFavor;
-    /**
-     * A description of the favor.
-     * This is stored as text, allowing for longer descriptions.
-     */
-    @Column(name = "description_favor", columnDefinition = "TEXT")
-    private String descriptionFavor;
-    /**
-     * The price per hour for the favor.
-     * Stored as a decimal with a precision of 7 and a scale of 2.
-     * This value cannot be null.
-     */
-    @Column(name = "price_hour_favor", nullable = false, precision = 7, scale = 2)
-    private BigDecimal priceHourFavor;
+
     /**
      * A flag indicating whether the favor is available or not.
      * The default value is false (unavailable) if not set.
