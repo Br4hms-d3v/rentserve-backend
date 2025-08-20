@@ -107,4 +107,20 @@ public class FavorServiceImpl implements FavorService {
         return deleteFavor;
     }
 
+    @Override
+    public List<Favor> findAllFavourByCategoryName(String categoryName) {
+        List<Favor> favorListByCategory = favorRepository.findByCategoryName(categoryName);
+        Category existingCategory = categoryRepository.findByNameCategory(categoryName);
+
+        if (existingCategory == null) {
+            throw new CategoryNotFoundException();
+        }
+
+        if (favorListByCategory.isEmpty()) {
+            throw new FavorException("La liste est vide");
+        }
+
+        return favorListByCategory;
+    }
+
 }

@@ -49,4 +49,12 @@ public interface FavorService {
      * @return a success message after delete favor
      */
     Favor deleteFavor(long id);
+
+    /**
+     * This method display list of favour by category
+     *
+     * @param categoryName the name of category
+     * @return a list favour
+     */
+    List<Favor> findAllFavourByCategoryName(String categoryName);
 }

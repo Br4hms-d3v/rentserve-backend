@@ -135,4 +135,22 @@ public class FavorController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/category/{nameCategory}")
+    @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
+    public ResponseEntity<List<EntityModel<FavorDto>>> getAllFavorByNameCategory(@PathVariable String nameCategory) {
+        List<Favor> favorListByCategory = favorService.findAllFavourByCategoryName(nameCategory);
+
+        List<FavorDto> listFavorByCategoryDto = favorListByCategory
+                .stream()
+                .map(FavorDto::fromEntity)
+                .toList();
+
+        List<EntityModel<FavorDto>> listFavorByCategoryModel = listFavorByCategoryDto
+                .stream()
+                .map(favorAssembler::toModel)
+                .toList();
+
+        return ResponseEntity.ok(listFavorByCategoryModel);
+    }
+
 }
