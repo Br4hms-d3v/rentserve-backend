@@ -77,4 +77,34 @@ public class FavorServiceImpl implements FavorService {
 
     }
 
+    @Override
+    public Favor updateFavor(long id, Favor favor) {
+        Favor updateFavor = favorRepository.findById(id).orElseThrow(FavorNotFoundException::new);
+        Category existingCategory = categoryRepository.findByNameCategory(favor.getCategory().getNameCategory());
+
+        if (updateFavor.getNameFavor().isEmpty() || updateFavor.getNameFavor().isBlank()) {
+            throw new FavorException("La service ne doit pas être vide");
+        }
+
+        if (existingCategory == null) {
+            throw new CategoryNotFoundException();
+        }
+
+        if (!existingCategory.getNameCategory().equals(favor.getCategory().getNameCategory())) {
+            throw new CategoryNotFoundException();
+        }
+
+        updateFavor.setNameFavor(favor.getNameFavor());
+        updateFavor.setCategory(existingCategory);
+
+        return favorRepository.save(updateFavor);
+    }
+
+    @Override
+    public Favor deleteFavor(long id) {
+        Favor deleteFavor = favorRepository.findById(id).orElseThrow(FavorNotFoundException::new);
+        favorRepository.delete(deleteFavor);
+        return deleteFavor;
+    }
+
 }

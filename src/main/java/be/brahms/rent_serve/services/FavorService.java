@@ -32,4 +32,21 @@ public interface FavorService {
      * @return a new favor saved on DB
      */
     Favor create(Favor favor);
+
+    /**
+     * This method update the favor
+     *
+     * @param id    The identifier
+     * @param favor The material contain name of favor and his category
+     * @return a name of favor updated or change the category
+     */
+    Favor updateFavor(long id, Favor favor);
+
+    /**
+     * This method delete the favor
+     *
+     * @param id The identifier
+     * @return a success message after delete favor
+     */
+    Favor deleteFavor(long id);
 }

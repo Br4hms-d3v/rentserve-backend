@@ -96,4 +96,43 @@ public class FavorController {
         return ResponseEntity.ok().body(FavorModel);
     }
 
+    /**
+     * Update the favor by his identifier
+     * <p>
+     * This method allows to edit a favor.
+     * Check if the category exist and
+     * check if the name is not null before to update </p>
+     *
+     * @param id   The identifier of favor
+     * @param form The form to edit favor
+     * @return a new name of favor after edited
+     */
+    @PutMapping("{id}/edit")
+    @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
+    public ResponseEntity<EntityModel<FavorByIdDto>> updateFavor(@PathVariable long id, @RequestBody @Valid FavorForm form) {
+        Favor editFavor = favorService.updateFavor(id, form.toEntity());
+        FavorByIdDto favorByIdDto = FavorByIdDto.fromEntity(editFavor);
+
+        EntityModel<FavorByIdDto> FavorModel = favorAssembler.toModel(favorByIdDto);
+        return ResponseEntity.ok().body(FavorModel);
+    }
+
+    /**
+     * Delete favor
+     *
+     * <p> This method delete a favor
+     * Each FavorDto is wrapped inside an EntityModel with HATEOAS links.</p>
+     *
+     * @param id The identifier
+     * @return a delete favor
+     */
+    @DeleteMapping("{id}/delete")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<EntityModel<FavorDto>> deleteFavor(@PathVariable long id) {
+        Favor deleteFavor = favorService.deleteFavor(id);
+        FavorDto favorDto = FavorDto.fromEntity(deleteFavor);
+        favorAssembler.toModel(favorDto);
+        return ResponseEntity.ok().build();
+    }
+
 }

@@ -30,8 +30,9 @@ public class FavorAssembler implements RepresentationModelAssembler<FavorDto, En
         return EntityModel.of(favor,
                 linkTo(methodOn(FavorController.class).getFavour()).withRel("List of all favour"),
                 linkTo(methodOn(FavorController.class).getFavourById(favor.id())).withRel("Get favor by ID"),
-                linkTo(methodOn(FavorController.class).createFavor(favorForm)).withRel("Create a new Favor")
-                );
+                linkTo(methodOn(FavorController.class).createFavor(favorForm)).withRel("Create a new Favor"),
+                linkTo(methodOn(FavorController.class).deleteFavor(favor.id())).withRel("Delete a favor")
+        );
     }
 
     /**
@@ -47,9 +48,14 @@ public class FavorAssembler implements RepresentationModelAssembler<FavorDto, En
      * 6:   List of favour group by category
      */
     public EntityModel<FavorByIdDto> toModel(FavorByIdDto favor) {
+        FavorForm favorForm = new FavorForm(favor.nameFavor(), favor.nameFavor());
 
         return EntityModel.of(favor,
-                linkTo(methodOn(FavorController.class).getFavourById(favor.id())).withRel("Get favor by ID")
+                linkTo(methodOn(FavorController.class).getFavour()).withRel("List of all favour"),
+                linkTo(methodOn(FavorController.class).getFavourById(favor.id())).withRel("Get favor by ID"),
+                linkTo(methodOn(FavorController.class).createFavor(favorForm)).withRel("Create a new Favor"),
+                linkTo(methodOn(FavorController.class).updateFavor(favor.id(), favorForm)).withRel("Edit the Favor"),
+                linkTo(methodOn(FavorController.class).deleteFavor(favor.id())).withRel("Delete a favor")
         );
     }
 }

@@ -3,7 +3,6 @@ package be.brahms.rent_serve.models.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +15,6 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
-@ToString
 public class Favor extends BaseEntity {
 
     /**
@@ -69,4 +67,13 @@ public class Favor extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @Override
+    public String toString() {
+        return "Favor {" +
+                "id=" + getId() +
+                "nameFavor='" + nameFavor + '\'' +
+                ", isAvailable=" + isAvailable +
+                "}";
+    }
 }
