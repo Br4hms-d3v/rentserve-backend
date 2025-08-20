@@ -1,6 +1,9 @@
 package be.brahms.rent_serve.exceptions.global;
 
 import be.brahms.rent_serve.exceptions.dtos.ApiError;
+import be.brahms.rent_serve.exceptions.favor.FavorException;
+import be.brahms.rent_serve.exceptions.favor.FavorExistException;
+import be.brahms.rent_serve.exceptions.favor.FavorNotFoundException;
 import be.brahms.rent_serve.exceptions.material.MaterialException;
 import be.brahms.rent_serve.exceptions.material.MaterialExistException;
 import be.brahms.rent_serve.exceptions.material.MaterialNotFoundException;
@@ -250,7 +253,63 @@ public class GlobalExceptionHandler {
      * @return A response with an apiError and HTTP status 404 (NOT_FOUND).
      */
     @ExceptionHandler(MaterialNotFoundException.class)
-    public ResponseEntity<ApiError> handleUserNotFoundException(MaterialNotFoundException except) {
+    public ResponseEntity<ApiError> handleMaterialNotFoundException(MaterialNotFoundException except) {
+        ApiError apiError = ApiError.of(
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                except.getMessage()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+
+    // Favor
+
+    /**
+     * Handles errors specific to favor operations.
+     *
+     * @param except the favorException containing the error message
+     * @return a response with the error message and HTTP 400 status
+     */
+    @ExceptionHandler(FavorException.class)
+    public ResponseEntity<ApiError> handleFavorException(FavorException except) {
+        ApiError apiError = ApiError.of(
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                except.getMessage()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Handles FavorExistException and sends a 302 FOUND error.
+     * <p>
+     * This method is called automatically when the favor already exist.
+     * It creates an ApiError and sends it to the frontend.
+     *
+     * @param except The exception that was thrown (FavorExistException).
+     * @return A response with an apiError and HTTP status 302 (FOUND).
+     */
+    @ExceptionHandler(FavorExistException.class)
+    public ResponseEntity<ApiError> handleFavorExistException(FavorExistException except) {
+        ApiError apiError = ApiError.of(
+                HttpStatus.FOUND.value(),
+                HttpStatus.FOUND.getReasonPhrase(),
+                except.getMessage()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.FOUND);
+    }
+
+    /**
+     * Handles FavorNotFoundException and sends a 404 NOT_FOUND error.
+     * <p>
+     * This method is called automatically when the favor doesn't exist.
+     * It creates an ApiError and sends it to the frontend.
+     *
+     * @param except The exception that was thrown (FavorNotFoundException).
+     * @return A response with an apiError and HTTP status 404 (NOT_FOUND).
+     */
+    @ExceptionHandler(FavorNotFoundException.class)
+    public ResponseEntity<ApiError> handleFavorNotFoundException(FavorNotFoundException except) {
         ApiError apiError = ApiError.of(
                 HttpStatus.NOT_FOUND.value(),
                 HttpStatus.NOT_FOUND.getReasonPhrase(),

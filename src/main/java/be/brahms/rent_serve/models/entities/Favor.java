@@ -3,7 +3,6 @@ package be.brahms.rent_serve.models.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +15,6 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
-@ToString
 public class Favor extends BaseEntity {
 
     /**
@@ -25,19 +23,7 @@ public class Favor extends BaseEntity {
      */
     @Column(name = "name_favor", nullable = false)
     private String nameFavor;
-    /**
-     * A description of the favor.
-     * This is stored as text, allowing for longer descriptions.
-     */
-    @Column(name = "description_favor", columnDefinition = "TEXT")
-    private String descriptionFavor;
-    /**
-     * The price per hour for the favor.
-     * Stored as a decimal with a precision of 7 and a scale of 2.
-     * This value cannot be null.
-     */
-    @Column(name = "price_hour_favor", nullable = false, precision = 7, scale = 2)
-    private BigDecimal priceHourFavor;
+
     /**
      * A flag indicating whether the favor is available or not.
      * The default value is false (unavailable) if not set.
@@ -46,10 +32,23 @@ public class Favor extends BaseEntity {
     private boolean isAvailable;
 
     // Constructor by default
+
     /**
      * Default constructor for Favor.
      */
-    public Favor() {}
+    public Favor() {
+    }
+
+    /**
+     * The constructor for create a new favor
+     *
+     * @param nameFavor    The name of the favor
+     * @param nameCategory The name of the category
+     */
+    public Favor(String nameFavor, String nameCategory) {
+        this.nameFavor = nameFavor;
+        this.category = new Category(nameCategory);
+    }
 
     /**
      * A set of user-favor relationships.
@@ -68,4 +67,13 @@ public class Favor extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @Override
+    public String toString() {
+        return "Favor {" +
+                "id=" + getId() +
+                "nameFavor='" + nameFavor + '\'' +
+                ", isAvailable=" + isAvailable +
+                "}";
+    }
 }

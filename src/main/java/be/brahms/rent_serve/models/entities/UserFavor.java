@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +19,20 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 public class UserFavor extends BaseEntity {
+
+    /**
+     * A description of the favor.
+     * This is stored as text, allowing for longer descriptions.
+     */
+    @Column(name = "description_favor", columnDefinition = "TEXT")
+    private String descriptionFavor;
+    /**
+     * The price per hour for the favor.
+     * Stored as a decimal with a precision of 7 and a scale of 2.
+     * This value cannot be null.
+     */
+    @Column(name = "price_hour_favor", nullable = false, precision = 7, scale = 2)
+    private BigDecimal priceHourFavor;
 
     // Relation ManyToOne
     /**

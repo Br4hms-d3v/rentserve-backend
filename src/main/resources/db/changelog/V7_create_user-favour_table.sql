@@ -1,6 +1,8 @@
 CREATE TABLE user_favour
 (
     id         bigint NOT NULL,
+    description_favor text,
+    price_hour_favor  numeric(7, 2)          NOT NULL,
     created_at DATE   NOT NULL,
     updated_at DATE,
     favor_id   bigint NOT NULL,

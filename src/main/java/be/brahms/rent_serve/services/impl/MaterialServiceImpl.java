@@ -52,7 +52,7 @@ public class MaterialServiceImpl implements MaterialService {
 
         Category existingCategory = categoryRepository.findByNameCategory(nameCategory);
 
-        if (!categoryRepository.existsByNameCategory(material.getCategory().getNameCategory())) {
+        if (!categoryRepository.existsByNameCategory(nameCategory)) {
             throw new CategoryNotFoundException();
         }
 
