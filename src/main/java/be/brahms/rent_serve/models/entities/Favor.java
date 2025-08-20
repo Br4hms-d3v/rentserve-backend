@@ -34,10 +34,23 @@ public class Favor extends BaseEntity {
     private boolean isAvailable;
 
     // Constructor by default
+
     /**
      * Default constructor for Favor.
      */
-    public Favor() {}
+    public Favor() {
+    }
+
+    /**
+     * The constructor for create a new favor
+     *
+     * @param nameFavor    The name of the favor
+     * @param nameCategory The name of the category
+     */
+    public Favor(String nameFavor, String nameCategory) {
+        this.nameFavor = nameFavor;
+        this.category = new Category(nameCategory);
+    }
 
     /**
      * A set of user-favor relationships.

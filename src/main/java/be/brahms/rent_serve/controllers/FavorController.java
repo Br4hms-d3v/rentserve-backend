@@ -4,14 +4,13 @@ import be.brahms.rent_serve.hateaos.FavorAssembler;
 import be.brahms.rent_serve.models.dtos.favor.FavorByIdDto;
 import be.brahms.rent_serve.models.dtos.favor.FavorDto;
 import be.brahms.rent_serve.models.entities.Favor;
+import be.brahms.rent_serve.models.forms.favor.FavorForm;
 import be.brahms.rent_serve.services.FavorService;
+import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -78,4 +77,23 @@ public class FavorController {
         return ResponseEntity.ok(favorAssembler.toModel(favorByIdDto));
 
     }
+
+    /**
+     * Create a new favor
+     * Each favor is converted to a FavorDto
+     * Each favorDto is wrapped inside an EntityModel with HATEOAS links
+     *
+     * @param form use the form to create a new favor
+     * @return the name with the new name
+     */
+    @PostMapping("new")
+    @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
+    public ResponseEntity<EntityModel<FavorDto>> createFavor(@RequestBody @Valid FavorForm form) {
+        Favor createFavor = favorService.create(form.toEntity());
+        FavorDto favorDto = FavorDto.fromEntity(createFavor);
+
+        EntityModel<FavorDto> FavorModel = favorAssembler.toModel(favorDto);
+        return ResponseEntity.ok().body(FavorModel);
+    }
+
 }

@@ -3,6 +3,7 @@ package be.brahms.rent_serve.hateaos;
 import be.brahms.rent_serve.controllers.FavorController;
 import be.brahms.rent_serve.models.dtos.favor.FavorByIdDto;
 import be.brahms.rent_serve.models.dtos.favor.FavorDto;
+import be.brahms.rent_serve.models.forms.favor.FavorForm;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
@@ -24,11 +25,13 @@ public class FavorAssembler implements RepresentationModelAssembler<FavorDto, En
      */
     @Override
     public EntityModel<FavorDto> toModel(FavorDto favor) {
+        FavorForm favorForm = new FavorForm(favor.nameFavor(), favor.nameFavor());
 
         return EntityModel.of(favor,
                 linkTo(methodOn(FavorController.class).getFavour()).withRel("List of all favour"),
-                linkTo(methodOn(FavorController.class).getFavourById(favor.id())).withRel("Get favor by ID")
-        );
+                linkTo(methodOn(FavorController.class).getFavourById(favor.id())).withRel("Get favor by ID"),
+                linkTo(methodOn(FavorController.class).createFavor(favorForm)).withRel("Create a new Favor")
+                );
     }
 
     /**

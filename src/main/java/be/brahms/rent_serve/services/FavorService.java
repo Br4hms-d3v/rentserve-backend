@@ -24,4 +24,12 @@ public interface FavorService {
      * @return the name of favor with somme information
      */
     Favor findFavorById(long id);
+
+    /**
+     * This method create a new Service
+     *
+     * @param favor The favor
+     * @return a new favor saved on DB
+     */
+    Favor create(Favor favor);
 }
