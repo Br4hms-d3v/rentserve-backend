@@ -14,6 +14,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * This controller manages favour
+ * Display the list of favour
+ * Get a favor by identifier
+ * Create a new favor
+ * Edit a favor
+ * Delete a favor
+ * List a list of favour by category
+ */
 @RestController
 @RequestMapping("/api/favor/")
 public class FavorController {
@@ -135,6 +144,17 @@ public class FavorController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Get list of favour by name of category
+     *
+     * <p>
+     * This method make a list of favour
+     * display a list only grouped by name of category
+     * </p>
+     *
+     * @param nameCategory The name of category
+     * @return a list of favour
+     */
     @GetMapping("/category/{nameCategory}")
     @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
     public ResponseEntity<List<EntityModel<FavorDto>>> getAllFavorByNameCategory(@PathVariable String nameCategory) {

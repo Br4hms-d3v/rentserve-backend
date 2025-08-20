@@ -11,6 +11,10 @@ import org.springframework.stereotype.Component;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+/**
+ * FavorAssembler is a class that helps to convert FavorDto or FavorByIdDto objects
+ * into EntityModel objects. It creates models with links for favor data.
+ */
 @Component
 public class FavorAssembler implements RepresentationModelAssembler<FavorDto, EntityModel<FavorDto>> {
 
