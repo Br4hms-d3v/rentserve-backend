@@ -44,11 +44,12 @@ public class Material extends BaseEntity {
      * The constructor for create a new material
      *
      * @param nameMaterial The name of the material
-     * @param nameCategory The name of the category
+     * @param category The name of the category
      */
-    public Material(@NotBlank String nameMaterial, @NotNull String nameCategory) {
+    public Material(String nameMaterial, String category, Boolean isAvailable) {
         this.nameMaterial = nameMaterial;
-        this.category = new Category(nameCategory);
+        this.category = new Category(category);
+        this.isAvailable = isAvailable;
     }
 
     /**
