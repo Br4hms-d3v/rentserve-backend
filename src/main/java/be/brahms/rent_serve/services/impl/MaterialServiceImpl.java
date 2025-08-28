@@ -84,6 +84,7 @@ public class MaterialServiceImpl implements MaterialService {
         }
 
         updateMaterial.setNameMaterial(material.getNameMaterial());
+        updateMaterial.setAvailable(material.isAvailable());
         updateMaterial.setCategory(existingCategory);
 
         return materialRepository.save(updateMaterial);

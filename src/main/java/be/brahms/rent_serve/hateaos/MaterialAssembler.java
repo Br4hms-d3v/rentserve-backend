@@ -33,13 +33,13 @@ public class MaterialAssembler implements RepresentationModelAssembler<MaterialD
      */
     @Override
     public EntityModel<MaterialDto> toModel(MaterialDto material) {
-        MaterialForm materialForm = new MaterialForm(material.nameMaterial(), material.nameMaterial());
+//        MaterialForm materialForm = new MaterialForm(material.nameMaterial(), material.nameMaterial());
 
         return EntityModel.of(material,
                 linkTo(methodOn(MaterialController.class).getMaterials()).withRel("List of all material"),
                 linkTo(methodOn(MaterialController.class).getMaterial(material.id())).withRel("Get material by ID"),
-                linkTo(methodOn(MaterialController.class).createMaterial(materialForm)).withRel("Create a material"),
-                linkTo(methodOn(MaterialController.class).updateMaterial(material.id(), materialForm)).withRel("Update material"),
+//                linkTo(methodOn(MaterialController.class).createMaterial(materialForm)).withRel("Create a material"),
+//                linkTo(methodOn(MaterialController.class).updateMaterial(material.id(), materialForm)).withRel("Update material"),
                 linkTo(methodOn(MaterialController.class).deleteMaterial(material.id())).withRel("Delete a material")
         );
     }
@@ -57,7 +57,7 @@ public class MaterialAssembler implements RepresentationModelAssembler<MaterialD
      * 6:   List of materials group by category
      */
     public EntityModel<MaterialByIdDto> toModel(MaterialByIdDto material) {
-        MaterialForm materialForm = new MaterialForm(material.nameMaterial(), material.nameMaterial());
+        MaterialForm materialForm = new MaterialForm(material.nameMaterial(), material.nameMaterial(), material.isAvailable());
         return EntityModel.of(material,
                 linkTo(methodOn(MaterialController.class).getMaterials()).withRel("List of all material"),
                 linkTo(methodOn(MaterialController.class).getMaterial(material.id())).withRel("Get material by ID"),
