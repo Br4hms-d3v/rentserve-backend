@@ -8,6 +8,7 @@ import be.brahms.rent_serve.exceptions.material.MaterialException;
 import be.brahms.rent_serve.exceptions.material.MaterialExistException;
 import be.brahms.rent_serve.exceptions.material.MaterialNotFoundException;
 import be.brahms.rent_serve.exceptions.user.*;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -333,6 +334,20 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
                 except.getMessage()
         );
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    // Database
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ApiError> handleDataIntegrityViolationException(DataIntegrityViolationException except) {
+
+        ApiError apiError = ApiError.of(
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                "Impossible de supprimer car il utilisé par des utilisateurs."
+        );
+
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 }
