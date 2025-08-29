@@ -57,6 +57,7 @@ public class SecurityConf {
                         .requestMatchers("/api/categories/**").hasAnyRole("MEMBER", "MODERATOR", "ADMIN")
                         // Materials
                         .requestMatchers("/api/material/{id}/delete").hasRole("ADMIN")
+                        .requestMatchers("/api/material/{id}/edit").hasAnyRole("MODERATOR", "ADMIN")
                         .requestMatchers("/api/material/**").hasAnyRole("MEMBER", "MODERATOR", "ADMIN")
                         // Favour
                         .requestMatchers("/api/favor/{id}/delete").hasRole("ADMIN")

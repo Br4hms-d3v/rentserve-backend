@@ -339,6 +339,16 @@ public class GlobalExceptionHandler {
 
     // Database
 
+    /**
+     * Handle DataIntegrityViolationException and send a 404 Error
+     * <p>
+     * This method is called when a request try to delete a data on DB
+     * And it's not possible to delete because it's used on other table
+     * </p>
+     *
+     * @param except this is an exception empty
+     * @return a message to say it's impossible to delete
+     */
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ApiError> handleDataIntegrityViolationException(DataIntegrityViolationException except) {
 

@@ -114,5 +114,16 @@ public class MaterialServiceImpl implements MaterialService {
         return materialListByCategoryName;
     }
 
+    @Override
+    public List<Material> findByNameMaterial(String materialName) {
+        List<Material> materialListByMaterialName = materialRepository.findByNameMaterial(materialName);
+
+        if (materialListByMaterialName.isEmpty()) {
+            throw new MaterialNotFoundException();
+        }
+
+        return materialListByMaterialName;
+    }
+
 
 }
