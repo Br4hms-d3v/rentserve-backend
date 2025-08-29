@@ -117,7 +117,7 @@ public class MaterialController {
      * @return a new name of material after edited
      */
     @PutMapping("{id}/edit")
-    @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
     public ResponseEntity<EntityModel<MaterialByIdDto>> updateMaterial(@PathVariable long id, @RequestBody @Valid MaterialForm form) {
         Material editMaterial = materialService.updateMaterial(id, form.toEntity());
         MaterialByIdDto materialByIdDto = MaterialByIdDto.fromEntity(editMaterial);
@@ -169,6 +169,35 @@ public class MaterialController {
                 .toList();
 
         return ResponseEntity.ok().body(listMaterialModel);
+    }
+
+    /**
+     * Get list of material by name of material
+     *
+     * <p>
+     * This method make a list of material
+     * display a list of material by name
+     * or display only one material by searched
+     * </p>
+     *
+     * @param nameMaterial The name of material
+     * @return a list of material or only one material
+     */
+    @GetMapping("/search/{nameMaterial}")
+    @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
+    public ResponseEntity<List<EntityModel<MaterialDto>>> getMaterialByNameMaterial(@PathVariable String nameMaterial) {
+        List<Material> listMaterialByName = materialService.findByNameMaterial(nameMaterial);
+        List<MaterialDto> listMaterialByNameDto = listMaterialByName
+                .stream()
+                .map(MaterialDto::fromEntity)
+                .toList();
+
+        List<EntityModel<MaterialDto>> listMaterialByNameEntity = listMaterialByNameDto
+                .stream()
+                .map(materialAssembler::toModel)
+                .toList();
+
+        return ResponseEntity.ok().body(listMaterialByNameEntity);
     }
 
 

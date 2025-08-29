@@ -57,4 +57,12 @@ public interface MaterialService {
      * @return a list material
      */
     List<Material> findAllMaterialsByCategoryName(String categoryName);
+
+    /**
+     * This method display a list or a material searched by word
+     *
+     * @param nameMaterial the name of material
+     * @return a list of material or just only one material
+     */
+    List<Material> findByNameMaterial(String nameMaterial);
 }

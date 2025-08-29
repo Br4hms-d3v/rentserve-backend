@@ -44,7 +44,8 @@ public class Material extends BaseEntity {
      * The constructor for create a new material
      *
      * @param nameMaterial The name of the material
-     * @param category The name of the category
+     * @param category     The name of the category
+     * @param isAvailable  The boolean to check if is activated or not
      */
     public Material(String nameMaterial, String category, Boolean isAvailable) {
         this.nameMaterial = nameMaterial;

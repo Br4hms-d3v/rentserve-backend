@@ -33,4 +33,13 @@ public interface MaterialRepository extends JpaRepository<Material, Long> {
     @Query("SELECT m FROM Material m JOIN m.category c WHERE c.nameCategory = :categoryName")
     List<Material> findByCategoryName(@Param("categoryName") String categoryName);
 
+    /**
+     * Make a list of materials searched by name of material
+     *
+     * @param nameMaterial the name of material
+     * @return a material or list of material by search word
+     */
+    @Query("SELECT m FROM Material m WHERE m.nameMaterial ILIKE %:nameMaterial% ORDER BY m.id ASC ")
+    List<Material> findByNameMaterial(@Param("nameMaterial") String nameMaterial);
+
 }
