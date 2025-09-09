@@ -44,7 +44,7 @@ public class CategoryController {
      * @return ResponseEntity with a list of category model
      */
     @GetMapping("list")
-    @PreAuthorize("hasAnyRole('Moderator','ADMIN')")
+    @PreAuthorize("hasAnyRole('MEMBER','Moderator','ADMIN')")
     public ResponseEntity<List<EntityModel<CategoryDto>>> getCategories() {
         List<Category> categoriesList = categoryService.findAllCategories();
         List<CategoryDto> categoryDtoList = categoriesList

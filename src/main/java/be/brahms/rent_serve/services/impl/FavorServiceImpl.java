@@ -95,6 +95,7 @@ public class FavorServiceImpl implements FavorService {
         }
 
         updateFavor.setNameFavor(favor.getNameFavor());
+        updateFavor.setAvailable(favor.isAvailable());
         updateFavor.setCategory(existingCategory);
 
         return favorRepository.save(updateFavor);
