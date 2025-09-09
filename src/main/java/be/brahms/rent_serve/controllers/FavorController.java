@@ -117,7 +117,7 @@ public class FavorController {
      * @return a new name of favor after edited
      */
     @PutMapping("{id}/edit")
-    @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
     public ResponseEntity<EntityModel<FavorByIdDto>> updateFavor(@PathVariable long id, @RequestBody @Valid FavorForm form) {
         Favor editFavor = favorService.updateFavor(id, form.toEntity());
         FavorByIdDto favorByIdDto = FavorByIdDto.fromEntity(editFavor);
