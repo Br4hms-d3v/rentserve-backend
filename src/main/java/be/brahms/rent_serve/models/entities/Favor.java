@@ -43,11 +43,12 @@ public class Favor extends BaseEntity {
      * The constructor for create a new favor
      *
      * @param nameFavor    The name of the favor
-     * @param nameCategory The name of the category
+     * @param category The name of the category
      */
-    public Favor(String nameFavor, String nameCategory) {
+    public Favor(String nameFavor, String category, Boolean isAvailable) {
         this.nameFavor = nameFavor;
-        this.category = new Category(nameCategory);
+        this.category = new Category(category);
+        this.isAvailable = isAvailable;
     }
 
     /**
