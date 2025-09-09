@@ -51,7 +51,6 @@ public class SecurityConf {
                         // Users
                         .requestMatchers("/api/user/**").hasRole("MEMBER")
                         // Categories
-                        .requestMatchers("/api/categories/list").hasAnyRole("MODERATOR", "ADMIN")
                         .requestMatchers("/api/categories/{id}/edit").hasAnyRole("MODERATOR", "ADMIN")
                         .requestMatchers("/api/categories/{id}/delete").hasRole("ADMIN")
                         .requestMatchers("/api/categories/**").hasAnyRole("MEMBER", "MODERATOR", "ADMIN")
@@ -61,6 +60,7 @@ public class SecurityConf {
                         .requestMatchers("/api/material/**").hasAnyRole("MEMBER", "MODERATOR", "ADMIN")
                         // Favour
                         .requestMatchers("/api/favor/{id}/delete").hasRole("ADMIN")
+                        .requestMatchers("/api/favor/{id}/edit").hasAnyRole("MODERATOR", "ADMIN")
                         .requestMatchers("/api/favor/**").hasAnyRole("MEMBER", "MODERATOR", "ADMIN")
                         .anyRequest().permitAll()
                 )
