@@ -40,6 +40,9 @@ public class UserMaterial extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private State stateMaterial;
 
+    @Column(name = "isAvailable")
+    private boolean isAvailable;
+
     // Relation ManyToOne
     /**
      * The user who owns or offers the material.
@@ -80,7 +83,7 @@ public class UserMaterial extends BaseEntity {
     private Set<Review> reviews = new HashSet<>();
 
     // Relation ManyToMany
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "picture_user_materials",
             joinColumns = @JoinColumn(name = "user_material_id"),
