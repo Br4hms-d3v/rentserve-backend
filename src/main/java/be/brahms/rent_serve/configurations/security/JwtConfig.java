@@ -1,5 +1,6 @@
 package be.brahms.rent_serve.configurations.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,7 +28,7 @@ public class JwtConfig {
      * The secret key used to sign the JWT.
      * It is a byte array that starts with "secret key".
      */
-    private final byte[] secret = "ThisIsAnSecretForAppRentServeWithSpringbootAndAngularWithSHA384".getBytes(StandardCharsets.UTF_8);
+    private final byte[] secret = System.getenv("SECRET_KEY").getBytes(StandardCharsets.UTF_8);
 
     /**
      * The time in seconds before the JWT expires.
