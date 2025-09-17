@@ -36,4 +36,23 @@ public class UserMaterialServiceImpl implements UserMaterialService {
         return userMaterials;
     }
 
+    public List<UserMaterial> listUserMaterialAvailable() {
+        List<UserMaterial> userMaterialsAvailable = userMaterialRepository.findAllMaterialAvailable();
+
+        if (userMaterialsAvailable.isEmpty()) {
+            throw new UserMaterialException("La liste est vide");
+        }
+
+        return userMaterialsAvailable;
+    }
+
+    public List<UserMaterial> listUserMaterialNotAvailable() {
+        List<UserMaterial> userMaterialsNotAvailable = userMaterialRepository.findAllMaterialNotAvailable();
+
+        if (userMaterialsNotAvailable.isEmpty()) {
+            throw new UserMaterialException("La liste est vide");
+        }
+
+        return userMaterialsNotAvailable;
+    }
 }

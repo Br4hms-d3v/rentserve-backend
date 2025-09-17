@@ -8,6 +8,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,4 +43,40 @@ public class UserMaterialController {
         return ResponseEntity.ok(listUserMaterialModel);
     }
 
+    @GetMapping("list/activated")
+    public ResponseEntity<List<EntityModel<UserMaterialDto>>> getActivatedUserMaterials() {
+        List<UserMaterial> userMaterialActivated = userMaterialService.listUserMaterialAvailable();
+        List<UserMaterialDto> userMaterialActivatedDtoList = userMaterialActivated
+                .stream()
+                .map(UserMaterialDto::fromEntity)
+                .toList();
+
+        List<EntityModel<UserMaterialDto>> entityUserMaterialActivated = userMaterialActivatedDtoList
+                .stream()
+                .map(userMaterialAssembler::toModel)
+                .toList();
+
+        return ResponseEntity.ok(entityUserMaterialActivated);
+    }
+
+    @GetMapping("list/deactivated")
+    public ResponseEntity<List<EntityModel<UserMaterialDto>>> getDeactivatedUserMaterials() {
+        List<UserMaterial> userMaterialDeactivated = userMaterialService.listUserMaterialNotAvailable();
+        List<UserMaterialDto> userMaterialDeactivatedDtoList = userMaterialDeactivated
+                .stream()
+                .map(UserMaterialDto::fromEntity)
+                .toList();
+
+        List<EntityModel<UserMaterialDto>> entityUserMaterialDeactivated = userMaterialDeactivatedDtoList
+                .stream()
+                .map(userMaterialAssembler::toModel)
+                .toList();
+
+        return ResponseEntity.ok(entityUserMaterialDeactivated);
+    }
+
+    @GetMapping("{id}/owner")
+    public ResponseEntity<UserMaterialDto> getUserMaterialByOwner(@PathVariable Long id) {
+        return null;
+    }
 }

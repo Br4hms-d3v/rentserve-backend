@@ -12,5 +12,9 @@ public interface UserMaterialService {
 
     List<UserMaterial> findAllUserMaterials();
 
+    List<UserMaterial> listUserMaterialAvailable();
+
+    List<UserMaterial> listUserMaterialNotAvailable();
+
 
 }

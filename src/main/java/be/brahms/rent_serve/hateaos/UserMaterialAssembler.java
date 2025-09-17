@@ -19,6 +19,8 @@ public class UserMaterialAssembler implements RepresentationModelAssembler<UserM
     @Override
     public EntityModel<UserMaterialDto> toModel(UserMaterialDto userMaterial) {
         return EntityModel.of(userMaterial,
-                linkTo(methodOn(UserMaterialController.class).getUserMaterials()).withRel("List of all material from users"));
+                linkTo(methodOn(UserMaterialController.class).getUserMaterials()).withRel("List of all material from users"),
+                linkTo(methodOn(UserMaterialController.class).getActivatedUserMaterials()).withRel("List of materials activated"),
+                linkTo(methodOn(UserMaterialController.class).getDeactivatedUserMaterials()).withRel("List of materials deactivated"));
     }
 }
