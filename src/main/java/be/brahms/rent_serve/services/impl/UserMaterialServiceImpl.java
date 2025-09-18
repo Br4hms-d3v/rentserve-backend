@@ -1,6 +1,7 @@
 package be.brahms.rent_serve.services.impl;
 
 import be.brahms.rent_serve.exceptions.userMaterial.UserMaterialException;
+import be.brahms.rent_serve.exceptions.userMaterial.UserMaterialNotFoundException;
 import be.brahms.rent_serve.models.entities.UserMaterial;
 import be.brahms.rent_serve.repositories.UserMaterialRepository;
 import be.brahms.rent_serve.services.UserMaterialService;
@@ -54,5 +55,23 @@ public class UserMaterialServiceImpl implements UserMaterialService {
         }
 
         return userMaterialsNotAvailable;
+    }
+
+    public UserMaterial findUserMaterialById(long userMaterialId) {
+        return userMaterialRepository.findById(userMaterialId).orElseThrow(UserMaterialNotFoundException::new);
+    }
+
+    public List<UserMaterial> listUserMaterialByUser(long userId, boolean availableOrNot) {
+
+        // TODO if exist user id continue else exception
+        // ... code here ...
+
+        List<UserMaterial> listMaterialOwner = userMaterialRepository.findAllMaterialByOwner(userId, availableOrNot);
+
+        if (listMaterialOwner.isEmpty()) {
+            throw new UserMaterialException("La liste est vide");
+        }
+
+        return listMaterialOwner;
     }
 }

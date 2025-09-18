@@ -1,6 +1,7 @@
 package be.brahms.rent_serve.controllers;
 
 import be.brahms.rent_serve.hateaos.UserMaterialAssembler;
+import be.brahms.rent_serve.models.dtos.userMaterial.UserMaterialByIdDto;
 import be.brahms.rent_serve.models.dtos.userMaterial.UserMaterialDto;
 import be.brahms.rent_serve.models.entities.UserMaterial;
 import be.brahms.rent_serve.services.UserMaterialService;
@@ -75,8 +76,17 @@ public class UserMaterialController {
         return ResponseEntity.ok(entityUserMaterialDeactivated);
     }
 
-    @GetMapping("{id}/owner")
-    public ResponseEntity<UserMaterialDto> getUserMaterialByOwner(@PathVariable Long id) {
-        return null;
+    @GetMapping("{id}")
+    public ResponseEntity<EntityModel<UserMaterialByIdDto>> getUserMaterial(@PathVariable long id) {
+        UserMaterial userMaterial = userMaterialService.findUserMaterialById(id);
+        UserMaterialByIdDto userMaterialByIdDto = UserMaterialByIdDto.fromEntity(userMaterial);
+
+        return ResponseEntity.ok().body(userMaterialAssembler.toModel(userMaterialByIdDto));
     }
+
+
+//    @GetMapping("{id}/owner")
+//    public ResponseEntity<UserMaterialDto> getUserMaterialByOwner(@PathVariable Long id) {
+//        return null;
+//    }
 }

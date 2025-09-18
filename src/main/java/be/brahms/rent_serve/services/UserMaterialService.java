@@ -16,5 +16,7 @@ public interface UserMaterialService {
 
     List<UserMaterial> listUserMaterialNotAvailable();
 
+    UserMaterial findUserMaterialById(long id);
+
 
 }
