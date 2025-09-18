@@ -3,9 +3,7 @@ package be.brahms.rent_serve.models.dtos.userMaterial;
 import be.brahms.rent_serve.enums.State;
 import be.brahms.rent_serve.models.dtos.material.MaterialDto;
 import be.brahms.rent_serve.models.dtos.user.UserDto;
-import be.brahms.rent_serve.models.entities.Material;
 import be.brahms.rent_serve.models.entities.Picture;
-import be.brahms.rent_serve.models.entities.User;
 import be.brahms.rent_serve.models.entities.UserMaterial;
 
 import java.math.BigDecimal;
