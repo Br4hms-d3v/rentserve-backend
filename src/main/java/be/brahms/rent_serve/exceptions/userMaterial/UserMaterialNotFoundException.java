@@ -1,6 +1,6 @@
 package be.brahms.rent_serve.exceptions.userMaterial;
 
-public class UserMaterialNotFoundException extends RuntimeException {
+public class UserMaterialNotFoundException extends UserMaterialException {
 
     public UserMaterialNotFoundException(String message) {
         super(message);
