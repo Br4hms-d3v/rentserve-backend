@@ -7,6 +7,8 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.AccessDeniedException;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -19,10 +21,17 @@ public class UserMaterialAssembler implements RepresentationModelAssembler<UserM
 
     @Override
     public EntityModel<UserMaterialDto> toModel(UserMaterialDto userMaterial) {
-        return EntityModel.of(userMaterial,
-                linkTo(methodOn(UserMaterialController.class).getUserMaterials()).withRel("List of all material from users"),
-                linkTo(methodOn(UserMaterialController.class).getActivatedUserMaterials()).withRel("List of materials activated"),
-                linkTo(methodOn(UserMaterialController.class).getDeactivatedUserMaterials()).withRel("List of materials deactivated"));
+
+        try {
+            return EntityModel.of(userMaterial,
+                    linkTo(methodOn(UserMaterialController.class).getUserMaterials()).withRel("List of all material from users"),
+                    linkTo(methodOn(UserMaterialController.class).getActivatedUserMaterials()).withRel("List of materials activated"),
+                    linkTo(methodOn(UserMaterialController.class).getDeactivatedUserMaterials()).withRel("List of materials deactivated"),
+                    linkTo(methodOn(UserMaterialController.class).updateUserMaterial(userMaterial.id(), null)).withRel("Update the user material").withType("PUT")
+                    );
+        } catch (AccessDeniedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public EntityModel<UserMaterialByIdDto> toModel(UserMaterialByIdDto userMaterial) {
