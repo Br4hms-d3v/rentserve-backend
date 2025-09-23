@@ -55,6 +55,34 @@
           }
         ]
       }
+    },
+    {
+      "changeSet": {
+        "id": "update-sequence-after-inserts-user_materials",
+        "author": "Brahms",
+        "changes": [
+          {
+            "sql": {
+              "dbms": "postgresql",
+              "sql": "SELECT setval('user_materials_id_seq', (SELECT MAX(id) FROM user_materials));"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "update-sequence-after-inserts-picture_user_materials",
+        "author": "Brahms",
+        "changes": [
+          {
+            "sql": {
+              "dbms": "postgresql",
+              "sql": "SELECT setval('picture_usermaterial_id_seq', (SELECT MAX(id) FROM picture_user_materials));"
+            }
+          }
+        ]
+      }
     }
   ]
 }

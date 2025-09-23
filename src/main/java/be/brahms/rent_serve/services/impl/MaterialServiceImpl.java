@@ -42,7 +42,13 @@ public class MaterialServiceImpl implements MaterialService {
     @Override
     public Material findById(long id) {
 
-        return materialRepository.findById(id).orElseThrow(MaterialNotFoundException::new);
+        Material material = materialRepository.findById(id);
+        if (material == null) {
+            throw new MaterialNotFoundException();
+        }
+        return material;
+
+
     }
 
     @Override
@@ -73,7 +79,10 @@ public class MaterialServiceImpl implements MaterialService {
     @Override
     public Material updateMaterial(long id, Material material) {
 
-        Material updateMaterial = materialRepository.findById(id).orElseThrow(MaterialNotFoundException::new);
+        Material updateMaterial = materialRepository.findById(id);
+        if (updateMaterial == null) {
+            throw new MaterialNotFoundException();
+        }
         Category existingCategory = categoryRepository.findByNameCategory(material.getCategory().getNameCategory());
 
         if (updateMaterial.getCategory().getNameCategory().isEmpty()) {
@@ -93,7 +102,10 @@ public class MaterialServiceImpl implements MaterialService {
     @Override
     public Material deleteMaterial(long id) {
 
-        Material deleteMaterial = materialRepository.findById(id).orElseThrow(MaterialNotFoundException::new);
+        Material deleteMaterial = materialRepository.findById(id);
+        if (deleteMaterial == null) {
+            throw new MaterialNotFoundException();
+        }
         materialRepository.delete(deleteMaterial);
 
         return deleteMaterial;

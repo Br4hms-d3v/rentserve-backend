@@ -5,8 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class represents the link between a user and a material.
@@ -39,6 +38,18 @@ public class UserMaterial extends BaseEntity {
     @Column(name = "state_material")
     @Enumerated(EnumType.STRING)
     private State stateMaterial;
+
+    @Column(name = "isAvailable")
+    private boolean isAvailable;
+
+    // Constructor
+    public UserMaterial(State stateMaterial, String descriptionMaterial, BigDecimal priceHourMaterial, Boolean isAvailable) {
+        this();
+        this.stateMaterial = stateMaterial;
+        this.descriptionMaterial = descriptionMaterial;
+        this.priceHourMaterial = priceHourMaterial;
+        this.isAvailable = isAvailable;
+    }
 
     // Relation ManyToOne
     /**
@@ -80,7 +91,7 @@ public class UserMaterial extends BaseEntity {
     private Set<Review> reviews = new HashSet<>();
 
     // Relation ManyToMany
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "picture_user_materials",
             joinColumns = @JoinColumn(name = "user_material_id"),
