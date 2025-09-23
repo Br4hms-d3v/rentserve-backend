@@ -7,6 +7,7 @@ import be.brahms.rent_serve.models.entities.UserMaterial;
 import java.math.BigDecimal;
 
 public record UserMaterialDto(
+        Long id,
         State stateMaterial,
         BigDecimal priceHourMaterial,
         Boolean isAvailable,
@@ -20,6 +21,7 @@ public record UserMaterialDto(
                 .orElse(null);
 
         return new UserMaterialDto(
+                userMaterial.getId(),
                 userMaterial.getStateMaterial(),
                 userMaterial.getPriceHourMaterial(),
                 userMaterial.isAvailable(),
