@@ -33,13 +33,13 @@ public class Picture extends BaseEntity {
     public Picture() {
     }
 
-    // Relation ManyToOne
+    // Relation Many To Many
     /**
      * The user-material relationship to which this picture belongs.
      * A picture is associated with one user-material.
      */
     @ManyToMany(mappedBy = "pictures")
-    private List<UserMaterial> userMaterials;
+    private List<UserMaterial> userMaterial;
 
     /**
      * The user-favor relationship to which this picture belongs.
