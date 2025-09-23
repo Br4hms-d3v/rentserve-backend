@@ -1,15 +1,21 @@
 package be.brahms.rent_serve.services.impl;
 
 import be.brahms.rent_serve.exceptions.material.MaterialNotFoundException;
+import be.brahms.rent_serve.exceptions.user.UserNotFoundException;
 import be.brahms.rent_serve.exceptions.userMaterial.UserMaterialException;
 import be.brahms.rent_serve.exceptions.userMaterial.UserMaterialNotFoundException;
 import be.brahms.rent_serve.models.entities.Material;
 import be.brahms.rent_serve.models.entities.Picture;
+import be.brahms.rent_serve.models.entities.User;
 import be.brahms.rent_serve.models.entities.UserMaterial;
 import be.brahms.rent_serve.repositories.MaterialRepository;
 import be.brahms.rent_serve.repositories.PictureRepository;
 import be.brahms.rent_serve.repositories.UserMaterialRepository;
+import be.brahms.rent_serve.repositories.UserRepository;
 import be.brahms.rent_serve.services.UserMaterialService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,16 +34,18 @@ public class UserMaterialServiceImpl implements UserMaterialService {
     private final UserMaterialRepository userMaterialRepository;
     private final MaterialRepository materialRepository;
     private final PictureRepository pictureRepository;
+    private final UserRepository userRepository;
 
     /**
      * Constructor to create UserMaterialServiceImpl with UserMaterialRepository.
      *
      * @param userMaterialRepository the repository to access user material data
      */
-    public UserMaterialServiceImpl(UserMaterialRepository userMaterialRepository, MaterialRepository materialRepository, PictureRepository pictureRepository) {
+    public UserMaterialServiceImpl(UserMaterialRepository userMaterialRepository, MaterialRepository materialRepository, PictureRepository pictureRepository, UserRepository userRepository) {
         this.userMaterialRepository = userMaterialRepository;
         this.materialRepository = materialRepository;
         this.pictureRepository = pictureRepository;
+        this.userRepository = userRepository;
     }
 
     public List<UserMaterial> findAllUserMaterials() {
@@ -122,6 +130,38 @@ public class UserMaterialServiceImpl implements UserMaterialService {
         userMaterial.getPictures().clear();
 
         userMaterialRepository.delete(userMaterial);
+
+        return userMaterial;
+    }
+
+    public UserMaterial createUserMaterial(UserMaterial userMaterial) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            Object principal = authentication.getPrincipal();
+
+            if (principal instanceof UserDetails userDetails) {
+                String username = userDetails.getUsername();
+//                System.out.println(username);
+
+                User user = userRepository.findByPseudo(username).orElseThrow(UserNotFoundException::new);
+                userMaterial.setUser(user);
+
+            }
+
+            Material material = materialRepository.findById(userMaterial.getMaterial().getId());
+            if (material == null) {
+                throw new MaterialNotFoundException();
+            }
+            userMaterial.setMaterial(material);
+
+            userMaterial.setDescriptionMaterial(userMaterial.getDescriptionMaterial());
+            userMaterial.setStateMaterial(userMaterial.getStateMaterial());
+            userMaterial.setPriceHourMaterial(userMaterial.getPriceHourMaterial());
+            userMaterial.setAvailable(userMaterial.isAvailable());
+
+            userMaterialRepository.save(userMaterial);
+        }
 
         return userMaterial;
     }

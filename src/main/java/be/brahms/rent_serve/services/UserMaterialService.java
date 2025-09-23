@@ -23,4 +23,6 @@ public interface UserMaterialService {
 
     UserMaterial deleteUserMaterial(long id);
 
+    UserMaterial createUserMaterial(UserMaterial userMaterial);
+
 }

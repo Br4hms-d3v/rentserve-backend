@@ -30,8 +30,7 @@ public class UserMaterialAssembler implements RepresentationModelAssembler<UserM
                     linkTo(methodOn(UserMaterialController.class).getActivatedUserMaterials()).withRel("List of materials activated"),
                     linkTo(methodOn(UserMaterialController.class).getDeactivatedUserMaterials()).withRel("List of materials deactivated"),
                     linkTo(methodOn(UserMaterialController.class).updateUserMaterial(userMaterial.id(), null)).withRel("Update the user material").withType("PUT"),
-                    linkTo(methodOn(UserMaterialController.class).deleteUserMaterial(userMaterial.id())).withRel("Delete the user material")
-                    );
+                    linkTo(methodOn(UserMaterialController.class).deleteUserMaterial(userMaterial.id())).withRel("Delete the user material").withType("POST"));
         } catch (AccessDeniedException e) {
             throw new RuntimeException(e);
         }
@@ -48,6 +47,6 @@ public class UserMaterialAssembler implements RepresentationModelAssembler<UserM
         UserMaterial userMaterial = new UserMaterial();
         return EntityModel.of(userMaterialDeleteDto,
                 linkTo(methodOn(UserMaterialController.class).deleteUserMaterial(userMaterial.getId())).withRel("Delete a usermaterial")
-                );
+        );
     }
 }

@@ -5,6 +5,7 @@ import be.brahms.rent_serve.models.dtos.userMaterial.UserMaterialByIdDto;
 import be.brahms.rent_serve.models.dtos.userMaterial.UserMaterialDeleteDto;
 import be.brahms.rent_serve.models.dtos.userMaterial.UserMaterialDto;
 import be.brahms.rent_serve.models.entities.UserMaterial;
+import be.brahms.rent_serve.models.forms.userMaterial.UserMaterialCreateForm;
 import be.brahms.rent_serve.models.forms.userMaterial.UserMaterialForm;
 import be.brahms.rent_serve.services.UserMaterialService;
 import jakarta.validation.Valid;
@@ -105,6 +106,17 @@ public class UserMaterialController {
         UserMaterialDeleteDto userMaterialDeleteDto = UserMaterialDeleteDto.successDeleting();
         EntityModel<UserMaterialDeleteDto> userMaterialDeleteDtoEntityModel = userMaterialAssembler.toModel(userMaterialDeleteDto);
         return ResponseEntity.ok(userMaterialDeleteDtoEntityModel);
+    }
+
+    @PostMapping("new")
+    @PreAuthorize("hasAnyRole('MEMBER','MODERATOR','ADMIN')")
+    public ResponseEntity<EntityModel<UserMaterialDto>> createUserMaterial(@RequestBody @Valid UserMaterialCreateForm form) {
+        UserMaterial createUserMaterial = userMaterialService.createUserMaterial(form.toEntity());
+        UserMaterialDto userMaterialDto = UserMaterialDto.fromEntity(createUserMaterial);
+
+        EntityModel<UserMaterialDto> userMaterialDtoEntityModel = userMaterialAssembler.toModel(userMaterialDto);
+
+        return ResponseEntity.ok().body(userMaterialDtoEntityModel);
     }
 
 
