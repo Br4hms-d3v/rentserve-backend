@@ -1,8 +1,6 @@
 package be.brahms.rent_serve.models.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.HashSet;
@@ -70,7 +68,6 @@ public class Material extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-
     /**
      * Returns a string representation of the Material object.
      * <p>
