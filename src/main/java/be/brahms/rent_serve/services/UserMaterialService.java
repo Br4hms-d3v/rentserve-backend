@@ -21,5 +21,6 @@ public interface UserMaterialService {
 
     UserMaterial updateUserMaterial(long id, UserMaterial userMaterial) throws AccessDeniedException;
 
+    UserMaterial deleteUserMaterial(long id);
 
 }

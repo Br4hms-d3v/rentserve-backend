@@ -4,14 +4,19 @@ import be.brahms.rent_serve.exceptions.material.MaterialNotFoundException;
 import be.brahms.rent_serve.exceptions.userMaterial.UserMaterialException;
 import be.brahms.rent_serve.exceptions.userMaterial.UserMaterialNotFoundException;
 import be.brahms.rent_serve.models.entities.Material;
+import be.brahms.rent_serve.models.entities.Picture;
 import be.brahms.rent_serve.models.entities.UserMaterial;
 import be.brahms.rent_serve.repositories.MaterialRepository;
+import be.brahms.rent_serve.repositories.PictureRepository;
 import be.brahms.rent_serve.repositories.UserMaterialRepository;
 import be.brahms.rent_serve.services.UserMaterialService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Service implementation for managing user material.
@@ -22,15 +27,17 @@ public class UserMaterialServiceImpl implements UserMaterialService {
 
     private final UserMaterialRepository userMaterialRepository;
     private final MaterialRepository materialRepository;
+    private final PictureRepository pictureRepository;
 
     /**
      * Constructor to create UserMaterialServiceImpl with UserMaterialRepository.
      *
      * @param userMaterialRepository the repository to access user material data
      */
-    public UserMaterialServiceImpl(UserMaterialRepository userMaterialRepository, MaterialRepository materialRepository) {
+    public UserMaterialServiceImpl(UserMaterialRepository userMaterialRepository, MaterialRepository materialRepository, PictureRepository pictureRepository) {
         this.userMaterialRepository = userMaterialRepository;
         this.materialRepository = materialRepository;
+        this.pictureRepository = pictureRepository;
     }
 
     public List<UserMaterial> findAllUserMaterials() {
@@ -93,6 +100,30 @@ public class UserMaterialServiceImpl implements UserMaterialService {
 
         userMaterial.setUser(userMaterialExisting.getUser());
         return userMaterialRepository.save(userMaterial);
+    }
+
+    @Transactional
+    public UserMaterial deleteUserMaterial(long id) {
+        Optional<UserMaterial> userMaterialOptional = userMaterialRepository.findById(id);
+
+        if (!userMaterialOptional.isPresent()) {
+            throw new UserMaterialNotFoundException();
+        }
+
+        UserMaterial userMaterial = userMaterialOptional.get();
+
+        Set<Picture> pictures = new HashSet<>(userMaterial.getPictures());
+
+        for (Picture picture : pictures) {
+            picture.getUserMaterial().remove(userMaterial);
+            pictureRepository.delete(picture);
+        }
+
+        userMaterial.getPictures().clear();
+
+        userMaterialRepository.delete(userMaterial);
+
+        return userMaterial;
     }
 
     public List<UserMaterial> listUserMaterialByUser(long userId, boolean availableOrNot) {

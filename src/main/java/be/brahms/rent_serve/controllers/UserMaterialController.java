@@ -2,6 +2,7 @@ package be.brahms.rent_serve.controllers;
 
 import be.brahms.rent_serve.hateaos.UserMaterialAssembler;
 import be.brahms.rent_serve.models.dtos.userMaterial.UserMaterialByIdDto;
+import be.brahms.rent_serve.models.dtos.userMaterial.UserMaterialDeleteDto;
 import be.brahms.rent_serve.models.dtos.userMaterial.UserMaterialDto;
 import be.brahms.rent_serve.models.entities.UserMaterial;
 import be.brahms.rent_serve.models.forms.userMaterial.UserMaterialForm;
@@ -95,6 +96,15 @@ public class UserMaterialController {
         UserMaterialDto userMaterialDto = UserMaterialDto.fromEntity(editUserMaterial);
         EntityModel<UserMaterialDto> userMaterialDtoEntityModel = userMaterialAssembler.toModel(userMaterialDto);
         return ResponseEntity.ok().body(userMaterialDtoEntityModel);
+    }
+
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasAnyRole('MEMBER','MODERATOR','ADMIN')")
+    public ResponseEntity<EntityModel<UserMaterialDeleteDto>> deleteUserMaterial(@PathVariable long id) {
+        userMaterialService.deleteUserMaterial(id);
+        UserMaterialDeleteDto userMaterialDeleteDto = UserMaterialDeleteDto.successDeleting();
+        EntityModel<UserMaterialDeleteDto> userMaterialDeleteDtoEntityModel = userMaterialAssembler.toModel(userMaterialDeleteDto);
+        return ResponseEntity.ok(userMaterialDeleteDtoEntityModel);
     }
 
 
