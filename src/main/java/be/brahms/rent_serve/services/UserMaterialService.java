@@ -2,6 +2,7 @@ package be.brahms.rent_serve.services;
 
 import be.brahms.rent_serve.models.entities.UserMaterial;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 /**
@@ -17,6 +18,8 @@ public interface UserMaterialService {
     List<UserMaterial> listUserMaterialNotAvailable();
 
     UserMaterial findUserMaterialById(long id);
+
+    UserMaterial updateUserMaterial(long id, UserMaterial userMaterial) throws AccessDeniedException;
 
 
 }

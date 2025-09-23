@@ -1,13 +1,17 @@
 package be.brahms.rent_serve.services.impl;
 
+import be.brahms.rent_serve.exceptions.material.MaterialNotFoundException;
 import be.brahms.rent_serve.exceptions.userMaterial.UserMaterialException;
 import be.brahms.rent_serve.exceptions.userMaterial.UserMaterialNotFoundException;
+import be.brahms.rent_serve.models.entities.Material;
 import be.brahms.rent_serve.models.entities.UserMaterial;
+import be.brahms.rent_serve.repositories.MaterialRepository;
 import be.brahms.rent_serve.repositories.UserMaterialRepository;
 import be.brahms.rent_serve.services.UserMaterialService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service implementation for managing user material.
@@ -17,14 +21,16 @@ import java.util.List;
 public class UserMaterialServiceImpl implements UserMaterialService {
 
     private final UserMaterialRepository userMaterialRepository;
+    private final MaterialRepository materialRepository;
 
     /**
      * Constructor to create UserMaterialServiceImpl with UserMaterialRepository.
      *
      * @param userMaterialRepository the repository to access user material data
      */
-    public UserMaterialServiceImpl(UserMaterialRepository userMaterialRepository) {
+    public UserMaterialServiceImpl(UserMaterialRepository userMaterialRepository, MaterialRepository materialRepository) {
         this.userMaterialRepository = userMaterialRepository;
+        this.materialRepository = materialRepository;
     }
 
     public List<UserMaterial> findAllUserMaterials() {
@@ -59,6 +65,34 @@ public class UserMaterialServiceImpl implements UserMaterialService {
 
     public UserMaterial findUserMaterialById(long userMaterialId) {
         return userMaterialRepository.findById(userMaterialId).orElseThrow(UserMaterialNotFoundException::new);
+    }
+
+    @Override
+    public UserMaterial updateUserMaterial(long id, UserMaterial userMaterial) {
+
+        UserMaterial userMaterialExisting = userMaterialRepository.findById(id).orElseThrow(UserMaterialNotFoundException::new);
+
+        Long existingMaterialId = userMaterialExisting.getMaterial() != null ? userMaterialExisting.getMaterial().getId() : null;
+        Long newMaterialId = userMaterial.getMaterial() != null ? userMaterial.getMaterial().getId() : null;
+
+        if (newMaterialId != null && !newMaterialId.equals(existingMaterialId)) {
+
+            Material newMaterial = materialRepository.findById(newMaterialId)
+                    .orElseThrow(MaterialNotFoundException::new);
+            userMaterial.setMaterial(newMaterial);
+        } else {
+
+            userMaterial.setMaterial(userMaterialExisting.getMaterial());
+        }
+
+        userMaterial.setId(userMaterialExisting.getId());
+        userMaterial.setDescriptionMaterial(userMaterial.getDescriptionMaterial());
+        userMaterial.setStateMaterial(userMaterial.getStateMaterial());
+        userMaterial.setPriceHourMaterial(userMaterial.getPriceHourMaterial());
+        userMaterial.setAvailable(userMaterial.isAvailable());
+
+        userMaterial.setUser(userMaterialExisting.getUser());
+        return userMaterialRepository.save(userMaterial);
     }
 
     public List<UserMaterial> listUserMaterialByUser(long userId, boolean availableOrNot) {
