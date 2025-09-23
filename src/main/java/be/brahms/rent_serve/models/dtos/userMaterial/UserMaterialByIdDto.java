@@ -11,6 +11,7 @@ import java.util.List;
 
 public record UserMaterialByIdDto(
         long id,
+        String descriptionMaterial,
         State stateMaterial,
         BigDecimal priceHourMaterial,
         Boolean isAvailable,
@@ -26,6 +27,7 @@ public record UserMaterialByIdDto(
 
         return new UserMaterialByIdDto(
                 userMaterial.getId(),
+                userMaterial.getDescriptionMaterial(),
                 userMaterial.getStateMaterial(),
                 userMaterial.getPriceHourMaterial(),
                 userMaterial.isAvailable(),
