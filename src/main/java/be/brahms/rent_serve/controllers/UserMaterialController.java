@@ -4,6 +4,7 @@ import be.brahms.rent_serve.hateaos.UserMaterialAssembler;
 import be.brahms.rent_serve.models.dtos.userMaterial.UserMaterialByIdDto;
 import be.brahms.rent_serve.models.dtos.userMaterial.UserMaterialDeleteDto;
 import be.brahms.rent_serve.models.dtos.userMaterial.UserMaterialDto;
+import be.brahms.rent_serve.models.dtos.userMaterial.UserMaterialGroupByMaterialDto;
 import be.brahms.rent_serve.models.entities.UserMaterial;
 import be.brahms.rent_serve.models.forms.userMaterial.UserMaterialCreateForm;
 import be.brahms.rent_serve.models.forms.userMaterial.UserMaterialForm;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/user-material/")
@@ -119,9 +122,26 @@ public class UserMaterialController {
         return ResponseEntity.ok().body(userMaterialDtoEntityModel);
     }
 
-
 //    @GetMapping("{id}/owner")
-//    public ResponseEntity<UserMaterialDto> getUserMaterialByOwner(@PathVariable Long id) {
-//        return null;
+//    public ResponseEntity<EntityModel<UserMaterialDto>> getUserMaterialByOwner(@PathVariable Long id) {
+//        UserMaterial userMaterial = userMaterialService.findUserMaterialById(id);
+//        UserMaterialDto userMaterialDto = UserMaterialDto.fromEntity(userMaterial);
+//        EntityModel<UserMaterialDto> userMaterialDtoEntityModel = userMaterialAssembler.toModel(userMaterialDto);
+//        return ResponseEntity.ok().body(userMaterialDtoEntityModel);
 //    }
+
+    @GetMapping("/grouped/{userId}")
+    public ResponseEntity<List<UserMaterialGroupByMaterialDto>> getGroupedMaterials(@PathVariable Long userId) {
+        List<UserMaterial> allUserMaterials = userMaterialService.getUserMaterialsByUserId(userId);
+
+        Map<Long, List<UserMaterial>> grouped = allUserMaterials.stream()
+                .collect(Collectors.groupingBy(um -> um.getMaterial().getId()));
+
+        List<UserMaterialGroupByMaterialDto> result = grouped.values().stream()
+                .map(UserMaterialGroupByMaterialDto::fromGroup)
+                .toList();
+
+        return ResponseEntity.ok(result);
+    }
+
 }

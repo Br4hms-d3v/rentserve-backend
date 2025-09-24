@@ -19,10 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -172,17 +169,21 @@ public class UserMaterialServiceImpl implements UserMaterialService {
         return userMaterial;
     }
 
-    public List<UserMaterial> listUserMaterialByUser(long userId, boolean availableOrNot) {
+//    public List<UserMaterial> findAllMaterialByOwner(long userId, boolean availableOrNot) {
+//
+//        // TODO if exist user id continue else exception
+//        // ... code here ...
+//
+//        List<UserMaterial> listMaterialOwner = userMaterialRepository.findAllMaterialByOwner(userId, availableOrNot);
+//
+//        if (listMaterialOwner.isEmpty()) {
+//            throw new UserMaterialException("La liste est vide");
+//        }
+//
+//        return listMaterialOwner;
+//    }
 
-        // TODO if exist user id continue else exception
-        // ... code here ...
-
-        List<UserMaterial> listMaterialOwner = userMaterialRepository.findAllMaterialByOwner(userId, availableOrNot);
-
-        if (listMaterialOwner.isEmpty()) {
-            throw new UserMaterialException("La liste est vide");
-        }
-
-        return listMaterialOwner;
+    public List<UserMaterial> getUserMaterialsByUserId(long userId) {
+        return userMaterialRepository.findByUserId(userId);
     }
 }
