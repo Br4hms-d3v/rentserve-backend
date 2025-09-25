@@ -25,4 +25,5 @@ public interface UserMaterialService {
 
     UserMaterial createUserMaterial(UserMaterial userMaterial);
 
+    List<UserMaterial> getUserMaterialsByUserId(long userId);
 }
