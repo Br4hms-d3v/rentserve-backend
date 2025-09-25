@@ -7,7 +7,15 @@ import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 
-
+/**
+ * A form to get data to create or update a UserMaterial.
+ *
+ * @param stateMaterial       The condition of the material (not null).
+ * @param descriptionMaterial A short text about the material (not blank).
+ * @param priceHourMaterial   The price per hour (must be bigger than 0.5, max 4 digits before dot and 2 after).
+ * @param isAvailable         True if the material is available, false if not (not null).
+ * @param materialId          The ID of the linked material (not null).
+ */
 public record UserMaterialForm(
         @NotNull
         State stateMaterial,
@@ -21,6 +29,11 @@ public record UserMaterialForm(
         @NotNull
         Long materialId
 ) {
+    /**
+     * Converts this form to a UserMaterial object.
+     *
+     * @return A new UserMaterial with the data from this form.
+     */
     public UserMaterial toEntity() {
 //        return new UserMaterial(this.stateMaterial, this.descriptionMaterial, this.priceHourMaterial, this.isAvailable);
 
@@ -30,12 +43,14 @@ public record UserMaterialForm(
         userMaterial.setPriceHourMaterial(priceHourMaterial);
         userMaterial.setAvailable(isAvailable);
 
-        if(this.materialId != null) {
+        // If materialId is set, create a Material with this ID and set it
+        if (this.materialId != null) {
             Material material = new Material();
-            material.setId(this.materialId);
-            userMaterial.setMaterial(material);
+            material.setId(this.materialId); // Set the ID of the material to the value from this form
+            userMaterial.setMaterial(material); // Link the material object to the userMaterial
         }
 
+        // Return the new UserMaterial object
         return userMaterial;
 
     }

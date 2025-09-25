@@ -14,13 +14,32 @@ import java.nio.file.AccessDeniedException;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+/**
+ * UserMaterialAssembler is a class that helps to convert UserMaterialDto objects
+ * into EntityModel objects. It creates models with links for user data.
+ * <p>
+ * This class uses a default constructor
+ * * Display link to read, update or delete
+ * * Get UserMaterial by ID
+ * * Get UserMaterial By ID for deleting
+ */
 @Component
 public class UserMaterialAssembler implements RepresentationModelAssembler<UserMaterialDto, EntityModel<UserMaterialDto>> {
 
+    /**
+     * Default constructor for UserMaterialAssembler.
+     */
     public UserMaterialAssembler() {
-
     }
 
+    /**
+     * Creates a model for one user material.
+     * This model adds links to do actions with this material.
+     *
+     * @param userMaterial The user material data.
+     * @return A model with the material and links to use it (get list, update, delete, etc.).
+     * @throws RuntimeException If the user is not allowed to access some links.
+     */
     @Override
     public EntityModel<UserMaterialDto> toModel(UserMaterialDto userMaterial) {
 
@@ -36,6 +55,13 @@ public class UserMaterialAssembler implements RepresentationModelAssembler<UserM
         }
     }
 
+    /**
+     * Creates a model for one user material by its ID.
+     * This model has a link to get the same material again.
+     *
+     * @param userMaterial The user material data with ID.
+     * @return A model with the material and a link to itself.
+     */
     public EntityModel<UserMaterialByIdDto> toModel(UserMaterialByIdDto userMaterial) {
 
         return EntityModel.of(userMaterial,
@@ -43,6 +69,13 @@ public class UserMaterialAssembler implements RepresentationModelAssembler<UserM
         );
     }
 
+    /**
+     * Creates a model for deleting a user material.
+     * This model has a link to delete the user material.
+     *
+     * @param userMaterialDeleteDto The data about the user material to delete.
+     * @return A model with the delete data and a link to delete the material.
+     */
     public EntityModel<UserMaterialDeleteDto> toModel(UserMaterialDeleteDto userMaterialDeleteDto) {
         UserMaterial userMaterial = new UserMaterial();
         return EntityModel.of(userMaterialDeleteDto,

@@ -42,5 +42,11 @@ public interface MaterialRepository extends JpaRepository<Material, Long> {
     @Query("SELECT m FROM Material m WHERE m.nameMaterial ILIKE %:nameMaterial% ORDER BY m.id ASC ")
     List<Material> findByNameMaterial(@Param("nameMaterial") String nameMaterial);
 
+    /**
+     * Finds one material using its ID Number.
+     *
+     * @param id The id number of the material you want to find.
+     * @return The material with this ID, or Null if it ist found
+     */
     Material findById(long id);
 }
