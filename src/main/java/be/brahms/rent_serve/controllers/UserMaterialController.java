@@ -10,12 +10,15 @@ import be.brahms.rent_serve.models.forms.userMaterial.UserMaterialCreateForm;
 import be.brahms.rent_serve.models.forms.userMaterial.UserMaterialForm;
 import be.brahms.rent_serve.services.UserMaterialService;
 import jakarta.validation.Valid;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.parser.Entity;
 import java.nio.file.AccessDeniedException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -131,6 +134,7 @@ public class UserMaterialController {
 //    }
 
     @GetMapping("/grouped/{userId}")
+    @PreAuthorize("hasAnyRole('MEMBER','MODERATOR','ADMIN')")
     public ResponseEntity<List<UserMaterialGroupByMaterialDto>> getGroupedMaterials(@PathVariable Long userId) {
         List<UserMaterial> allUserMaterials = userMaterialService.getUserMaterialsByUserId(userId);
 
