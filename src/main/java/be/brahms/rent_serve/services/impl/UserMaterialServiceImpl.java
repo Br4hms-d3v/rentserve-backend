@@ -1,8 +1,10 @@
 package be.brahms.rent_serve.services.impl;
 
 import be.brahms.rent_serve.exceptions.material.MaterialNotFoundException;
+import be.brahms.rent_serve.exceptions.user.UserException;
 import be.brahms.rent_serve.exceptions.user.UserNotFoundException;
 import be.brahms.rent_serve.exceptions.userMaterial.UserMaterialException;
+import be.brahms.rent_serve.exceptions.userMaterial.UserMaterialIsEmptyException;
 import be.brahms.rent_serve.exceptions.userMaterial.UserMaterialNotFoundException;
 import be.brahms.rent_serve.models.entities.Material;
 import be.brahms.rent_serve.models.entities.Picture;
@@ -19,6 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -184,6 +187,28 @@ public class UserMaterialServiceImpl implements UserMaterialService {
 //    }
 
     public List<UserMaterial> getUserMaterialsByUserId(long userId) {
-        return userMaterialRepository.findByUserId(userId);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        List<UserMaterial> userMaterialByUser = userMaterialRepository.findByUserId(userId);
+        String checkUser = userMaterialByUser.getFirst().getUser().getPseudo();
+
+        if( authentication != null && authentication.isAuthenticated()) {
+            Object principal = authentication.getPrincipal();
+
+            if (principal instanceof UserDetails userDetails) {
+                String pseudo = userDetails.getUsername();
+                if(!checkUser.equals(pseudo)) {
+                    throw new UserException("Vous n'avez pas le droit !");
+                }
+
+            }
+
+        }
+
+        if (userMaterialByUser.isEmpty()) {
+            throw new UserMaterialIsEmptyException();
+        }
+
+        return userMaterialByUser;
     }
 }
