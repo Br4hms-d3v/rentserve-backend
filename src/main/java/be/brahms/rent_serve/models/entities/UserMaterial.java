@@ -43,6 +43,15 @@ public class UserMaterial extends BaseEntity {
     private boolean isAvailable;
 
     // Constructor
+
+    /**
+     * Creates a new UserMaterial object.
+     *
+     * @param stateMaterial       The condition of the material (for example: new or used).
+     * @param descriptionMaterial A short text to describe the material.
+     * @param priceHourMaterial   The price to use the material for one hour.
+     * @param isAvailable         True if the material can be used now; false if not.
+     */
     public UserMaterial(State stateMaterial, String descriptionMaterial, BigDecimal priceHourMaterial, Boolean isAvailable) {
         this();
         this.stateMaterial = stateMaterial;

@@ -14,6 +14,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Record UserMaterialForm into a UserMaterial entity
+ *
+ * @param stateMaterial       The state of material from user
+ * @param descriptionMaterial Text to describe the material
+ * @param priceHourMaterial   the price of material per hour
+ * @param isAvailable         the availability of the material
+ * @param materialId          the ID of material
+ * @param pictureNames        the string of picture
+ */
 public record UserMaterialCreateForm(
         @NotNull
         State stateMaterial,
@@ -28,30 +38,40 @@ public record UserMaterialCreateForm(
         Long materialId,
         List<String> pictureNames
 ) {
+    /**
+     * Converts this form into a UserMaterial object.
+     *
+     * @return A new UserMaterial with the data from the form.
+     */
     public UserMaterial toEntity() {
-        UserMaterial newUserMaterial = new UserMaterial();
+        UserMaterial newUserMaterial = new UserMaterial(); // Create a new object
+        // Set the state, description, price, and availability
         newUserMaterial.setStateMaterial(stateMaterial);
         newUserMaterial.setDescriptionMaterial(descriptionMaterial);
         newUserMaterial.setPriceHourMaterial(priceHourMaterial);
         newUserMaterial.setAvailable(isAvailable);
 
+        // If materialId is not null, create a Material and set its ID
         if (this.materialId != null) {
             Material material = new Material();
             material.setId(this.materialId);
             newUserMaterial.setMaterial(material);
         }
 
+        // If there are picture names, create Picture objects and add them
         if (pictureNames != null && !pictureNames.isEmpty()) {
+            // Go through each picture name to create a set of Picture objects
             Set<Picture> pictures = pictureNames.stream()
                     .map(name -> {
-                        Picture picture = new Picture();
-                        picture.setNamePicture(name);
+                        Picture picture = new Picture(); // Create a new Picture
+                        picture.setNamePicture(name); // Set a name of this picture
                         return picture;
-                    }).collect(Collectors.toSet());
+                    }).collect(Collectors.toSet()); // Collect all pictures in a set
 
-            newUserMaterial.setPictures(pictures);
+            newUserMaterial.setPictures(pictures); // Add pictures to UserMaterial
         }
 
+        // Return the final UserMaterial object
         return newUserMaterial;
     }
 }

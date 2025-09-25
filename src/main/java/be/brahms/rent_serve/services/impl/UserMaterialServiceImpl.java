@@ -21,7 +21,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,7 +39,10 @@ public class UserMaterialServiceImpl implements UserMaterialService {
     /**
      * Constructor to create UserMaterialServiceImpl with UserMaterialRepository.
      *
-     * @param userMaterialRepository the repository to access user material data
+     * @param userMaterialRepository Repository to manage user materials.
+     * @param materialRepository     Repository to manage materials.
+     * @param pictureRepository      Repository to manage pictures.
+     * @param userRepository         Repository to manage users.
      */
     public UserMaterialServiceImpl(UserMaterialRepository userMaterialRepository, MaterialRepository materialRepository, PictureRepository pictureRepository, UserRepository userRepository) {
         this.userMaterialRepository = userMaterialRepository;
@@ -112,7 +114,7 @@ public class UserMaterialServiceImpl implements UserMaterialService {
     }
 
     @Transactional
-    public UserMaterial deleteUserMaterial(long id) {
+    public void deleteUserMaterial(long id) {
         Optional<UserMaterial> userMaterialOptional = userMaterialRepository.findById(id);
 
         if (!userMaterialOptional.isPresent()) {
@@ -132,7 +134,6 @@ public class UserMaterialServiceImpl implements UserMaterialService {
 
         userMaterialRepository.delete(userMaterial);
 
-        return userMaterial;
     }
 
     public UserMaterial createUserMaterial(UserMaterial userMaterial) {
@@ -192,12 +193,12 @@ public class UserMaterialServiceImpl implements UserMaterialService {
         List<UserMaterial> userMaterialByUser = userMaterialRepository.findByUserId(userId);
         String checkUser = userMaterialByUser.getFirst().getUser().getPseudo();
 
-        if( authentication != null && authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated()) {
             Object principal = authentication.getPrincipal();
 
             if (principal instanceof UserDetails userDetails) {
                 String pseudo = userDetails.getUsername();
-                if(!checkUser.equals(pseudo)) {
+                if (!checkUser.equals(pseudo)) {
                     throw new UserException("Vous n'avez pas le droit !");
                 }
 
