@@ -26,6 +26,7 @@ public class UserFavor extends BaseEntity {
      */
     @Column(name = "description_favor", columnDefinition = "TEXT")
     private String descriptionFavor;
+
     /**
      * The price per hour for the favor.
      * Stored as a decimal with a precision of 7 and a scale of 2.
@@ -33,6 +34,13 @@ public class UserFavor extends BaseEntity {
      */
     @Column(name = "price_hour_favor", nullable = false, precision = 7, scale = 2)
     private BigDecimal priceHourFavor;
+
+    /**
+     * This is a boolean to define,
+     * the service is available or not
+     */
+    @Column(name = "isAvailable")
+    private boolean isAvailable;
 
     // Relation ManyToOne
     /**
@@ -72,7 +80,7 @@ public class UserFavor extends BaseEntity {
     private Set<Review> reviews = new HashSet<>();
 
     // Relation ManyToMany
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "picture_user_favour",
             joinColumns = @JoinColumn(name = "user_favor_id"),

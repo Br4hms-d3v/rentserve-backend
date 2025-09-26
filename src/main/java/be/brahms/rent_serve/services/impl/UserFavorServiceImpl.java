@@ -1,8 +1,15 @@
 package be.brahms.rent_serve.services.impl;
 
+import be.brahms.rent_serve.exceptions.favor.FavorNotFoundException;
+import be.brahms.rent_serve.exceptions.userFavor.UserFavorException;
+import be.brahms.rent_serve.exceptions.userFavor.UserFavourEmptyException;
+import be.brahms.rent_serve.models.entities.UserFavor;
 import be.brahms.rent_serve.repositories.UserFavorRepository;
 import be.brahms.rent_serve.services.UserFavorService;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Service implementation for managing user favor.
@@ -20,5 +27,38 @@ public class UserFavorServiceImpl implements UserFavorService {
      */
     public UserFavorServiceImpl(UserFavorRepository userFavorRepository) {
         this.userFavorRepository = userFavorRepository;
+    }
+
+    @Override
+    public List<UserFavor> findAllUserFavour() {
+        List<UserFavor> userFavors = userFavorRepository.findAll();
+
+        if (userFavors.isEmpty()) {
+            throw new UserFavourEmptyException();
+        }
+        return userFavors;
+    }
+
+    @Override
+    public List<UserFavor> findAllUserFavourById(@Param("favorId") long favorId) {
+        List<UserFavor> userFavour = userFavorRepository.findByFavorId(favorId);
+
+        if (!userFavorRepository.existsById(favorId)) {
+            throw new FavorNotFoundException();
+        }
+
+        if (userFavour.isEmpty()) {
+            throw new UserFavourEmptyException();
+        }
+
+        userFavour.stream()
+                .findFirst()
+                .ifPresent(user -> {
+                    if (!userFavorRepository.existsById(user.getId())) {
+                        throw new UserFavorException("Le service n'existe pas");
+                    }
+                });
+
+        return userFavour;
     }
 }
