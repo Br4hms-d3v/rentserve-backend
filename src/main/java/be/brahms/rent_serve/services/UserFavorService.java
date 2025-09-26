@@ -1,6 +1,7 @@
 package be.brahms.rent_serve.services;
 
 import be.brahms.rent_serve.models.entities.UserFavor;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -11,4 +12,6 @@ import java.util.List;
 public interface UserFavorService {
 
     List<UserFavor> findAllUserFavour();
+
+    List<UserFavor> findAllUserFavourById(@Param("favorId") long favorId);
 }

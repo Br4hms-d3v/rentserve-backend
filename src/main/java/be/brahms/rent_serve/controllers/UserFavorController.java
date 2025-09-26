@@ -8,6 +8,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,6 +41,23 @@ public class UserFavorController {
                 .toList();
 
         return ResponseEntity.ok(listUserFavourDtoToEntity);
+    }
+
+    @GetMapping("list/{id}")
+    public ResponseEntity<List<EntityModel<UserFavorDto>>> getUserFavourById(@PathVariable long id) {
+        List<UserFavor> userFavorsById = userFavorService.findAllUserFavourById(id);
+        List<UserFavorDto> userFavourToDto = userFavorsById
+                .stream()
+                .map(UserFavorDto::fromEntity)
+                .toList();
+
+        List<EntityModel<UserFavorDto>> listUserFavourDtoToModel = userFavourToDto
+                .stream()
+                .map(userFavorAssembler::toModel)
+                .toList();
+
+
+        return ResponseEntity.ok(listUserFavourDtoToModel);
     }
 
 }
