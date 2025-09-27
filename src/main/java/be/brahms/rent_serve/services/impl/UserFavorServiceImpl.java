@@ -61,4 +61,26 @@ public class UserFavorServiceImpl implements UserFavorService {
 
         return userFavour;
     }
+
+    @Override
+    public List<UserFavor> findAllUserFavourAvailable() {
+
+        List<UserFavor> listUserFavorAvailable = userFavorRepository.findAllUserFavorAvailable();
+
+        if (listUserFavorAvailable.isEmpty()) {
+            throw new UserFavourEmptyException();
+        }
+        return listUserFavorAvailable;
+    }
+
+    @Override
+    public List<UserFavor> findAllUserFavourNotAvailable() {
+
+        List<UserFavor> listUserFavorNotAvailable = userFavorRepository.findAllUserFavorNotAvailable();
+
+        if (listUserFavorNotAvailable.isEmpty()) {
+            throw new UserFavourEmptyException();
+        }
+        return listUserFavorNotAvailable;
+    }
 }

@@ -65,6 +65,8 @@ public class SecurityConf {
                         // UserMaterials
                         .requestMatchers("/api/user-material/**").hasAnyRole("MEMBER", "MODERATOR", "ADMIN")
                         // UserFavour
+                        .requestMatchers("/api/user-favor/activated").hasAnyRole("MODERATOR", "ADMIN")
+                        .requestMatchers("/api/user-favor/deactivated").hasAnyRole("MODERATOR", "ADMIN")
                         .requestMatchers("/api/user-favor/**").hasAnyRole("MEMBER", "MODERATOR", "ADMIN")
                         .anyRequest().permitAll()
                 )
