@@ -15,6 +15,12 @@ import java.util.List;
 @Repository
 public interface UserFavorRepository extends JpaRepository<UserFavor, Long> {
 
-    @Query("SELECT uf FROM UserFavor  uf WHERE uf.favor.id = :favorId AND uf.isAvailable = true")
+    @Query("SELECT uf FROM UserFavor uf WHERE uf.favor.id = :favorId AND uf.isAvailable = true")
     List<UserFavor> findByFavorId(@Param("favorId") long favorId);
+
+    @Query("SELECT uf FROM UserFavor uf WHERE uf.isAvailable = true")
+    List<UserFavor> findAllUserFavorAvailable();
+
+    @Query("SELECT uf FROM UserFavor uf WHERE uf.isAvailable = false")
+    List<UserFavor> findAllUserFavorNotAvailable();
 }
