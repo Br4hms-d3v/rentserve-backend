@@ -44,6 +44,7 @@ public class UserFavorController {
     }
 
     @GetMapping("list/{id}")
+    @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
     public ResponseEntity<List<EntityModel<UserFavorDto>>> getUserFavourById(@PathVariable long id) {
         List<UserFavor> userFavorsById = userFavorService.findAllUserFavourById(id);
         List<UserFavorDto> userFavourToDto = userFavorsById
@@ -58,6 +59,40 @@ public class UserFavorController {
 
 
         return ResponseEntity.ok(listUserFavourDtoToModel);
+    }
+
+    @GetMapping("activated")
+    @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
+    public ResponseEntity<List<EntityModel<UserFavorDto>>> getAllUserFavourAvailable() {
+        List<UserFavor> userFavourAvailableList = userFavorService.findAllUserFavourAvailable();
+        List<UserFavorDto> listUserFavourToDto = userFavourAvailableList
+                .stream()
+                .map(UserFavorDto::fromEntity)
+                .toList();
+
+        List<EntityModel<UserFavorDto>> userFavourAvailableToModel = listUserFavourToDto
+                .stream()
+                .map(userFavorAssembler::toModel)
+                .toList();
+
+        return ResponseEntity.ok(userFavourAvailableToModel);
+    }
+
+    @GetMapping("deactivated")
+    @PreAuthorize("hasAnyRole('MODERATOR', 'ADMIN')")
+    public ResponseEntity<List<EntityModel<UserFavorDto>>> getAllUserFavourNotAvailable() {
+        List<UserFavor> userFavourNotAvailableList = userFavorService.findAllUserFavourNotAvailable();
+        List<UserFavorDto> listUserFavourToDto = userFavourNotAvailableList
+                .stream()
+                .map(UserFavorDto::fromEntity)
+                .toList();
+
+        List<EntityModel<UserFavorDto>> userFavourNotAvailableToModel = listUserFavourToDto
+                .stream()
+                .map(userFavorAssembler::toModel)
+                .toList();
+
+        return ResponseEntity.ok(userFavourNotAvailableToModel);
     }
 
 }

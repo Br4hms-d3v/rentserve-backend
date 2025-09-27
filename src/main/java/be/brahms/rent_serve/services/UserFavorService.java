@@ -14,4 +14,8 @@ public interface UserFavorService {
     List<UserFavor> findAllUserFavour();
 
     List<UserFavor> findAllUserFavourById(@Param("favorId") long favorId);
+
+    List<UserFavor> findAllUserFavourAvailable();
+
+    List<UserFavor> findAllUserFavourNotAvailable();
 }
