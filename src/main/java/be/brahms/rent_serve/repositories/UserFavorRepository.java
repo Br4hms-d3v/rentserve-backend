@@ -1,5 +1,6 @@
 package be.brahms.rent_serve.repositories;
 
+import be.brahms.rent_serve.models.entities.User;
 import be.brahms.rent_serve.models.entities.UserFavor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +24,8 @@ public interface UserFavorRepository extends JpaRepository<UserFavor, Long> {
 
     @Query("SELECT uf FROM UserFavor uf WHERE uf.isAvailable = false")
     List<UserFavor> findAllUserFavorNotAvailable();
+
+    List<UserFavor> findByUserId(long userId);
+
+    long user(User user);
 }
