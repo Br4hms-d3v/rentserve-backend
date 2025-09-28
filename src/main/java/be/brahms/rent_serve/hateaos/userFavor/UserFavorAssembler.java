@@ -1,4 +1,4 @@
-package be.brahms.rent_serve.hateaos;
+package be.brahms.rent_serve.hateaos.userFavor;
 
 import be.brahms.rent_serve.controllers.UserFavorController;
 import be.brahms.rent_serve.models.dtos.userFavor.UserFavorDto;

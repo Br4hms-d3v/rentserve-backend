@@ -1,12 +1,18 @@
 package be.brahms.rent_serve.services.impl;
 
 import be.brahms.rent_serve.exceptions.favor.FavorNotFoundException;
+import be.brahms.rent_serve.exceptions.user.UserException;
 import be.brahms.rent_serve.exceptions.userFavor.UserFavorException;
+import be.brahms.rent_serve.exceptions.userFavor.UserFavorNotFoundException;
 import be.brahms.rent_serve.exceptions.userFavor.UserFavourEmptyException;
+import be.brahms.rent_serve.models.entities.User;
 import be.brahms.rent_serve.models.entities.UserFavor;
 import be.brahms.rent_serve.repositories.UserFavorRepository;
 import be.brahms.rent_serve.services.UserFavorService;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -82,5 +88,34 @@ public class UserFavorServiceImpl implements UserFavorService {
             throw new UserFavourEmptyException();
         }
         return listUserFavorNotAvailable;
+    }
+
+    @Override
+    public UserFavor findUserFavorById(long favorId) {
+        return userFavorRepository.findById(favorId).orElseThrow(UserFavorNotFoundException::new);
+    }
+
+    @Override
+    public List<UserFavor> getUserFavorByUserId(long userId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        List<UserFavor> userFavourListByUser = userFavorRepository.findByUserId(userId);
+        String checkUser = userFavourListByUser.getFirst().getUser().getPseudo();
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            Object principal = authentication.getPrincipal();
+
+            if (principal instanceof UserDetails userDetails) {
+                String pseudo = userDetails.getUsername();
+
+                if (!checkUser.equals(pseudo)) {
+                    throw new UserException("Vous n'avez pas le droit !!");
+                }
+            }
+        }
+
+        if (userFavourListByUser.isEmpty()) {
+            throw new UserFavourEmptyException();
+        }
+        return userFavourListByUser;
     }
 }
