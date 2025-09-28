@@ -2,6 +2,7 @@ package be.brahms.rent_serve.services.impl;
 
 import be.brahms.rent_serve.exceptions.favor.FavorNotFoundException;
 import be.brahms.rent_serve.exceptions.userFavor.UserFavorException;
+import be.brahms.rent_serve.exceptions.userFavor.UserFavorNotFoundException;
 import be.brahms.rent_serve.exceptions.userFavor.UserFavourEmptyException;
 import be.brahms.rent_serve.models.entities.UserFavor;
 import be.brahms.rent_serve.repositories.UserFavorRepository;
@@ -82,5 +83,10 @@ public class UserFavorServiceImpl implements UserFavorService {
             throw new UserFavourEmptyException();
         }
         return listUserFavorNotAvailable;
+    }
+
+    @Override
+    public UserFavor findUserFavorById(long favorId) {
+        return userFavorRepository.findById(favorId).orElseThrow(UserFavorNotFoundException::new);
     }
 }

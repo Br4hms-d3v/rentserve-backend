@@ -1,6 +1,8 @@
 package be.brahms.rent_serve.controllers;
 
-import be.brahms.rent_serve.hateaos.UserFavorAssembler;
+import be.brahms.rent_serve.hateaos.userFavor.UserFavorAssembler;
+import be.brahms.rent_serve.hateaos.userFavor.UserFavorIdAssembler;
+import be.brahms.rent_serve.models.dtos.userFavor.UserFavorByIdDto;
 import be.brahms.rent_serve.models.dtos.userFavor.UserFavorDto;
 import be.brahms.rent_serve.models.entities.UserFavor;
 import be.brahms.rent_serve.services.UserFavorService;
@@ -20,10 +22,12 @@ public class UserFavorController {
 
     private final UserFavorService userFavorService;
     private final UserFavorAssembler userFavorAssembler;
+    private final UserFavorIdAssembler userFavorIdAssembler;
 
-    public UserFavorController(UserFavorService userFavorService, UserFavorAssembler userFavorAssembler) {
+    public UserFavorController(UserFavorService userFavorService, UserFavorAssembler userFavorAssembler, UserFavorIdAssembler userFavorIdAssembler) {
         this.userFavorService = userFavorService;
         this.userFavorAssembler = userFavorAssembler;
+        this.userFavorIdAssembler = userFavorIdAssembler;
     }
 
     @GetMapping("list")
@@ -95,4 +99,13 @@ public class UserFavorController {
         return ResponseEntity.ok(userFavourNotAvailableToModel);
     }
 
+    @GetMapping("{id}")
+    @PreAuthorize("hasAnyRole('MEMBER','MODERATOR','ADMIN')")
+    public ResponseEntity<EntityModel<UserFavorByIdDto>> getUserFavorById(@PathVariable long id) {
+        UserFavor userFavorId = userFavorService.findUserFavorById(id);
+        UserFavorByIdDto userFavorIdToDto = UserFavorByIdDto.fromEntity(userFavorId);
+
+        EntityModel<UserFavorByIdDto> userFavorDtoToModel = userFavorIdAssembler.toModel(userFavorIdToDto);
+        return ResponseEntity.ok(userFavorDtoToModel);
+    }
 }

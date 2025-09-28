@@ -18,4 +18,6 @@ public interface UserFavorService {
     List<UserFavor> findAllUserFavourAvailable();
 
     List<UserFavor> findAllUserFavourNotAvailable();
+
+    UserFavor findUserFavorById(long id);
 }
