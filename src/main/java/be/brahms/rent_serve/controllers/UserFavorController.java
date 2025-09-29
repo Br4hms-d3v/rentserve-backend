@@ -9,6 +9,7 @@ import be.brahms.rent_serve.models.dtos.userFavor.UserFavorDto;
 import be.brahms.rent_serve.models.dtos.userFavor.UserFavourGroupedByFavourDto;
 import be.brahms.rent_serve.models.entities.UserFavor;
 import be.brahms.rent_serve.models.forms.userFavor.UserFavorForm;
+import be.brahms.rent_serve.models.forms.userFavor.UserFavorNewForm;
 import be.brahms.rent_serve.services.UserFavorService;
 import jakarta.validation.Valid;
 import org.springframework.hateoas.EntityModel;
@@ -154,4 +155,16 @@ public class UserFavorController {
 
         return ResponseEntity.ok(userFavorDeleteDtoTOEntityModel);
     }
+
+    @PostMapping("new")
+    @PreAuthorize("hasAnyRole('MEMBER','MODERATOR','ADMIN')")
+    public ResponseEntity<EntityModel<UserFavorDto>> createUserFavor(@RequestBody @Valid UserFavorNewForm form) {
+        UserFavor createUserFavor = userFavorService.createUserFavor(form.toEntity());
+        UserFavorDto userFavorDto = UserFavorDto.fromEntity(createUserFavor);
+
+        EntityModel<UserFavorDto> userFavorDtoToModel = userFavorAssembler.toModel(userFavorDto);
+
+        return ResponseEntity.ok().body(userFavorDtoToModel);
+    }
+
 }
