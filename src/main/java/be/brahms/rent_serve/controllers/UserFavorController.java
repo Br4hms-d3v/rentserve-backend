@@ -4,6 +4,7 @@ import be.brahms.rent_serve.hateaos.userFavor.UserFavorAssembler;
 import be.brahms.rent_serve.hateaos.userFavor.UserFavorGroupedByUserIdAssembler;
 import be.brahms.rent_serve.hateaos.userFavor.UserFavorIdAssembler;
 import be.brahms.rent_serve.models.dtos.userFavor.UserFavorByIdDto;
+import be.brahms.rent_serve.models.dtos.userFavor.UserFavorDeleteDto;
 import be.brahms.rent_serve.models.dtos.userFavor.UserFavorDto;
 import be.brahms.rent_serve.models.dtos.userFavor.UserFavourGroupedByFavourDto;
 import be.brahms.rent_serve.models.entities.UserFavor;
@@ -144,4 +145,13 @@ public class UserFavorController {
         return ResponseEntity.ok(userFavorDtoToModel);
     }
 
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasAnyRole('MEMBER','MODERATOR','ADMIN')")
+    public ResponseEntity<EntityModel<UserFavorDeleteDto>> deleteUserFavor(@PathVariable long id) {
+        userFavorService.deleteUserFavor(id);
+        UserFavorDeleteDto userFavorDeleteDto = UserFavorDeleteDto.successDeleting();
+        EntityModel<UserFavorDeleteDto> userFavorDeleteDtoTOEntityModel = userFavorAssembler.toModel(userFavorDeleteDto);
+
+        return ResponseEntity.ok(userFavorDeleteDtoTOEntityModel);
+    }
 }

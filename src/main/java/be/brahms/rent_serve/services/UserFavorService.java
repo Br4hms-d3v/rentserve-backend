@@ -24,4 +24,6 @@ public interface UserFavorService {
     List<UserFavor> getUserFavorByUserId(long userId);
 
     UserFavor updateUserFavor(long id, UserFavor userFavor);
+
+    void deleteUserFavor(long id);
 }
