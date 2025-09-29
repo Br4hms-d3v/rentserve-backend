@@ -1,6 +1,7 @@
 package be.brahms.rent_serve.services;
 
 import be.brahms.rent_serve.models.entities.UserFavor;
+import be.brahms.rent_serve.models.forms.userFavor.UserFavorNewForm;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
@@ -22,4 +23,10 @@ public interface UserFavorService {
     UserFavor findUserFavorById(long id);
 
     List<UserFavor> getUserFavorByUserId(long userId);
+
+    UserFavor updateUserFavor(long id, UserFavor userFavor);
+
+    void deleteUserFavor(long id);
+
+    UserFavor createUserFavor(UserFavor userFavor);
 }

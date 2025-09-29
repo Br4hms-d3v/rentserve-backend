@@ -2,20 +2,31 @@ package be.brahms.rent_serve.services.impl;
 
 import be.brahms.rent_serve.exceptions.favor.FavorNotFoundException;
 import be.brahms.rent_serve.exceptions.user.UserException;
+import be.brahms.rent_serve.exceptions.user.UserNotFoundException;
 import be.brahms.rent_serve.exceptions.userFavor.UserFavorException;
 import be.brahms.rent_serve.exceptions.userFavor.UserFavorNotFoundException;
 import be.brahms.rent_serve.exceptions.userFavor.UserFavourEmptyException;
+import be.brahms.rent_serve.models.entities.Favor;
+import be.brahms.rent_serve.models.entities.Picture;
 import be.brahms.rent_serve.models.entities.User;
 import be.brahms.rent_serve.models.entities.UserFavor;
+import be.brahms.rent_serve.repositories.FavorRepository;
+import be.brahms.rent_serve.repositories.PictureRepository;
 import be.brahms.rent_serve.repositories.UserFavorRepository;
+import be.brahms.rent_serve.repositories.UserRepository;
 import be.brahms.rent_serve.services.UserFavorService;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Service implementation for managing user favor.
@@ -25,14 +36,20 @@ import java.util.List;
 public class UserFavorServiceImpl implements UserFavorService {
 
     private final UserFavorRepository userFavorRepository;
+    private final FavorRepository favorRepository;
+    private final PictureRepository pictureRepository;
+    private final UserRepository userRepository;
 
     /**
      * Constructor to create UserFavorServiceImpl with UserFavorRepository.
      *
      * @param userFavorRepository the repository to access user favor data
      */
-    public UserFavorServiceImpl(UserFavorRepository userFavorRepository) {
+    public UserFavorServiceImpl(UserFavorRepository userFavorRepository, FavorRepository favorRepository, PictureRepository pictureRepository, UserRepository userRepository) {
         this.userFavorRepository = userFavorRepository;
+        this.favorRepository = favorRepository;
+        this.pictureRepository = pictureRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -117,5 +134,85 @@ public class UserFavorServiceImpl implements UserFavorService {
             throw new UserFavourEmptyException();
         }
         return userFavourListByUser;
+    }
+
+    @Override
+    public UserFavor updateUserFavor(long id, UserFavor userFavor) {
+
+        UserFavor userFavorExisting = userFavorRepository.findById(id).orElseThrow(UserFavorNotFoundException::new);
+
+        Long existingFavorId = userFavorExisting.getFavor() != null ? userFavorExisting.getFavor().getId() : null;
+        Long newFavorId = userFavor.getFavor() != null ? userFavor.getFavor().getId() : null;
+
+        if (newFavorId != null && !newFavorId.equals(existingFavorId)) {
+            Favor newFavor = favorRepository.findById(newFavorId).orElseThrow(FavorNotFoundException::new);
+            userFavor.setFavor(newFavor);
+        } else {
+            userFavor.setFavor(userFavorExisting.getFavor());
+        }
+
+        userFavor.setId(userFavorExisting.getId());
+        userFavor.setDescriptionFavor(userFavor.getDescriptionFavor());
+        userFavor.setPriceHourFavor(userFavor.getPriceHourFavor());
+        userFavor.setAvailable(userFavor.isAvailable());
+
+        userFavor.setUser(userFavorExisting.getUser());
+
+        return userFavorRepository.save(userFavor);
+    }
+
+    @Transactional
+    public void deleteUserFavor(long id) {
+        Optional<UserFavor> userFavorOptional = userFavorRepository.findById(id);
+
+        if (!userFavorOptional.isPresent()) {
+            throw new UserFavorNotFoundException();
+        }
+
+        UserFavor userFavor = userFavorOptional.get();
+
+        Set<Picture> pictures = new HashSet<>(userFavor.getPictures());
+
+        for (Picture picture : pictures) {
+            picture.getUserFavor().remove(userFavor);
+            pictureRepository.delete(picture);
+        }
+
+        userFavor.getPictures().clear();
+
+        userFavorRepository.delete(userFavor);
+    }
+
+    @Override
+    public UserFavor createUserFavor(UserFavor userFavor) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            Object principal = authentication.getPrincipal();
+
+            if (principal instanceof UserDetails userDetails) {
+                String pseudo = userDetails.getUsername();
+
+                User user = userRepository.findByPseudo(pseudo).orElseThrow(UserNotFoundException::new);
+                userFavor.setUser(user);
+            }
+
+            Favor favor = favorRepository.findById(userFavor.getFavor().getId()).orElseThrow(FavorNotFoundException::new);
+
+            userFavor.setFavor(favor);
+            userFavor.setDescriptionFavor(userFavor.getDescriptionFavor());
+            userFavor.setPriceHourFavor(userFavor.getPriceHourFavor());
+            userFavor.setAvailable(userFavor.isAvailable());
+
+            Set<Picture> persistedPictures = userFavor.getPictures()
+                    .stream()
+                    .map(pictureRepository::save)
+                    .collect(Collectors.toSet());
+
+            userFavor.setPictures(persistedPictures);
+
+            userFavorRepository.save(userFavor);
+        }
+        return userFavor;
     }
 }
