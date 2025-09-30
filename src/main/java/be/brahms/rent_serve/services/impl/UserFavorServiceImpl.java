@@ -44,6 +44,9 @@ public class UserFavorServiceImpl implements UserFavorService {
      * Constructor to create UserFavorServiceImpl with UserFavorRepository.
      *
      * @param userFavorRepository the repository to access user favor data
+     * @param favorRepository     the repository to access favor data
+     * @param pictureRepository   the repository to access picture data
+     * @param userRepository      the repository to access user data
      */
     public UserFavorServiceImpl(UserFavorRepository userFavorRepository, FavorRepository favorRepository, PictureRepository pictureRepository, UserRepository userRepository) {
         this.userFavorRepository = userFavorRepository;

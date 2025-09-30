@@ -73,5 +73,11 @@ public interface UserMaterialService {
      */
     List<UserMaterial> getUserMaterialsByUserId(long userId);
 
+    /**
+     * Gets all user materials of one material by the material's ID.
+     *
+     * @param materialId the id of material
+     * @return a list of user materials for this material
+     */
     List<UserMaterial> findAllUserMaterialsById(long materialId);
 }

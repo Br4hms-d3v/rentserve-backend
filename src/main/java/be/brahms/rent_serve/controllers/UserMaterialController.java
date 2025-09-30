@@ -202,7 +202,7 @@ public class UserMaterialController {
 
     /**
      * Gets all user materials for one user, grouped by material type.
-     * Only users with role MEMBER, MODERATOR, or ADMIN can do this.
+     * Only users with the role MEMBER, MODERATOR, or ADMIN can do this.
      *
      * @param userId The ID of the user.
      * @return A response with a list of grouped user materials.
@@ -224,7 +224,18 @@ public class UserMaterialController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     * Get all user materials related to a given material ID.
+     *
+     * <p>This method is accessible to users with roles: MEMBER, MODERATOR, or ADMIN.</p>
+     * <p>It returns a list of {@link UserMaterialDto} wrapped in {@link org.springframework.hateoas.EntityModel},
+     * with HATEOAS links added.</p>
+     *
+     * @param materialId the ID of the material to find user materials for
+     * @return a {@link ResponseEntity} containing a list of {@code EntityModel<UserMaterialDto>} objects
+     */
     @GetMapping("/list/{materialId}")
+    @PreAuthorize("hasAnyRole('MEMBER','MODERATOR','ADMIN')")
     public ResponseEntity<List<EntityModel<UserMaterialDto>>> getUserMaterialsById(@PathVariable long materialId) {
         List<UserMaterial> userMaterialsById = userMaterialService.findAllUserMaterialsById(materialId);
         List<UserMaterialDto> userMaterialsToDto = userMaterialsById
