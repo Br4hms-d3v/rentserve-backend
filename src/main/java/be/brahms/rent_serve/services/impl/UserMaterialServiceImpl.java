@@ -212,4 +212,27 @@ public class UserMaterialServiceImpl implements UserMaterialService {
 
         return userMaterialByUser;
     }
+
+    @Override
+    public List<UserMaterial> findAllUserMaterialsById(long materialId) {
+        List<UserMaterial> userMaterials = userMaterialRepository.findByMaterialId(materialId);
+
+        if (!userMaterialRepository.existsById(materialId)) {
+            throw new MaterialNotFoundException();
+        }
+
+        if (userMaterials.isEmpty()) {
+            throw new UserMaterialIsEmptyException();
+        }
+
+        userMaterials.stream()
+                .findFirst()
+                .ifPresent(user -> {
+                    if (!userMaterialRepository.existsById(user.getId())) {
+                        throw new UserMaterialException("Le material n'existe pas");
+                    }
+                });
+
+        return userMaterials;
+    }
 }

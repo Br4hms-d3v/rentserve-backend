@@ -31,6 +31,9 @@ public interface UserMaterialRepository extends JpaRepository<UserMaterial, Long
     @Query("SELECT um FROM UserMaterial um WHERE um.isAvailable = false ")
     List<UserMaterial> findAllMaterialNotAvailable();
 
+    @Query("SELECT um FROM UserMaterial um WHERE um.material.id =:materialId AND um.isAvailable = true")
+    List<UserMaterial> findByMaterialId(@Param("materialId") long materialId);
+
 //    @Query("SELECT um FROM UserMaterial  um WHERE um.user.id = :userId AND um.isAvailable = :availableOrNot")
 //    List<UserMaterial> findAllMaterialByOwner(@Param("userId") long userId, @Param("availableOrNot") boolean availableOrNot);
 

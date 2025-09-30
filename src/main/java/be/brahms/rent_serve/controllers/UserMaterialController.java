@@ -224,4 +224,20 @@ public class UserMaterialController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/list/{materialId}")
+    public ResponseEntity<List<EntityModel<UserMaterialDto>>> getUserMaterialsById(@PathVariable long materialId) {
+        List<UserMaterial> userMaterialsById = userMaterialService.findAllUserMaterialsById(materialId);
+        List<UserMaterialDto> userMaterialsToDto = userMaterialsById
+                .stream()
+                .map(UserMaterialDto::fromEntity)
+                .toList();
+
+        List<EntityModel<UserMaterialDto>> listUserMaterialDtoToModel = userMaterialsToDto
+                .stream()
+                .map(userMaterialAssembler::toModel)
+                .toList();
+
+        return ResponseEntity.ok(listUserMaterialDtoToModel);
+    }
+
 }
