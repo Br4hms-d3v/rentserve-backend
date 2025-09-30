@@ -52,10 +52,10 @@ public class UserFavorController {
         return ResponseEntity.ok(listUserFavourDtoToEntity);
     }
 
-    @GetMapping("list/{id}")
+    @GetMapping("list/{favorId}")
     @PreAuthorize("hasAnyRole('MEMBER', 'MODERATOR', 'ADMIN')")
-    public ResponseEntity<List<EntityModel<UserFavorDto>>> getUserFavourById(@PathVariable long id) {
-        List<UserFavor> userFavorsById = userFavorService.findAllUserFavourById(id);
+    public ResponseEntity<List<EntityModel<UserFavorDto>>> getUserFavourById(@PathVariable long favorId) {
+        List<UserFavor> userFavorsById = userFavorService.findAllUserFavourById(favorId);
         List<UserFavorDto> userFavourToDto = userFavorsById
                 .stream()
                 .map(UserFavorDto::fromEntity)
