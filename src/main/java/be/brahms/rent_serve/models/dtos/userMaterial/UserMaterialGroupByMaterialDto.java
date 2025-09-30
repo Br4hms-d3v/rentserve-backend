@@ -1,5 +1,6 @@
 package be.brahms.rent_serve.models.dtos.userMaterial;
 
+import be.brahms.rent_serve.exceptions.userMaterial.UserMaterialIsEmptyException;
 import be.brahms.rent_serve.models.dtos.material.MaterialDto;
 import be.brahms.rent_serve.models.entities.UserMaterial;
 
@@ -24,10 +25,10 @@ public record UserMaterialGroupByMaterialDto(
      * @throws IllegalArgumentException If the list is empty or null.
      */
     public static UserMaterialGroupByMaterialDto fromGroup(List<UserMaterial> userMaterials) {
-        // Check if userMaterials list is null or empty
+        // Check if the userMaterials list is null or empty
         if (userMaterials == null || userMaterials.isEmpty()) {
-            // If empty, stop and show error message
-            throw new IllegalArgumentException("userMaterials list is empty");
+            // If empty, stop and show an error message
+            throw new UserMaterialIsEmptyException();
         }
 
         // Get the material info from the first UserMaterial in the list and convert it to a DTO

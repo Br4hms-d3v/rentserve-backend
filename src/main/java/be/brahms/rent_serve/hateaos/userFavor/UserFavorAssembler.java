@@ -11,13 +11,35 @@ import org.springframework.stereotype.Component;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-
+/**
+ * The UserFavorAssembler is responsible for converting UserFavorDto and UserFavorDeleteDto objects
+ * into their corresponding EntityModel representations. It implements the RepresentationModelAssembler
+ * interface to facilitate the association of hyperlinks with the respective user favor resources.
+ * <p>
+ * This class is used to provide hypermedia-driven navigation for user favor-related data, enabling
+ * the inclusion of relational links in the API responses, such as retrieving the list of user favors
+ * or deleting a specific user favor.
+ */
 @Component
 public class UserFavorAssembler implements RepresentationModelAssembler<UserFavorDto, EntityModel<UserFavorDto>> {
 
+    /**
+     * Default constructor for UserFavorAssembler.
+     */
     public UserFavorAssembler() {
     }
 
+    /**
+     * Convert a UserFavorDto to an EntityModel with HATEOAS links.
+     * <p>
+     * This method adds useful links to the UserFavorDto,
+     * - a link for all user favors
+     * - a link to delete a user favor
+     * </p>
+     *
+     * @param userFavor the user favors data to wrap
+     * @return an EntityModel with the user favor data and HATEOAS links
+     */
     @Override
     public EntityModel<UserFavorDto> toModel(UserFavorDto userFavor) {
         return EntityModel.of(userFavor,
@@ -26,6 +48,13 @@ public class UserFavorAssembler implements RepresentationModelAssembler<UserFavo
         );
     }
 
+    /**
+     * This method creates a model of one user favor with links.
+     * A link to delete a user favor
+     *
+     * @param userFavorDeleteDto the user favor data
+     * @return a model with user favor and a link to delete it
+     */
     public EntityModel<UserFavorDeleteDto> toModel(UserFavorDeleteDto userFavorDeleteDto) {
         UserFavor userFavor = new UserFavor();
         return EntityModel.of(userFavorDeleteDto,

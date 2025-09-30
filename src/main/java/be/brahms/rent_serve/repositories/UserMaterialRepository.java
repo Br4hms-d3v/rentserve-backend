@@ -31,6 +31,12 @@ public interface UserMaterialRepository extends JpaRepository<UserMaterial, Long
     @Query("SELECT um FROM UserMaterial um WHERE um.isAvailable = false ")
     List<UserMaterial> findAllMaterialNotAvailable();
 
+    /**
+     * Finds one user material by its ID.
+     *
+     * @param materialId The ID of the material.
+     * @return a list of user materials with this ID.
+     */
     @Query("SELECT um FROM UserMaterial um WHERE um.material.id =:materialId AND um.isAvailable = true")
     List<UserMaterial> findByMaterialId(@Param("materialId") long materialId);
 

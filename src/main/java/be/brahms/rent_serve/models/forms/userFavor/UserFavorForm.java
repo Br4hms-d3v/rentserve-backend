@@ -9,6 +9,14 @@ import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 
+/**
+ * Record UserFavorForm into a UserFavor entity
+ *
+ * @param descriptionFavor The text to describe the favor
+ * @param priceHourFavor   The price per hour
+ * @param isAvailable      The availability of favor
+ * @param favorId          The ID of favor
+ */
 public record UserFavorForm(
         @NotBlank
         String descriptionFavor,
@@ -20,6 +28,11 @@ public record UserFavorForm(
         @NotNull
         Long favorId
 ) {
+    /**
+     * Convert this form into a UserFavor entity
+     *
+     * @return a new UserFavor with the data from this form
+     */
     public UserFavor toEntity() {
         UserFavor userFavor = new UserFavor();
 
