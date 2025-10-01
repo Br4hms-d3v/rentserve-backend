@@ -1,5 +1,7 @@
 package be.brahms.rent_serve.exceptions.global;
 
+import be.brahms.rent_serve.exceptions.category.CategoryExistException;
+import be.brahms.rent_serve.exceptions.category.CategoryNotFoundException;
 import be.brahms.rent_serve.exceptions.dtos.ApiError;
 import be.brahms.rent_serve.exceptions.favor.FavorException;
 import be.brahms.rent_serve.exceptions.favor.FavorExistException;
@@ -8,6 +10,12 @@ import be.brahms.rent_serve.exceptions.material.MaterialException;
 import be.brahms.rent_serve.exceptions.material.MaterialExistException;
 import be.brahms.rent_serve.exceptions.material.MaterialNotFoundException;
 import be.brahms.rent_serve.exceptions.user.*;
+import be.brahms.rent_serve.exceptions.userFavor.UserFavorException;
+import be.brahms.rent_serve.exceptions.userFavor.UserFavorNotFoundException;
+import be.brahms.rent_serve.exceptions.userFavor.UserFavourEmptyException;
+import be.brahms.rent_serve.exceptions.userMaterial.UserMaterialException;
+import be.brahms.rent_serve.exceptions.userMaterial.UserMaterialIsEmptyException;
+import be.brahms.rent_serve.exceptions.userMaterial.UserMaterialNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -202,9 +210,46 @@ public class GlobalExceptionHandler {
         ApiError apiError = ApiError.of(
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                "La date de naissance doit être antérieure à la date actuelle"
+                except.getMessage()
         );
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    // Category
+
+    /**
+     * Handles CategoryNotFoundException and sends a 404 NOT_FOUND error.
+     *
+     * @param except The exception that was thrown (CategoryNotFoundException).
+     * @return a response with an apiError and HTTP status 404 (NOT_FOUND).
+     */
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<ApiError> handleCategoryNotFoundException(CategoryNotFoundException except) {
+        ApiError apiError = ApiError.of(
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                except.getMessage()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * Handles CategoryExistException and sends a 302 FOUND error.
+     * <p>
+     * This method is called automatically when the category already exists.
+     * It creates an ApiError and sends it to the frontend.
+     *
+     * @param except The exception that was thrown (CategoryExistException).
+     * @return A response with an apiError and HTTP status 302 (FOUND).
+     */
+    @ExceptionHandler(CategoryExistException.class)
+    public ResponseEntity<ApiError> handleCategoryExistException(CategoryExistException except) {
+        ApiError apiError = ApiError.of(
+                HttpStatus.FOUND.value(),
+                HttpStatus.FOUND.getReasonPhrase(),
+                except.getMessage()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.FOUND);
     }
 
     // Material
@@ -284,7 +329,7 @@ public class GlobalExceptionHandler {
     /**
      * Handles FavorExistException and sends a 302 FOUND error.
      * <p>
-     * This method is called automatically when the favor already exist.
+     * This method is called automatically when the favor already exists.
      * It creates an ApiError and sends it to the frontend.
      *
      * @param except The exception that was thrown (FavorExistException).
@@ -319,6 +364,116 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
     }
 
+    // UserMaterial
+
+    /**
+     * Handle UserMaterialNotFoundException and send a 404 Error
+     * <p>
+     * This method is called automatically when the userMaterial doesn't exist.
+     * It creates an ApiError and sends it to the frontend.
+     * </p>
+     *
+     * @param except The exception that was thrown(UserMaterialNotFoundException).
+     * @return a response with an apiError and HTTP status 404 (NOT_FOUND).
+     */
+    @ExceptionHandler(UserMaterialNotFoundException.class)
+    public ResponseEntity<ApiError> handleUserMaterialNotFoundException(UserMaterialNotFoundException except) {
+        ApiError apiError = ApiError.of(
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                except.getMessage()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * Handle UserMaterialIsEmptyException and send a 400 Error
+     * It creates an ApiError and send it to the frontend.
+     *
+     * @param except The exception that was thrown(UserMaterialIsEmptyException).
+     * @return a response with an apiError and HTTP status 400 (BAD_REQUEST).
+     */
+    @ExceptionHandler(UserMaterialIsEmptyException.class)
+    public ResponseEntity<ApiError> handleUserMaterialIsEmptyException(UserMaterialIsEmptyException except) {
+        ApiError apiError = ApiError.of(
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                except.getMessage()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Handles errors specific to UserFavor operations.
+     *
+     * @param except the UserMaterialException containing the error message
+     * @return a response with the error message and HTTP 400 status
+     */
+    @ExceptionHandler(UserMaterialException.class)
+    public ResponseEntity<ApiError> handleUserMaterialException(UserMaterialException except) {
+        ApiError apiError = ApiError.of(
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                except.getMessage()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    // UserFavor
+
+    /**
+     * Handle UserFavorNotFoundException and send a 404 Error
+     * <p>
+     * This method is called automatically when the userFavor doesn't exist.
+     * It creates an ApiError and sends it to the frontend.
+     * </p>
+     *
+     * @param except The exception that was thrown(UserFavorNotFoundException).
+     * @return a response with an apiError and HTTP status 404 (NOT_FOUND).
+     */
+    @ExceptionHandler(UserFavorNotFoundException.class)
+    public ResponseEntity<ApiError> handleUserFavorNotFoundException(UserFavorNotFoundException except) {
+        ApiError apiError = ApiError.of(
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                except.getMessage()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * Handle UserFavourEmptyException and send a 400 Error
+     * It creates an ApiError and send it to the frontend.
+     *
+     * @param except The exception that was thrown(UserFavourEmptyException).
+     * @return a response with an apiError and HTTP status 400 (BAD_REQUEST).
+     */
+    @ExceptionHandler(UserFavourEmptyException.class)
+    public ResponseEntity<ApiError> handleUserFavourEmptyException(UserFavourEmptyException except) {
+        ApiError apiError = ApiError.of(
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                except.getMessage()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Handles errors specific to UserFavor operations.
+     *
+     * @param except the UserFavorException containing the error message
+     * @return a response with the error message and HTTP 400 status
+     */
+    @ExceptionHandler(UserFavorException.class)
+    public ResponseEntity<ApiError> handleUserFavorException(UserFavorException except) {
+        ApiError apiError = ApiError.of(
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                except.getMessage()
+        );
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
+
     // Global
 
     /**
@@ -342,8 +497,8 @@ public class GlobalExceptionHandler {
     /**
      * Handle DataIntegrityViolationException and send a 404 Error
      * <p>
-     * This method is called when a request try to delete a data on DB
-     * And it's not possible to delete because it's used on other table
+     * This method is called when a request tries to delete data on DB
+     * And it's not possible to delete because it's used on another table
      * </p>
      *
      * @param except this is an exception empty
@@ -355,7 +510,7 @@ public class GlobalExceptionHandler {
         ApiError apiError = ApiError.of(
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                "Impossible de supprimer car il utilisé par des utilisateurs."
+                "Impossible de supprimer car il est utilisé par des utilisateurs."
         );
 
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
