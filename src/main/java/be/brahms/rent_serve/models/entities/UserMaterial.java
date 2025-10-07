@@ -15,7 +15,7 @@ import java.util.*;
 @Getter
 @Setter
 @AllArgsConstructor
-@Table(name = "user_materials")
+@Table(name = "user_materials", schema = "liquibase_rentserve")
 public class UserMaterial extends BaseEntity {
 
     /**
