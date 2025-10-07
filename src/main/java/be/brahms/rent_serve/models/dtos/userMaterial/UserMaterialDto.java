@@ -5,6 +5,7 @@ import be.brahms.rent_serve.models.entities.Picture;
 import be.brahms.rent_serve.models.entities.UserMaterial;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 /**
  * A DTO for UserMaterial for simple information
@@ -16,10 +17,11 @@ import java.math.BigDecimal;
  * @param picture           the picture of material
  */
 public record UserMaterialDto(
-        Long id,
+        long id,
         State stateMaterial,
         BigDecimal priceHourMaterial,
         Boolean isAvailable,
+        LocalDate updatedAt,
         String picture
 ) {
     /**
@@ -43,6 +45,7 @@ public record UserMaterialDto(
                 userMaterial.getStateMaterial(),
                 userMaterial.getPriceHourMaterial(),
                 userMaterial.isAvailable(),
+                userMaterial.getUpdatedAt(),
                 firstPicture
         );
     }
